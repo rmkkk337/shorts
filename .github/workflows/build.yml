@@ -52,6 +52,7 @@ jobs:
           pm2 kill
           cd /home/ec2-user/shorts/
           npm i
-          sudo npm start
-          # pm2 start npm --name "shorts" -- start -- --port 80
+          # nohup sudo npm start > npm_start.log 2>&1 &
+          # Optionally, you can start with pm2 instead of nohup if needed:
+          pm2 start npm --name "shorts" -- start -- --port 80
           '
