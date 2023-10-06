@@ -8,7 +8,7 @@ import Login from './components/Login';
 export default function Home() {
   return (
     <main className='h-screen w-full flex flex-col items-center justify-center'>
-      <Tabs defaultValue='create' className='w-[300px]'>
+      {/* <Tabs defaultValue='create' className='w-[300px]'>
         <TabsList className='grid w-full grid-cols-2 relative top-[50px]'>
           <TabsTrigger value='login'>Sign In</TabsTrigger>
           <TabsTrigger value='create'>Sign Up</TabsTrigger>
@@ -19,7 +19,8 @@ export default function Home() {
         <TabsContent value='create'>
           <Register />
         </TabsContent>
-      </Tabs>
+      </Tabs> */}
+      Test commit
     </main>
   );
 }
