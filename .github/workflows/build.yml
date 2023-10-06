@@ -51,5 +51,7 @@ jobs:
           ssh -i key.pem ${{secrets.USERNAME}}@${{secrets.HOST_DNS}} -p 22 '
           pm2 kill
           cd /home/ec2-user/shorts/
-          pm2 start npm --name "shorts" -- start -- --port 80
+          npm i
+          sudo npm start
+          # pm2 start npm --name "shorts" -- start -- --port 80
           '
