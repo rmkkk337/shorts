@@ -47,12 +47,9 @@ jobs:
         run: |
           touch key.pem
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
-          sudo yum install nodejs npm
-          npm i -g pm2
-          sudo npm i -g pm2
           chmod 400 key.pem
           ssh -i key.pem ${{secrets.USERNAME}}@${{secrets.HOST_DNS}} -p 22 '
-          npx pm2 kill
+          pm2 kill
           cd /home/ec2-user/shorts/
-          npx pm2 start npm --name "pikpok" -- start -- --port 80
+          pm2 start npm --name "shorts" -- start -- --port 80
           '
