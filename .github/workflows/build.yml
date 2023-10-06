@@ -47,6 +47,7 @@ jobs:
         run: |
           touch key.pem
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+          sudo yum install nodejs npm
           npm i -g pm2
           sudo npm i -g pm2
           chmod 400 key.pem
