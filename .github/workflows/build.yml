@@ -50,6 +50,9 @@ jobs:
           chmod 400 key.pem
           ssh -i key.pem ${{secrets.USERNAME}}@${{secrets.HOST_DNS}} -p 22 '
           pm2 kill
-          cd /home/ec2-user/online-chat/
-          pm2 start npm --name "online-chat" -- start -- --port 3000
+          cd /home/ec2-user/shorts/
+          npm i
+          nohup sudo npm start > npm_start.log 2>&1 &
+          # Optionally, you can start with pm2 instead of nohup if needed:
+          # pm2 start npm --name "shorts" -- start -- --port 80
           '

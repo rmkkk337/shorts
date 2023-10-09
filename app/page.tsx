@@ -1,9 +1,9 @@
 'use client';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Register from './components/Register';
+import Register from './root_page_tabs/Register';
 import { TabsContent } from '@radix-ui/react-tabs';
-import Login from './components/Login';
+import Login from './root_page_tabs/Login';
 
 export default function Home() {
   return (
