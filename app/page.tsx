@@ -1,25 +1,17 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Register from './root_page_tabs/Register';
-import { TabsContent } from '@radix-ui/react-tabs';
-import Login from './root_page_tabs/Login';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <main className='h-screen w-full flex flex-col items-center justify-center'>
-      <Tabs defaultValue='create' className='w-[300px]'>
-        <TabsList className='grid w-full grid-cols-2 relative top-[50px]'>
-          <TabsTrigger value='login'>Sign In</TabsTrigger>
-          <TabsTrigger value='create'>Sign Up</TabsTrigger>
-        </TabsList>
-        <TabsContent value='login'>
-          <Login />
-        </TabsContent>
-        <TabsContent value='create'>
-          <Register />
-        </TabsContent>
-      </Tabs>
-    </main>
-  );
+  const [hasAccount, setHasAccount] = useState<boolean>(true);
+  const router = useRouter();
+  useEffect(() => {
+    if (!hasAccount) {
+      router.push('/auth');
+    } else if (hasAccount) {
+      router.push('/fyp');
+    }
+  }, []);
+  return null;
 }

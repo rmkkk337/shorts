@@ -1,5 +1,9 @@
+:root {
+  --container-width: 260px;
+}
+
 .video-container {
-  max-width: 320px;
+  max-width: var(--container-width);
   width: 100%;
   display: flex;
   justify-content: center;
@@ -13,7 +17,7 @@
 }
 
 .video-controls-container {
-  max-width: 220px;
+  max-width: 130px;
   padding: 8px 12px;
   position: absolute;
   bottom: 0;

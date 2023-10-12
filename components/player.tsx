@@ -8,7 +8,7 @@ import useOnScreen from '@/hooks/isVisible';
 import { getStorageVolume, setStorageVolume } from '@/lib/volume.localStorage';
 
 export const Player = (video: any) => {
-  const [playing, setPlaying] = useState<boolean>(true);
+  const [playing, setPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(40);
   const [muted, setMuted] = useState<boolean>(false);
   const [lastMutedVolume, setLastVolumeMuted] = useState<number>(0);
@@ -34,6 +34,10 @@ export const Player = (video: any) => {
     if (videoRef.current.muted) {
       videoRef.current.muted = false;
       setMuted(false);
+      if (lastMutedVolume === 0) {
+        setVolume(20);
+        return;
+      }
       setVolume(lastMutedVolume);
     } else if (videoRef.current.muted === false) {
       videoRef.current.muted = true;
@@ -53,8 +57,10 @@ export const Player = (video: any) => {
 
   useEffect(() => {
     if (isVisible) {
-      setPlaying(true);
       videoRef.current.play();
+      if (!videoRef.current.paused) {
+        setPlaying(true);
+      }
     } else {
       setPlaying(false);
       videoRef.current.pause();
