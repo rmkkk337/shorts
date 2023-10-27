@@ -1,0 +1,37 @@
+{
+  "login": {
+    "text": "Увійти в",
+    "bold": "pikpok",
+    "title": "Увійти | pikpok"
+  },
+  "register": {
+    "text": "Створити аккаунт в",
+    "title": "Створення аккаунту | pikpok"
+  },
+  "auth": {
+    "username": "Імʼя користувача",
+    "email": "Пошта",
+    "password": "Пароль",
+    "confirm_password": "Підтвердіть пароль",
+    "sign_up": "Створити аккаунт"
+  },
+  "login_button": "Увійти",
+  "password_toast": {
+    "title": "Паролі не співпадають",
+    "description": "Будь ласка, перевірте правильність введення паролів"
+  },
+  "fyp": {
+    "title": "Для Вас | pikpok",
+    "fyp": "Для Вас",
+    "no_account": "Увійдіть щоб слідкувати за іншими, додавати вподобання та коментувати"
+  },
+  "header": {
+    "upload": "Завантажити",
+    "search": "Пошук"
+  },
+  "upload": {
+    "title": "Завантажити відео | pikpok",
+    "video_description": "Опис відео"
+  },
+  "upload_video": "Завантажити відео"
+}

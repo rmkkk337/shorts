@@ -1,0 +1,38 @@
+{
+  "application_name": "pikpok",
+  "login": {
+    "text": "Login into",
+    "bold": "pikpok",
+    "title": "Login | pikpok"
+  },
+  "register": {
+    "text": "Create account in",
+    "title": "Create account | pikpok"
+  },
+  "auth": {
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "sign_up": "Sign up"
+  },
+  "login_button": "Login",
+  "password_toast": {
+    "title": "Passwords doesn't match",
+    "description": "Make sure that you've entered the same password in both fields."
+  },
+  "fyp": {
+    "title": "For You Page | pikpok",
+    "fyp": "For You Page",
+    "no_account": "Login to follow people, like videos and view comments"
+  },
+  "header": {
+    "upload": "Upload",
+    "search": "Search"
+  },
+  "upload": {
+    "title": "Upload video | pikpok",
+    "video_description": "Video description"
+  },
+  "upload_video": "Upload video"
+}

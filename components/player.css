@@ -1,0 +1,47 @@
+:root {
+  --container-width: 260px;
+}
+
+.video-container {
+  max-width: var(--container-width);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-inline: auto;
+  position: relative;
+}
+
+.video-container video {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.video-controls-container {
+  max-width: 130px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+}
+
+.video-container:hover .video-controls-container {
+  opacity: 1;
+}
+
+.mute-button,
+.play-pause-button {
+  min-width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-pause-button {
+  margin-right: 80%;
+}

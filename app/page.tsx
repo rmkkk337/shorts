@@ -1,25 +1,22 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Register from './components/Register';
-import { TabsContent } from '@radix-ui/react-tabs';
-import Login from './components/Login';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function Home() {
-  return (
-    <main className='h-screen w-full flex flex-col items-center justify-center'>
-      <Tabs defaultValue='create' className='w-[300px]'>
-        <TabsList className='grid w-full grid-cols-2 relative top-[50px]'>
-          <TabsTrigger value='login'>Sign In</TabsTrigger>
-          <TabsTrigger value='create'>Sign Up</TabsTrigger>
-        </TabsList>
-        <TabsContent value='login'>
-          <Login />
-        </TabsContent>
-        <TabsContent value='create'>
-          <Register />
-        </TabsContent>
-      </Tabs>
-    </main>
-  );
+  const [hasAccount, setHasAccount] = useState<boolean>(true);
+  const router = useRouter();
+  useEffect(() => {
+    axios.get('http://ec2-13-51-199-34.eu-north-1.compute.amazonaws.com:5462/user', { withCredentials: true }).then((response) => {
+      console.log(response);
+    });
+    return;
+    if (!hasAccount) {
+      router.push('/auth');
+    } else if (hasAccount) {
+      router.push('/fyp');
+    }
+  }, []);
+  return <div className='bg-black h-screen w-full'></div>;
 }
