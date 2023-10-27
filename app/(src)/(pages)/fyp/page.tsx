@@ -9,9 +9,9 @@ import i18n from '@/lib/i18n';
 import { Sidebar } from '@/components/sidebar';
 
 export default function Page() {
-  useEffect(() => {
-    document.title = i18n.t('fyp.title');
-  }, [document]);
+  // useEffect(() => {
+  //   document.title = i18n.t('fyp.title');
+  // }, [document]);
 
   return (
     <main>
