@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { register } from '@/lib/auth.action';
 import i18n from '@/lib/i18n';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
