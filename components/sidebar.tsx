@@ -6,7 +6,7 @@ export const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
   return (
-    <div className='sidebar w-[150px] h-screen mx-6 mt-2 fixed top-14 hidden sm:block'>
+    <div className='sidebar w-[150px] h-screen mx-6 mt-2 fixed top-14 hidden sm:block mr-20'>
       <div className='buttons pb-3 border-b border-solid'>
         <p
           className={`${pathname === '/fyp' ? null : 'text-zinc-400'} hover:bg-zinc-200/30 rounded-md py-1 px-2 text-sm cursor-pointer duration-300`}

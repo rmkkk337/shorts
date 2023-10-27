@@ -18,6 +18,7 @@
     "@types/i18next": "^13.0.0",
     "@types/react-i18next": "^8.1.0",
     "another-colored-logger": "^1.0.4",
+    "axios": "^1.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "firebase": "^10.4.0",

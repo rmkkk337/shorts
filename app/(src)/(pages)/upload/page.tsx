@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Header } from '@/components/header';
 import i18n from '@/lib/i18n';
 import { Sidebar } from '@/components/sidebar';
+import { Content } from '@/components/Content';
 
 export default function Page() {
   const [video, setVideo] = useState<Boolean>(false);
@@ -19,7 +20,7 @@ export default function Page() {
       <Header />
       <main className='flex'>
         <Sidebar />
-        <main className='flex items-center justify-center w-full h-screen'>
+        <Content className='w-full h-screen flex'>
           {video ? (
             <div className='flex flex-col md:flex-row'>
               <div className='placeholder h-[533px] w-[533px] bg-zinc-200 rounded-sm'></div>
@@ -37,7 +38,7 @@ export default function Page() {
               {i18n.t('upload_video')}
             </Button>
           )}
-        </main>
+        </Content>
       </main>
     </main>
   );

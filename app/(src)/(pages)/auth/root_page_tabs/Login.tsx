@@ -6,6 +6,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import i18n from '@/lib/i18n';
+import axios from 'axios';
 
 export default function Login() {
   document.title = i18n.t('login.title');
@@ -30,6 +31,29 @@ export default function Login() {
   };
   const handleSubmit = () => {
     setPassword('');
+
+    axios
+      .post(
+        'http://ec2-13-51-199-34.eu-north-1.compute.amazonaws.com:5462/login',
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        localStorage.setItem('access-token', response.data.data.token);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     return;
   };
 
@@ -46,6 +70,7 @@ export default function Login() {
         className='w-full max-w-xs'
         placeholder={i18n.t('auth.password')}
         type='password'
+        maxLength={20}
       />
       <Button
         onClick={() => {

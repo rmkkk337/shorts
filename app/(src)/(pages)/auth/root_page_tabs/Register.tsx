@@ -3,7 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import { register } from '@/lib/auth.action';
 import i18n from '@/lib/i18n';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -43,10 +45,34 @@ export default function Register() {
         description: i18n.t('password_toast.description'),
         variant: 'destructive',
       });
-      setPassword('');
-      setConfirmPassword('');
       return;
     }
+
+    axios
+      .post(
+        'http://ec2-13-51-199-34.eu-north-1.compute.amazonaws.com:5462/registration',
+        {
+          userName: username,
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    setPassword('');
+    setConfirmPassword('');
   };
 
   return (
@@ -63,6 +89,7 @@ export default function Register() {
         className='w-full max-w-xs'
         placeholder={i18n.t('auth.password')}
         type='password'
+        maxLength={20}
       />
       <Input
         onChange={eventHandler}
@@ -71,6 +98,7 @@ export default function Register() {
         className='w-full max-w-xs'
         placeholder={i18n.t('auth.confirm_password')}
         type='password'
+        maxLength={20}
       />
       <Button
         onClick={() => {
