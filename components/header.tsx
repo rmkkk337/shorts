@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import i18n from '@/lib/i18n';
 
 export const Header = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ export const Header = () => {
         pikpok
       </h2>
       <div className='search-bar flex-inital w-64'>
-        <Input placeholder='Search' className='h-8' />
+        <Input placeholder={i18n.t('header.search')} className='h-8' />
       </div>
       <div className='action-buttons flex gap-2'>
         <Button
@@ -28,7 +29,7 @@ export const Header = () => {
             router.push('/upload');
           }}
         >
-          Upload
+          {i18n.t('header.upload')}
         </Button>
         <Button
           className='h-8'
@@ -36,7 +37,7 @@ export const Header = () => {
             router.push('/auth');
           }}
         >
-          Log in
+          {i18n.t('login_button')}
         </Button>
       </div>
     </header>

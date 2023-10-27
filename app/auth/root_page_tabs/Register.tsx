@@ -3,11 +3,12 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import i18n from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Register() {
-  document.title = 'Create account | pikpok';
+  document.title = i18n.t('register.title');
   const router = useRouter();
   const toast = useToast();
 
@@ -38,8 +39,8 @@ export default function Register() {
   const handleSubmit = () => {
     if (password !== confirmPassword) {
       toast.toast({
-        title: "Password doesn't match",
-        description: "Make sure that you've entered the same password in both fields.",
+        title: i18n.t('password_toast.title'),
+        description: i18n.t('password_toast.description'),
         variant: 'destructive',
       });
       setPassword('');
@@ -51,17 +52,24 @@ export default function Register() {
   return (
     <main className='items-center flex flex-col gap-2 mt-3'>
       <p className='text-xl mb-3 relative top-[-32px]'>
-        Create account in <span className='font-bold'>pikpok</span>
+        {i18n.t('register.text')} <span className='font-bold'>{i18n.t('application_name')}</span>
       </p>
-      <Input onChange={eventHandler} name='username' className='w-full max-w-xs' placeholder='Username' />
-      <Input onChange={eventHandler} name='email' className='w-full max-w-xs' placeholder='Email' />
-      <Input onChange={eventHandler} value={password} name='password' className='w-full max-w-xs' placeholder='Password' type='password' />
+      <Input onChange={eventHandler} name='username' className='w-full max-w-xs' placeholder={i18n.t('auth.username')} />
+      <Input onChange={eventHandler} name='email' className='w-full max-w-xs' placeholder={i18n.t('auth.email')} />
+      <Input
+        onChange={eventHandler}
+        value={password}
+        name='password'
+        className='w-full max-w-xs'
+        placeholder={i18n.t('auth.password')}
+        type='password'
+      />
       <Input
         onChange={eventHandler}
         value={confirmPassword}
         name='confirm-password'
         className='w-full max-w-xs'
-        placeholder='Confirm password'
+        placeholder={i18n.t('auth.confirm_password')}
         type='password'
       />
       <Button
@@ -70,7 +78,7 @@ export default function Register() {
         }}
         className='w-full max-w-xs'
       >
-        Sign Up
+        {i18n.t('auth.sign_up')}
       </Button>
     </main>
   );
