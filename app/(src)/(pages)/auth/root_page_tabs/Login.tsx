@@ -9,7 +9,7 @@ import i18n from '@/lib/i18n';
 import axios from 'axios';
 
 export default function Login() {
-  document.title = i18n.t('login.title');
+  // document.title = i18n.t('login.title');
 
   const router = useRouter();
   const toast = useToast();

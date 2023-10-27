@@ -11,9 +11,9 @@ import { Content } from '@/components/Content';
 export default function Page() {
   const [video, setVideo] = useState<Boolean>(false);
 
-  useEffect(() => {
-    document.title = i18n.t('upload.title');
-  }, [document]);
+  // useEffect(() => {
+  //   document.title = i18n.t('upload.title');
+  // }, [document]);
 
   return (
     <main>
