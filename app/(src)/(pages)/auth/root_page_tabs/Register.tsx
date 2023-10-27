@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Register() {
-  document.title = i18n.t('register.title');
+  // document.title = i18n.t('register.title');
   const router = useRouter();
   const toast = useToast();
 
