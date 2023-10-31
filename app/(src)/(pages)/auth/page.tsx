@@ -8,27 +8,21 @@ import i18n from '@/lib/i18n';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Page() 
-{
+export default function Page() {
   const router = useRouter();
   const [cookieChecked, setCookieChecked] = useState(false);
 
-  useEffect(() => 
-  {
+  useEffect(() => {
     // Check for cookies on the client side
-    if (document.cookie !== '') 
-    {
+    if (document.cookie !== '') {
       router.push('/');
-    }
-    else 
-    {
+    } else {
       setCookieChecked(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (cookieChecked) 
-  {
+  if (cookieChecked) {
     return (
       <main className='h-screen w-full flex flex-col items-center justify-center'>
         <Tabs defaultValue='create' className='w-[300px]'>

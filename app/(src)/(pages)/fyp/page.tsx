@@ -11,27 +11,24 @@ import React, { useEffect } from 'react';
 // import { Video } from '@/components/Video';
 import AppContent from '@/components/AppContent';
 
-export default function Page() 
-{
+export default function Page() {
   const router = useRouter();
-  useEffect(() => 
-  {
-    if (document != null) 
-    {
+  useEffect(() => {
+    if (document != null) {
       document.title = i18n.t('fyp.title');
     }
   }, []);
 
   const load: any = useFirstLoad();
 
-  useEffect(() => 
-  {
-    if (load.firstLoad) 
-    {
-      router.push('/');
-      load.setFirstLoad(false);
-    }
-  }, [load, router]);
+  // useEffect(() =>
+  // {
+  //   if (load.firstLoad)
+  //   {
+  //     router.push('/');
+  //     load.setFirstLoad(false);
+  //   }
+  // }, [load, router]);
 
   return (
     <main>
