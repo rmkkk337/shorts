@@ -9,6 +9,8 @@ module.exports = {
   },
   experimental: {
     serverActions: true,
+    workerThreads: true,
+    cpus: 8,
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push({

@@ -1,4 +1,5 @@
-export const FilledPlayIcon = () => {
+export const FilledPlayIcon = () => 
+{
   return (
     <svg
       className='cursor-pointer'
@@ -20,7 +21,8 @@ export const FilledPlayIcon = () => {
   );
 };
 
-export const FilledPauseIcon = () => {
+export const FilledPauseIcon = () => 
+{
   return (
     <svg
       className='cursor-pointer'
@@ -42,7 +44,8 @@ export const FilledPauseIcon = () => {
   );
 };
 
-export const Muted = () => {
+export const Muted = () => 
+{
   return (
     <div>
       <svg
@@ -71,7 +74,8 @@ export const Muted = () => {
   );
 };
 
-export const Playing = () => {
+export const Playing = () => 
+{
   return (
     <svg
       className='cursor-pointer'
@@ -98,7 +102,8 @@ export const Playing = () => {
   );
 };
 
-export const Like = () => {
+export const Like = () => 
+{
   return (
     <svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' width='23.1891' height='21.5838'>
       <g>
@@ -113,7 +118,8 @@ export const Like = () => {
   );
 };
 
-export const VideoComment = () => {
+export const VideoComment = () => 
+{
   return (
     <svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' width='23.6632' height='23.1434'>
       <g>
