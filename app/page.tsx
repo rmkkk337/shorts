@@ -1,22 +1,32 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useAccountData } from '@/hooks/account.actions';
 
-export default function Home() {
-  const [hasAccount, setHasAccount] = useState<boolean>(true);
+export default function Home() 
+{
   const router = useRouter();
-  useEffect(() => {
-    axios.get('http://ec2-13-51-199-34.eu-north-1.compute.amazonaws.com:5462/user', { withCredentials: true }).then((response) => {
-      console.log(response);
-    });
-    return;
-    if (!hasAccount) {
+  const accountData: any = useAccountData();
+
+  axios
+    .get('http://localhost:3001/user', { withCredentials: true })
+    .then((response) => 
+    {
+      if (response?.status === 200) 
+      {
+        accountData.setAccountData(response.data.data);
+        router.push('/fyp');
+      }
+      else 
+      {
+        router.push('/auth');
+      }
+    })
+    .catch(() => 
+    {
       router.push('/auth');
-    } else if (hasAccount) {
-      router.push('/fyp');
-    }
-  }, []);
-  return <div className='bg-black h-screen w-full'></div>;
+    });
+
+  return <div></div>;
 }
