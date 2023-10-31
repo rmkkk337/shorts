@@ -1,7 +1,7 @@
 'use client';
 
-import { Like, VideoComment } from './icons/icons';
 import { Player } from './player';
+import { MessageCircle, Share2, Heart } from 'lucide-react';
 
 type Props = {
   video: any;
@@ -10,7 +10,8 @@ type Props = {
   name: string;
 };
 
-export const Video = (props: Props) => {
+export const Video = (props: Props) => 
+{
   return (
     <div className='max-w-[320px] mx-auto my-8'>
       <div className='info-wrapper'>
@@ -24,10 +25,13 @@ export const Video = (props: Props) => {
         <Player src={props.video} />
         <div className='self-end ml-4'>
           <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full my-3 hover:bg-zinc-50 duration-300 cursor-pointer'>
-            <Like />
+            <Heart size={20} />
           </div>
           <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full my-3 hover:bg-zinc-50 duration-300 cursor-pointer'>
-            <VideoComment />
+            <MessageCircle size={20} />
+          </div>
+          <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full my-3 hover:bg-zinc-50 duration-300 cursor-pointer'>
+            <Share2 size={20} />
           </div>
         </div>
       </div>
