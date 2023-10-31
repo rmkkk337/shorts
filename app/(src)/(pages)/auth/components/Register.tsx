@@ -7,38 +7,44 @@ import i18n from '@/lib/i18n';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import React from 'react';
 
-export default function Register() {
+export default function Register() 
+{
   // document.title = i18n.t('register.title');
-  const router = useRouter();
   const toast = useToast();
 
   const [email, setEmail] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const router = useRouter();
 
-  const eventHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const eventHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => 
+  {
     const { name, value } = event.target;
 
-    switch (name) {
-      case 'username':
-        setUsername(value);
-        break;
-      case 'email':
-        setEmail(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      case 'confirm-password':
-        setConfirmPassword(value);
-        break;
+    switch (name) 
+    {
+    case 'username':
+      setUsername(value);
+      break;
+    case 'email':
+      setEmail(value);
+      break;
+    case 'password':
+      setPassword(value);
+      break;
+    case 'confirm-password':
+      setConfirmPassword(value);
+      break;
     }
   };
 
-  const handleSubmit = () => {
-    if (password !== confirmPassword) {
+  const handleSubmit = () => 
+  {
+    if (password !== confirmPassword) 
+    {
       toast.toast({
         title: i18n.t('password_toast.title'),
         description: i18n.t('password_toast.description'),
@@ -49,9 +55,9 @@ export default function Register() {
 
     axios
       .post(
-        'http://ec2-13-51-199-34.eu-north-1.compute.amazonaws.com:5462/registration',
+        'http://localhost:5462/registration',
         {
-          userName: username,
+          username: username,
           email: email,
           password: password,
         },
@@ -63,11 +69,18 @@ export default function Register() {
           withCredentials: true,
         }
       )
-      .then((response) => {
-        console.log(response);
+      .then(() => 
+      {
+        router.push('/');
       })
-      .catch((error) => {
+      .catch((error) => 
+      {
         console.error(error);
+        toast.toast({
+          title: i18n.t('error.title'),
+          description: i18n.t('error.description'),
+          variant: 'destructive',
+        });
       });
 
     setPassword('');
@@ -100,7 +113,8 @@ export default function Register() {
         maxLength={20}
       />
       <Button
-        onClick={() => {
+        onClick={() => 
+        {
           handleSubmit();
         }}
         className='w-full max-w-xs'
