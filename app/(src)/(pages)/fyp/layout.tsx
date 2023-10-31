@@ -6,8 +6,8 @@ import React from 'react';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Welcome to pikpok | pikpok',
-  description: 'Create your account in pikpok',
+  title: 'For You Page | pikpok',
+  description: 'Watch videos just For You on pikpok',
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) 
