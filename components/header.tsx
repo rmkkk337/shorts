@@ -4,15 +4,38 @@ import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import i18n from '@/lib/i18n';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { useAccountData } from '@/hooks/account.actions';
 
-export const Header = () => {
+export const Header = () => 
+{
   const router = useRouter();
+  const accountData: any = useAccountData();
+  const data = accountData.data;
+
+  function handleUploadButton() 
+  {
+    if (data === null) 
+    {
+      router.push('/auth');
+      return;
+    }
+    router.push('/upload');
+  }
 
   return (
     <header className='bg-white px-6 py-2 flex items-center justify-between border-b border-solid fixed w-screen z-20'>
       <h2
         className='text-xl font-bold cursor-pointer select-none'
-        onClick={() => {
+        onClick={() => 
+        {
           router.push('/fyp');
         }}
       >
@@ -25,20 +48,52 @@ export const Header = () => {
         <Button
           variant='outline'
           className='h-8'
-          onClick={() => {
-            router.push('/upload');
+          onClick={() => 
+          {
+            handleUploadButton();
           }}
         >
           {i18n.t('header.upload')}
         </Button>
-        <Button
-          className='h-8'
-          onClick={() => {
-            router.push('/auth');
-          }}
-        >
-          {i18n.t('login_button')}
-        </Button>
+        {data ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <div className='w-8 h-8 rounded-full bg-zinc-200 cursor-pointer'></div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='mr-2'>
+              <DropdownMenuLabel>{data.username}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => 
+                {
+                  router.push(`/profile/${data.id}`);
+                }}
+              >
+                {i18n.t('header.dropdown.profile')}
+              </DropdownMenuItem>
+              <DropdownMenuItem>{i18n.t('header.dropdown.settings')}</DropdownMenuItem>
+              <DropdownMenuItem
+                className='text-red-400 focus:text-red-500'
+                onClick={() => 
+                {
+                  router.push('/logout');
+                }}
+              >
+                {i18n.t('header.dropdown.logout')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button
+            className='h-8'
+            onClick={() => 
+            {
+              router.push('/auth');
+            }}
+          >
+            {i18n.t('login_button')}
+          </Button>
+        )}
       </div>
     </header>
   );
