@@ -19,7 +19,6 @@ i18n
       },
     },
     fallbackLng: 'en',
-    debug: true,
   });
 
 export default i18n;

@@ -14,7 +14,9 @@
     "email": "Email",
     "password": "Password",
     "confirm_password": "Confirm password",
-    "sign_up": "Sign up"
+    "sign_up": "Sign up",
+    "error": "Login error",
+    "error_description": "Check username and password and try again."
   },
   "login_button": "Login",
   "password_toast": {
@@ -24,15 +26,44 @@
   "fyp": {
     "title": "For You Page | pikpok",
     "fyp": "For You Page",
-    "no_account": "Login to follow people, like videos and view comments"
+    "no_account": "Login to follow people, like videos and view comments",
+    "following": "Following"
   },
   "header": {
     "upload": "Upload",
-    "search": "Search"
+    "search": "Search",
+    "dropdown": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
   },
   "upload": {
     "title": "Upload video | pikpok",
     "video_description": "Video description"
   },
-  "upload_video": "Upload video"
+  "upload_video": "Upload video",
+  "sidebar": {
+    "following": "Accounts you follow"
+  },
+  "error": {
+    "title": "Unexpected error",
+    "description": "Something went wrong. Try again later.",
+    "incorrect_password": {
+      "title": "Incorrect password",
+      "description": "Make sure that you've entered the correct password."
+    },
+    "user_doesnt_exist": {
+      "title": "User doesn't exist",
+      "description": "Make sure that you've entered the correct email."
+    },
+    "password_too_short": {
+      "title": "Password too short",
+      "description": "Password must be at least 4 characters long."
+    },
+    "invalid_email": {
+      "title": "Invalid email",
+      "description": "Make sure that you've entered the correct email."
+    }
+  }
 }
