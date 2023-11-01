@@ -1,9 +1,9 @@
 'use client';
 
+import i18n from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import i18n from '@/lib/i18n';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAccountData } from '@/hooks/account.actions';
+import Link from 'next/link';
 
 export const Header = () => 
 {
@@ -57,21 +58,18 @@ export const Header = () =>
         </Button>
         {data ? (
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className='outline-none focus-within:outline-none focus:outline-none'>
               <div className='w-8 h-8 rounded-full bg-zinc-200 cursor-pointer'></div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='mr-2'>
               <DropdownMenuLabel>{data.username}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => 
-                {
-                  router.push(`/profile/${data.id}`);
-                }}
-              >
-                {i18n.t('header.dropdown.profile')}
-              </DropdownMenuItem>
-              <DropdownMenuItem>{i18n.t('header.dropdown.settings')}</DropdownMenuItem>
+              <Link href={`/profile/${data.id}`}>
+                <DropdownMenuItem>{i18n.t('header.dropdown.profile')}</DropdownMenuItem>
+              </Link>
+              <Link href={`/settings`}>
+                <DropdownMenuItem>{i18n.t('header.dropdown.settings')}</DropdownMenuItem>
+              </Link>
               <DropdownMenuItem
                 className='text-red-400 focus:text-red-500'
                 onClick={() => 

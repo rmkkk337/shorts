@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 import React from 'react';
 
 import { Cross2Icon } from '@radix-ui/react-icons';
