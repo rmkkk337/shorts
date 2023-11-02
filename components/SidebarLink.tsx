@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 interface SidebarLinkProps {
@@ -8,8 +9,11 @@ interface SidebarLinkProps {
 export default function SidebarLink({ pathname, children, url }: React.PropsWithChildren<SidebarLinkProps>) 
 {
   return (
-    <p className={`${pathname === url ? null : 'text-zinc-400'} hover:bg-zinc-200/30 rounded-md py-1.5 px-2 text-sm cursor-pointer duration-300`}>
+    <Link
+      href={url}
+      className={`${pathname === url ? null : 'text-zinc-400'} hover:bg-zinc-200/30 rounded-md py-1.5 px-2 text-sm cursor-pointer duration-300`}
+    >
       {children}
-    </p>
+    </Link>
   );
 }

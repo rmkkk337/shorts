@@ -74,3 +74,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes LikeAnimation {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.like-animation {
+  animation: LikeAnimation 0.3s ease-in-out forwards;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 'use client';
 
 import React from 'react';

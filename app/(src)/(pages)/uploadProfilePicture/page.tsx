@@ -4,9 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { FileUploader } from 'react-drag-drop-files';
-import { Header } from '@/components/header';
-import { Sidebar } from '@/components/sidebar';
-import AppContent from '@/components/AppContent';
 
 export default function Page() 
 {
@@ -37,31 +34,24 @@ export default function Page()
   };
 
   return (
-    <main>
-      {/* image upload button */}
-      <Header />
-      <main className='flex'>
-        <Sidebar />
-        <AppContent>
-          <FileUploader
-            name='file'
-            types={['png', 'jpeg']}
-            handleChange={(event: any) => 
-            {
-              setImage(event);
-            }}
-          />
-          {image != null && <Image width={100} height={100} src={URL.createObjectURL(image)} alt='New profile picture' />}
-          <button
-            onClick={() => 
-            {
-              uploadImage();
-            }}
-          >
-            Upload
-          </button>
-        </AppContent>
-      </main>
-    </main>
+    <>
+      <FileUploader
+        name='file'
+        // types={['png', 'jpeg', 'jpg']}
+        handleChange={(event: any) => 
+        {
+          setImage(event);
+        }}
+      />
+      {image != null && <Image width={100} height={100} src={URL.createObjectURL(image)} alt='New profile picture' />}
+      <button
+        onClick={() => 
+        {
+          uploadImage();
+        }}
+      >
+        Upload
+      </button>
+    </>
   );
 }

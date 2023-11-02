@@ -12,6 +12,7 @@ export default function useOnScreen(ref: RefObject<HTMLElement>, threshold: numb
 
   useEffect(() => 
   {
+    if (observerRef.current.root == null) return;
     observerRef.current.observe(ref.current);
 
     return () => 

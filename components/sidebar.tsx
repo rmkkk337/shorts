@@ -1,9 +1,12 @@
+'use client';
+
+import i18n from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter } from 'next/navigation';
-import i18n from '@/lib/i18n';
 import { SidebarUser } from './sidebar/sidebarUser';
-import { useAccountData } from '@/hooks/account.actions';
+import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import SidebarLink from './SidebarLink';
+import { AccountStatus } from '@/lib/account.status';
 
 export const Sidebar = () => 
 {
@@ -11,11 +14,12 @@ export const Sidebar = () =>
   const router = useRouter();
 
   const accountData: any = useAccountData();
+  const accessedPage: any = useAccessedPage();
   const data = accountData.data;
 
   return (
-    <div className='w-[170px] h-screen mx-6 mt-2 fixed top-14 hidden sm:block mr-15 left-0'>
-      <div className='buttons pb-3 border-b border-solid'>
+    <div className='w-[170px] h-screen mx-6 mt-2 fixed top-14 block mr-15 left-0'>
+      <div className='buttons pb-3 border-b border-solid flex flex-col'>
         <SidebarLink pathname={pathname} url='/fyp'>
           {i18n.t('fyp.fyp')}
         </SidebarLink>
@@ -40,6 +44,7 @@ export const Sidebar = () =>
           className='h-8 w-[150px] mt-2'
           onClick={() => 
           {
+            accessedPage.setLastAccessed(AccountStatus.RedirectedToAuth);
             router.push('/auth');
           }}
         >

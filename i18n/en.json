@@ -65,5 +65,9 @@
       "title": "Invalid email",
       "description": "Make sure that you've entered the correct email."
     }
+  },
+  "uploader": {
+    "publish": "Publish",
+    "video_will_look_like": "On For You Page your video will look like this:"
   }
 }
