@@ -7,14 +7,16 @@ import Login from './components/Login';
 import i18n from '@/lib/i18n';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { getCookie } from 'cookies-next';
 
 export default function Page() {
   const router = useRouter();
   const [cookieChecked, setCookieChecked] = useState(false);
 
-  useEffect(() => {
-    // Check for cookies on the client side
-    if (document.cookie !== '') {
+  useEffect(() => 
+  {
+    if (getCookie('access-token') !== undefined) 
+    {
       router.push('/');
     } else {
       setCookieChecked(true);

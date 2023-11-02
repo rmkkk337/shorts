@@ -12,7 +12,7 @@ export const useAccountData = create((set) => ({
   },
 }));
 
-interface FirstLoadProps {
+export interface FirstLoadProps {
   firstLoad: boolean;
   // eslint-disable-next-line no-unused-vars
   setFirstLoad: (value: boolean) => void;
@@ -23,5 +23,13 @@ export const useFirstLoad = create<FirstLoadProps>((set) => ({
   setFirstLoad: (value: boolean) => 
   {
     set({ firstLoad: value });
+  },
+}));
+
+export const useAccessedPage = create((set) => ({
+  lastAccessed: '/fyp',
+  setLastAccessed: (value: string) => 
+  {
+    set({ lastAccessed: value });
   },
 }));

@@ -73,9 +73,8 @@ export default function Register()
       {
         router.push('/');
       })
-      .catch((error) => 
+      .catch(() => 
       {
-        console.error(error);
         toast.toast({
           title: i18n.t('error.title'),
           description: i18n.t('error.description'),

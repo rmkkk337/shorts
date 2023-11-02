@@ -9,8 +9,8 @@ import React from 'react';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'For You Page | pikpok',
-  description: 'Watch videos just For You on pikpok',
+  title: 'Profile | pikpok',
+  description: 'Create your account on pikpok',
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) 
@@ -18,10 +18,12 @@ export default function Layout({ children }: { children: React.ReactNode })
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Header />
-        <main className='flex'>
-          <Sidebar />
-          <AppContent>{children}</AppContent>
+        <main>
+          <Header />
+          <main className='flex'>
+            <Sidebar />
+            <AppContent>{children}</AppContent>
+          </main>
         </main>
       </body>
     </html>

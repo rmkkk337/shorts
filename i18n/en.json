@@ -69,5 +69,9 @@
   "messages": {
     "title": "Messages",
     "send_message": "Send message..."
+  },
+  "uploader": {
+    "publish": "Publish",
+    "video_will_look_like": "On For You Page your video will look like this:"
   }
 }

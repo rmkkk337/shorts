@@ -2,38 +2,48 @@
 
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { useAccountData } from '@/hooks/account.actions';
+import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import { useEffect } from 'react';
+import { getCookie } from 'cookies-next';
+import { AccountStatus } from '@/lib/account.status';
 
 export default function Home() 
 {
   const router = useRouter();
   const accountData: any = useAccountData();
+  const accessedPage: any = useAccessedPage();
 
   useEffect(() => 
   {
     if (document) 
     {
-      axios
-        .get('http://localhost:3001/user', { withCredentials: true })
-        .then((response) => 
-        {
-          if (response?.status === 200) 
+      const token = getCookie('access-token');
+
+      if (token !== '') 
+      {
+        axios
+          .get('http://localhost:3001/user', { withCredentials: true })
+          .then((response) => 
           {
-            accountData.setAccountData(response.data.data);
-            router.push('/fyp');
-          }
-          else 
+            if (response?.status === 200) 
+            {
+              accountData.setAccountData(response.data.data);
+              router.push('/fyp');
+            }
+            else 
+            {
+              accessedPage.setLastAccessed(AccountStatus.Idle);
+              router.push(`${accessedPage.lastAccessed}`);
+            }
+          })
+          .catch(() => 
           {
-            router.push('/auth');
-          }
-        })
-        .catch(() => 
-        {
-          router.push('/auth');
-        });
+            router.push(`${accessedPage.lastAccessed}`);
+          });
+      }
     }
-  }, [accountData, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
 
   return <div></div>;
 }
