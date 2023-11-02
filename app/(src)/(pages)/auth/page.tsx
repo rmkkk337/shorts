@@ -9,8 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCookie } from 'cookies-next';
 
-export default function Page() 
-{
+export default function Page() {
   const router = useRouter();
   const [cookieChecked, setCookieChecked] = useState(false);
 
@@ -19,16 +18,13 @@ export default function Page()
     if (getCookie('access-token') !== undefined) 
     {
       router.push('/');
-    }
-    else 
-    {
+    } else {
       setCookieChecked(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (cookieChecked) 
-  {
+  if (cookieChecked) {
     return (
       <main className='h-screen w-full flex flex-col items-center justify-center'>
         <Tabs defaultValue='create' className='w-[300px]'>
