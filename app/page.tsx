@@ -22,7 +22,7 @@ export default function Home()
       if (token !== '') 
       {
         axios
-          .get('http://localhost:3001/user', { withCredentials: true })
+          .get('http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com:3001/user', { withCredentials: true })
           .then((response) => 
           {
             if (response?.status === 200) 

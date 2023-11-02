@@ -16,7 +16,7 @@ export default function Page()
       const formData = new FormData();
       formData.append('file', image);
       axios
-        .post('http://localhost:3001/user/avatar/post', formData, {
+        .post('http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com:3001/user/avatar/post', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
