@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAccountData } from '@/hooks/account.actions';
 import Link from 'next/link';
+import { MessageSquare } from 'lucide-react';
 
 export const Header = () => 
 {
@@ -45,7 +46,10 @@ export const Header = () =>
       <div className='search-bar flex-inital w-64'>
         <Input placeholder={i18n.t('header.search')} className='h-8' />
       </div>
-      <div className='action-buttons flex gap-2'>
+      <div className='action-buttons flex gap-2 items-center'>
+        <Link href='/chat'>
+          <MessageSquare />
+        </Link>
         <Button
           variant='outline'
           className='h-8'
