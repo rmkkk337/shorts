@@ -1,6 +1,6 @@
 'use client';
 
-import { SendHorizontal, SettingsIcon } from 'lucide-react';
+import { SendHorizontal } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import i18n from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
