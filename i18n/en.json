@@ -65,5 +65,9 @@
       "title": "Invalid email",
       "description": "Make sure that you've entered the correct email."
     }
+  },
+  "messages": {
+    "title": "Messages",
+    "send_message": "Send message..."
   }
 }

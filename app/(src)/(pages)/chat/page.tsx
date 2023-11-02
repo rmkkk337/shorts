@@ -1,43 +1,125 @@
 'use client';
 
-import { Header } from '@/components/header';
-import { Sidebar } from '@/components/sidebar';
-import AppContent from '@/components/AppContent';
-import { SettingsIcon } from 'lucide-react';
-import ListElement from '@/components/ListElement';
-import RoomHeader from '@/components/RoomHeader';
-import RoomMessage from '@/components/RoomMessage';
+import { SendHorizontal, SettingsIcon } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import i18n from '@/lib/i18n';
+import { Button } from '@/components/ui/button';
 
 export default function Page() {
+  const messages = [
+    {
+      sender: 'moe',
+      content: 'Hello, how are you?',
+    },
+    {
+      sender: 'moonlight',
+      content: "I'm fine, thanks",
+    },
+    {
+      sender: 'moonlight',
+      content: 'What about you?',
+    },
+    {
+      sender: 'moe',
+      content: "I'm fine too, thanks!",
+    },
+    {
+      sender: 'moe',
+      content: 'Hello, how are you?',
+    },
+    {
+      sender: 'moonlight',
+      content: "I'm fine, thanks",
+    },
+    {
+      sender: 'moonlight',
+      content: 'What about you?',
+    },
+    {
+      sender: 'moe',
+      content: "I'm fine too, thanks!",
+    },
+    {
+      sender: 'moe',
+      content: 'Hello, how are you?',
+    },
+    {
+      sender: 'moonlight',
+      content: "I'm fine, thanks",
+    },
+    {
+      sender: 'moonlight',
+      content: 'What about you?',
+    },
+    {
+      sender: 'moe',
+      content: "I'm fine too, thanks!",
+    },
+    {
+      sender: 'moe',
+      content: 'Hello, how are you?',
+    },
+    {
+      sender: 'moonlight',
+      content: "I'm fine, thanks",
+    },
+    {
+      sender: 'moonlight',
+      content: 'What about you?',
+    },
+    {
+      sender: 'moe',
+      content: "I'm fine too, thanks!",
+    },
+  ];
+
+  const contacts = [
+    {
+      name: 'moe',
+    },
+    {
+      name: 'moonlight',
+    },
+  ];
   return (
-    <main>
-      <Header />
-      <main className='flex'>
-        <Sidebar />
-        <AppContent>
-          <div className='chat-block w-[1600px] flex gap-10'>
-            <div className='messangers-list bg-zinc-100 w-2/6 h-full flex  flex-col rounded-xl'>
-              <div className='list-header flex w-full h-full flex-row justify-around'>
-                <h1>Messages</h1>
-                <SettingsIcon />
+    <main className='flex w-[calc(100vw-240px)] h-[calc(100vh-48px)] items-center justify-center'>
+      <div className='messages-sidebar w-[20%] min-w-[200px] bg-zinc-100 px-5 py-2 border-r border-zinc-200 h-[720px] rounded-l-md'>
+        <h1 className='text-2xl font-medium py-2 border-b border-zinc-200'>{i18n.t('messages.title')}</h1>
+        <div className='pt-2'>
+          {contacts.map((contact, index) => {
+            return (
+              <div key={index} className='text-lg hover:bg-zinc-200 px-2 py-1 rounded-sm select-none flex items-center gap-3'>
+                <div className='w-8 h-8 bg-black rounded-full'></div>
+                <p>{contact.name}</p>
               </div>
-              <div className='list-wrapper w-full h-full'>
-                <div className='list-elements flex flex-col w-full justify-center'>
-                  <ListElement />
-                  <ListElement />
-                  <ListElement />
+            );
+          })}
+        </div>
+      </div>
+      <div className='chat w-[60%] min-w-[400px] h-[720px] bg-zinc-100 flex flex-col rounded-r-md'>
+        <div className='py-3 border-b border-zinc-200 mx-2 flex gap-2'>
+          <div className='w-8 h-8 bg-black rounded-full'></div>
+          <h1 className='text-2xl font-medium '>moonlight</h1>
+        </div>
+        <div className='flex flex-1 flex-col overflow-hidden'>
+          <div className='messages pl-4 bg-zinc-100 overflow-scroll'>
+            {messages.map((message, index) => {
+              return (
+                <div key={index} className='message py-2'>
+                  <div className='message-sender font-medium'>{message.sender}</div>
+                  <div className='message-content'>{message.content}</div>
                 </div>
-              </div>
-            </div>
-            <div className='conversation-rooms bg-zinc-100 w-4/6 h-full rounded-xl'>
-              <RoomHeader />
-              <div className='room-message-block'>
-                <RoomMessage />
-              </div>
-            </div>
+              );
+            })}
           </div>
-        </AppContent>
-      </main>
+          <div className='self-end mt-auto mb-4 mx-4 w-[96%] flex gap-2'>
+            <Input placeholder={i18n.t('messages.send_message')} className='bg-white w-full' />
+            <Button>
+              <SendHorizontal />
+            </Button>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

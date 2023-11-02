@@ -1,13 +1,15 @@
-import { UserIcon } from 'lucide-react';
 import React from 'react';
-import { MoreIcon } from './icons/icons';
 
-const RoomMessage = () => {
+interface Message {
+  sender: string;
+  message: string;
+}
+
+const RoomMessage = (props: Message) => {
   return (
-    <div className='room-header w-full h-full flex flex-row '>
-      <UserIcon />
-      {/* Video */}
-      <MoreIcon />
+    <div className='room-header w-full flex flex-col my-2'>
+      <p className='font-medium'>{props.sender}</p>
+      <p>{props.message}</p>
     </div>
   );
 };
