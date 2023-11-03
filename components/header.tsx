@@ -40,7 +40,7 @@ export const Header = () =>
   useEffect(() => 
   {
     if (data === null) return;
-    axios.get(`http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com:3001/user/${data.id}/`).then((response) => 
+    axios.get(`http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/user/${data.id}/`).then((response) => 
     {
       setProfilePicture(response.data.data.avatarUrl);
     });
