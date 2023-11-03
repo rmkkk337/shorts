@@ -43,7 +43,7 @@ export default function Page({ params }: { params: { id: string } })
 
   const updateProfile = () => 
   {
-    axios.get(`http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com/user/${params.id}`).then((response) => 
+    axios.get(`http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com:3001/user/${params.id}`).then((response) => 
     {
       setData(response.data.data);
     });
@@ -73,7 +73,7 @@ export default function Page({ params }: { params: { id: string } })
       const formData = new FormData();
       formData.append('file', image);
       axios
-        .post(`http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com/user/${accountData.data.id}/avatar/update`, formData, {
+        .post(`http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com:3001/user/${accountData.data.id}/avatar/update`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
