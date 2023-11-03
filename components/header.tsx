@@ -15,12 +15,16 @@ import {
 import { useAccountData } from '@/hooks/account.actions';
 import Link from 'next/link';
 import { MessageSquare } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import axios from 'axios';
 
 export const Header = () => 
 {
   const router = useRouter();
   const accountData: any = useAccountData();
   const data = accountData.data;
+  const [profilePicture, setProfilePicture] = useState<string>('');
 
   function handleUploadButton() 
   {
@@ -31,6 +35,16 @@ export const Header = () =>
     }
     router.push('/upload');
   }
+
+  // get user profile picture
+  useEffect(() => 
+  {
+    if (data === null) return;
+    axios.get(`http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com/user/${data.id}/`).then((response) => 
+    {
+      setProfilePicture(response.data.data.avatarUrl);
+    });
+  }, [data]);
 
   return (
     <header className='bg-white px-6 py-2 flex items-center justify-between border-b border-solid fixed w-screen z-20'>
@@ -63,7 +77,11 @@ export const Header = () =>
         {data ? (
           <DropdownMenu>
             <DropdownMenuTrigger className='outline-none focus-within:outline-none focus:outline-none'>
-              <div className='w-8 h-8 rounded-full bg-zinc-200 cursor-pointer'></div>
+              {profilePicture != '' ? (
+                <Image alt='Your profile picture' className='rounded-full' height={32} width={32} src={profilePicture} />
+              ) : (
+                <Image className='rounded-full' src={accountData.data.avatarUrl} alt='Your profile picutre' height={32} width={32} />
+              )}
             </DropdownMenuTrigger>
             <DropdownMenuContent className='mr-2'>
               <DropdownMenuLabel>{data.username}</DropdownMenuLabel>

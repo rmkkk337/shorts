@@ -1,3 +1,5 @@
+// TODO: Add loading circle while source is loading
+
 'use client';
 
 import { useState } from 'react';

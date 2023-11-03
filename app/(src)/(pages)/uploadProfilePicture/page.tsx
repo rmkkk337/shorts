@@ -4,10 +4,13 @@ import { useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { FileUploader } from 'react-drag-drop-files';
+import { useAccountData } from '@/hooks/account.actions';
 
 export default function Page() 
 {
   const [image, setImage] = useState<File | null>(null);
+  const account: any = useAccountData();
+  const data = account.data;
 
   const uploadImage = () => 
   {
@@ -16,7 +19,7 @@ export default function Page()
       const formData = new FormData();
       formData.append('file', image);
       axios
-        .post('http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com:3001/user/avatar/post', formData, {
+        .post(`http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com/user/${data.id}/post`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

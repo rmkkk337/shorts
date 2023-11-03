@@ -17,32 +17,32 @@ export const Player = (video?: any) =>
   const videoRef = useRef<any>(null);
   const isVisible = useOnScreen(videoRef, 0.9);
 
-  useEffect(() => 
-  {
-    if (typeof window !== 'undefined') 
-    {
-      window.addEventListener('blur', () => 
-      {
-        if (videoRef.current == null) return;
-        videoRef.current.pause();
-        setPlaying(false);
-      });
-      window.addEventListener('focus', () => 
-      {
-        if (videoRef.current == null) return;
-        videoRef.current.play();
-        setPlaying(true);
-      });
-    }
+  // useEffect(() =>
+  // {
+  //   if (typeof window !== 'undefined')
+  //   {
+  //     window.addEventListener('blur', () =>
+  //     {
+  //       if (videoRef.current == null) return;
+  //       videoRef.current.pause();
+  //       setPlaying(false);
+  //     });
+  //     window.addEventListener('focus', () =>
+  //     {
+  //       if (videoRef.current == null) return;
+  //       videoRef.current.play();
+  //       setPlaying(true);
+  //     });
+  //   }
 
-    return () => 
-    {
-      window.removeEventListener('blur', () => 
-      {});
-      window.removeEventListener('focus', () => 
-      {});
-    };
-  }, []);
+  //   return () =>
+  //   {
+  //     window.removeEventListener('blur', () =>
+  //     {});
+  //     window.removeEventListener('focus', () =>
+  //     {});
+  //   };
+  // }, []);
 
   const playbackHandler = () => 
   {

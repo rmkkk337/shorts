@@ -19,7 +19,7 @@ export default function Page()
     accountData.clearAccountData();
 
     router.push('/fyp');
-  }, [accountData, router]);
+  }, [router]);
 
   return <main></main>;
 }

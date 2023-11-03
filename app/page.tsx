@@ -22,23 +22,23 @@ export default function Home()
       if (token !== '') 
       {
         axios
-          .get('http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com:3001/user', { withCredentials: true })
+          .get('http://ec2-13-53-80-251.eu-north-1.compute.amazonaws.com/user', { withCredentials: true })
           .then((response) => 
           {
             if (response?.status === 200) 
             {
               accountData.setAccountData(response.data.data);
-              router.push('/fyp');
+              router.push(accessedPage.lastAccessed);
             }
             else 
             {
               accessedPage.setLastAccessed(AccountStatus.Idle);
-              router.push(`${accessedPage.lastAccessed}`);
+              router.push(accessedPage.lastAccessed);
             }
           })
           .catch(() => 
           {
-            router.push(`${accessedPage.lastAccessed}`);
+            router.push(accessedPage.lastAccessed);
           });
       }
     }
