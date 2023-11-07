@@ -45,3 +45,21 @@
 .play-pause-button {
   margin-right: 80%;
 }
+
+@keyframes fadeInVideo {
+  0% {
+    display: hidden;
+    opacity: 0;
+  }
+  10% {
+    display: flex;
+  }
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+.fadeInVideo {
+  animation: fadeInVideo 1s ease-in-out forwards;
+}

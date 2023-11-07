@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import { HOST_DNS } from '@/lib/conf';
 import i18n from '@/lib/i18n';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -55,7 +56,7 @@ export default function Register()
 
     axios
       .post(
-        'http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/auth/registration',
+        `${HOST_DNS}:3001/auth/registration`,
         {
           username: username,
           email: email,

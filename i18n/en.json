@@ -71,7 +71,14 @@
     "send_message": "Send message..."
   },
   "uploader": {
+    "title": "Publish video | pikpok",
     "publish": "Publish",
     "video_will_look_like": "On For You Page your video will look like this:"
+  },
+  "account": {
+    "title": "Account",
+    "follow": "Follow",
+    "following": "Following",
+    "followers": "Followers"
   }
 }

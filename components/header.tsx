@@ -18,6 +18,7 @@ import { MessageSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
+import { HOST_DNS } from '@/lib/conf';
 
 export const Header = () => 
 {
@@ -40,7 +41,7 @@ export const Header = () =>
   useEffect(() => 
   {
     if (data === null) return;
-    axios.get(`http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/user/${data.id}/`).then((response) => 
+    axios.get(`${HOST_DNS}:3001/user/${data.id}/`).then((response) => 
     {
       setProfilePicture(response.data.data.avatarUrl);
     });
@@ -49,7 +50,7 @@ export const Header = () =>
   return (
     <header className='bg-white px-6 py-2 flex items-center justify-between border-b border-solid fixed w-screen z-20'>
       <h2
-        className='text-xl font-bold cursor-pointer select-none'
+        className='text-xl font-bold cursor-pointer select-none text-black'
         onClick={() => 
         {
           router.push('/fyp');
@@ -66,7 +67,7 @@ export const Header = () =>
         </Link>
         <Button
           variant='outline'
-          className='h-8'
+          className='h-8 text-black'
           onClick={() => 
           {
             handleUploadButton();
@@ -78,9 +79,15 @@ export const Header = () =>
           <DropdownMenu>
             <DropdownMenuTrigger className='outline-none focus-within:outline-none focus:outline-none'>
               {profilePicture != '' ? (
-                <Image alt='Your profile picture' className='rounded-full' height={32} width={32} src={profilePicture} />
+                <Image alt='Your profile picture' className='rounded-full w-8 h-8 object-cover' height={32} width={32} src={profilePicture} />
               ) : (
-                <Image className='rounded-full' src={accountData.data.avatarUrl} alt='Your profile picutre' height={32} width={32} />
+                <Image
+                  className='rounded-full w-8 h-8 object-cover'
+                  src={accountData.data.avatarUrl}
+                  alt='Your profile picutre'
+                  height={32}
+                  width={32}
+                />
               )}
             </DropdownMenuTrigger>
             <DropdownMenuContent className='mr-2'>

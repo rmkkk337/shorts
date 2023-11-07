@@ -5,6 +5,7 @@ import Image from 'next/image';
 import axios from 'axios';
 import { FileUploader } from 'react-drag-drop-files';
 import { useAccountData } from '@/hooks/account.actions';
+import { HOST_DNS } from '@/lib/conf';
 
 export default function Page() 
 {
@@ -19,7 +20,7 @@ export default function Page()
       const formData = new FormData();
       formData.append('file', image);
       axios
-        .post(`http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/user/${data.id}/post`, formData, {
+        .post(`${HOST_DNS}:3001/user/${data.id}/post`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
