@@ -49,9 +49,9 @@ export const Video = (props: Props) =>
             className='rounded-full w-8 h-8 object-cover'
             alt={`${metadata.username} profile picture`}
           />
-          <h3 className='text-lg font-medium'>{metadata.username}</h3>
+          <h3 className='text-lg font-medium antialiased'>{metadata.username}</h3>
         </div>
-        <p className='text-xs max-w-[250px] mb-2'>{props.description}</p>
+        <p className='text-xs max-w-[250px] mb-2 antialiased'>{props.description}</p>
       </div>
       <div className='flex'>
         <Player src={props.video} />
@@ -64,7 +64,7 @@ export const Video = (props: Props) =>
               }}
               className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'
             >
-              {liked ? <Heart className='like-animation' size={20} fill='true' /> : <Heart size={20} />}
+              {liked ? <Heart className='like-animation select-none' size={20} fill='true' /> : <Heart className='select-none' size={20} />}
             </div>
             <p className='font-medium text-sm select-none mt-1'>{props.likes ? props.likes : 0}</p>
           </div>

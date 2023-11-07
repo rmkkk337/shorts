@@ -13,39 +13,10 @@ export const Player = (video?: any) =>
   const [volume, setVolume] = useState<number>(40);
   const [muted, setMuted] = useState<boolean>(false);
   const [lastMutedVolume, setLastVolumeMuted] = useState<number>(0);
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   const videoRef = useRef<any>(null);
   const isVisible = useOnScreen(videoRef, 0.9);
-
-  // useEffect(() =>
-  // {
-  //   if (typeof window !== 'undefined')
-  //   {
-  //     window.addEventListener('blur', () =>
-  //     {
-  //       if (videoRef.current == null) return;
-  //       videoRef.current.pause();
-  //       setPlaying(false);
-  //     });
-  //     window.addEventListener('focus', () =>
-  //     {
-  //       if (videoRef.current == null) return;
-  //       if (isVisible)
-  //       {
-  //         videoRef.current.play();
-  //         setPlaying(true);
-  //       }
-  //     });
-  //   }
-
-  //   return () =>
-  //   {
-  //     window.removeEventListener('blur', () =>
-  //     {});
-  //     window.removeEventListener('focus', () =>
-  //     {});
-  //   };
-  // }, [isVisible]);
 
   const playbackHandler = () => 
   {
@@ -146,6 +117,25 @@ export const Player = (video?: any) =>
     return <div className='rounded-sm bg-zinc-300 w-64 h-[460px]'></div>;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => 
+  {
+    if (videoRef.current == null) return;
+
+    videoRef.current.addEventListener('loadeddata', () => 
+    {
+      setLoaded(true);
+    });
+
+    return () => 
+    {
+      if (videoRef.current == null) return;
+
+      videoRef.current.removeEventListener('loadeddata', () => 
+      {});
+    };
+  }, []);
+
   return (
     <div className='flex items-center justify-center'>
       <div className='video-container'>
@@ -205,7 +195,7 @@ export const Player = (video?: any) =>
             />
           </div>
         </div>
-        <video ref={videoRef} className='video-video' src={video.src} autoPlay loop></video>
+        <video ref={videoRef} className={`video-video ${loaded && 'fadeInVideo'}`} src={video.src} autoPlay loop></video>
       </div>
     </div>
   );

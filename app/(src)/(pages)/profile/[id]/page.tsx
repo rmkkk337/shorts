@@ -39,7 +39,6 @@ export default function Page({ params }: { params: { id: string } })
     }
   }, []);
 
-  const [image, setImage] = useState<File | null>(null);
   const [data, setData] = useState<Account | null>(null);
 
   const updateProfile = () => 
@@ -63,11 +62,19 @@ export default function Page({ params }: { params: { id: string } })
     updateProfile();
   }, []);
 
+  useEffect(() => 
+  {
+    if (data && document) 
+    {
+      document.title = `${i18n.t('account.title')} ${data.username} - pikpok`;
+    }
+  }, [data]);
+
   const accountData: UseBoundStore<any> = useAccountData();
 
   if (!data) return;
 
-  const uploadImage = () => 
+  const uploadImage = (image: File) => 
   {
     if (image != null && accountData.data !== null) 
     {
@@ -80,10 +87,6 @@ export default function Page({ params }: { params: { id: string } })
           },
           withCredentials: true,
         })
-        .then((response) => 
-        {
-          console.log(response);
-        })
         .catch((error) => 
         {
           console.log(error);
@@ -94,18 +97,13 @@ export default function Page({ params }: { params: { id: string } })
   return (
     <React.Fragment>
       <div className='account-info flex mt-3'>
-        {params.id === params.id ? null : null}
         <label htmlFor='pfpUploader' className='mr-4'>
           <div
             className='h-36 w-36 overflow-hidden rounded-full flex items-center justify-center object-fill select-none'
             onClick={() => 
             {
               if (accountData.data == null) return;
-              if (params.id === accountData.data.id) 
-              {
-                uploadImage();
-                updateProfile();
-              }
+              updateProfile();
             }}
           >
             <Image src={data.avatarUrl} alt='Profile picture' width={144} height={144} />
@@ -138,7 +136,7 @@ export default function Page({ params }: { params: { id: string } })
         {
           // TODO: Fix image applying only from second time
           if (!event.target.files) return;
-          setImage(event.target.files[0]);
+          uploadImage(event.target.files[0]);
         }}
       />
     </React.Fragment>

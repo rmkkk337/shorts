@@ -70,10 +70,12 @@
     "send_message": "Відправити повідомлення..."
   },
   "uploader": {
+    "title": "Опублікувати відео | pikpok",
     "publish": "Опублікувати",
     "video_will_look_like": "На стрічці Для Вас відео буде виглядати так:"
   },
   "account": {
+    "title": "Профіль",
     "follow": "Підписатись",
     "following": "Підписників",
     "followers": "Підписки"

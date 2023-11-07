@@ -42,7 +42,7 @@ export default function Page()
       const formData = new FormData();
       formData.append('file', video);
       axios
-        .post(`${HOST_DNS}:3001/user/video/post`, formData, {
+        .post(`${HOST_DNS}:3001/user/${accountData.data.id}/video/post`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -109,6 +109,7 @@ export default function Page()
               {
                 uploadVideo();
               }}
+              className='mt-2'
             >
               {i18n.t('uploader.publish')}
             </Button>
