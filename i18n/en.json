@@ -73,5 +73,10 @@
   "uploader": {
     "publish": "Publish",
     "video_will_look_like": "On For You Page your video will look like this:"
+  },
+  "account": {
+    "follow": "Follow",
+    "following": "Following",
+    "followers": "Followers"
   }
 }

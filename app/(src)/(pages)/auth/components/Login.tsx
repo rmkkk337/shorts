@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useAccountData } from '@/hooks/account.actions';
 import React from 'react';
 import { isEmail } from '@/lib/isEmail';
+import { HOST_DNS } from '@/lib/conf';
 
 export default function Login() 
 {
@@ -62,7 +63,7 @@ export default function Login()
 
     axios
       .post(
-        'http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/auth/login',
+        `${HOST_DNS}:3001/auth/login`,
         {
           email: email,
           password: password,
@@ -79,7 +80,7 @@ export default function Login()
       {
         if (response.data.status === 200) 
         {
-          axios.get(`http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/user/`, { withCredentials: true }).then((response) => 
+          axios.get(`${HOST_DNS}:3001/user/`, { withCredentials: true }).then((response) => 
           {
             accountData.setAccountData(response.data.data);
             router.push('/');

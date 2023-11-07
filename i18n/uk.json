@@ -72,5 +72,10 @@
   "uploader": {
     "publish": "Опублікувати",
     "video_will_look_like": "На стрічці Для Вас відео буде виглядати так:"
+  },
+  "account": {
+    "follow": "Підписатись",
+    "following": "Підписників",
+    "followers": "Підписки"
   }
 }

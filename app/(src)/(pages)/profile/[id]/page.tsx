@@ -9,6 +9,7 @@ import { UseBoundStore } from 'zustand';
 import Image from 'next/image';
 import { Account } from '@/types/Account';
 import { Button } from '@/components/ui/button';
+import { HOST_DNS } from '@/lib/conf';
 
 export default function Page({ params }: { params: { id: string } }) 
 {
@@ -43,7 +44,7 @@ export default function Page({ params }: { params: { id: string } })
 
   const updateProfile = () => 
   {
-    axios.get(`http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/user/${params.id}`).then((response) => 
+    axios.get(`${HOST_DNS}:3001/user/${params.id}`).then((response) => 
     {
       setData(response.data.data);
     });
@@ -73,7 +74,7 @@ export default function Page({ params }: { params: { id: string } })
       const formData = new FormData();
       formData.append('file', image);
       axios
-        .post(`http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/user/${accountData.data.id}/avatar/update`, formData, {
+        .post(`${HOST_DNS}:3001/user/${accountData.data.id}/avatar/update`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -96,7 +97,7 @@ export default function Page({ params }: { params: { id: string } })
         {params.id === params.id ? null : null}
         <label htmlFor='pfpUploader' className='mr-4'>
           <div
-            className='h-36 w-36 overflow-hidden rounded-full flex items-center justify-center object-fill'
+            className='h-36 w-36 overflow-hidden rounded-full flex items-center justify-center object-fill select-none'
             onClick={() => 
             {
               if (accountData.data == null) return;
@@ -111,10 +112,12 @@ export default function Page({ params }: { params: { id: string } })
           </div>
         </label>
         <div>
-          <h1 className='text-xl font-bold'>{data.username}</h1>
+          <h1 className='text-xl font-bold antialiased'>{data.username}</h1>
           <div className='flex gap-3 mb-2'>
-            <p>Following: 0</p>
-            <p>Followers: {followers}</p>
+            <p>{i18n.t('account.following')}: 0</p>
+            <p>
+              {i18n.t('account.followers')}: {followers}
+            </p>
           </div>
           <Button
             onClick={() => 
@@ -122,7 +125,7 @@ export default function Page({ params }: { params: { id: string } })
               incrementFollow();
             }}
           >
-            Follow
+            {i18n.t('account.follow')}
           </Button>
         </div>
       </div>
@@ -133,6 +136,7 @@ export default function Page({ params }: { params: { id: string } })
         accept='image/png, image/jpeg'
         onChange={(event) => 
         {
+          // TODO: Fix image applying only from second time
           if (!event.target.files) return;
           setImage(event.target.files[0]);
         }}

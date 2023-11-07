@@ -30,8 +30,11 @@ export const Player = (video?: any) =>
   //     window.addEventListener('focus', () =>
   //     {
   //       if (videoRef.current == null) return;
-  //       videoRef.current.play();
-  //       setPlaying(true);
+  //       if (isVisible)
+  //       {
+  //         videoRef.current.play();
+  //         setPlaying(true);
+  //       }
   //     });
   //   }
 
@@ -42,7 +45,7 @@ export const Player = (video?: any) =>
   //     window.removeEventListener('focus', () =>
   //     {});
   //   };
-  // }, []);
+  // }, [isVisible]);
 
   const playbackHandler = () => 
   {

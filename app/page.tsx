@@ -6,6 +6,7 @@ import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import { useEffect } from 'react';
 import { getCookie } from 'cookies-next';
 import { AccountStatus } from '@/lib/account.status';
+import { HOST_DNS } from '@/lib/conf';
 
 export default function Home() 
 {
@@ -22,7 +23,7 @@ export default function Home()
       if (token !== '') 
       {
         axios
-          .get('http://ec2-13-51-235-77.eu-north-1.compute.amazonaws.com:3001/user', { withCredentials: true })
+          .get(`${HOST_DNS}:3001/user`, { withCredentials: true })
           .then((response) => 
           {
             if (response?.status === 200) 
