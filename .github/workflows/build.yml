@@ -21,7 +21,8 @@ jobs:
       - name: Create env file
         run: |
           touch lib/conf.ts
-          echo "export const HOST_DNS = '${{ secrets.HOST_DNS }}'" > lib/conf.ts
+          echo "Saving export const HOST_DNS = 'http://${{ secrets.HOST_DNS }}' to lib/conf.ts"
+          echo "export const HOST_DNS = 'http://${{ secrets.HOST_DNS }}'" > lib/conf.ts
           cat lib/conf.ts
 
       - name: Install npm dependencies
