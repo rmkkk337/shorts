@@ -1,4 +1,8 @@
-// validate string as email, return true or false
+/*
+  @name Check if email is valid
+  @param {string} email - User email
+  @returns {boolean} - True if email is valid, false otherwise
+*/
 
 export function isEmail(email: string): boolean 
 {

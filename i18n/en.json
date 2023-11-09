@@ -79,6 +79,10 @@
     "title": "Account",
     "follow": "Follow",
     "following": "Following",
-    "followers": "Followers"
+    "followers": "Followers",
+    "picture": "{{username}}'s profile picture"
+  },
+  "page_error": {
+    "not_found": "Page not found. Go to"
   }
 }

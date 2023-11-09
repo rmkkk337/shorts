@@ -10,23 +10,11 @@ import Image from 'next/image';
 import { Account } from '@/types/Account';
 import { Button } from '@/components/ui/button';
 import { HOST_DNS } from '@/lib/conf';
+import { uploadImage } from '@/lib/imageUtils';
 
 export default function Page({ params }: { params: { id: string } }) 
 {
-  const router = useRouter();
   const load: FirstLoadProps = useFirstLoad();
-  const [followers, setFollowers] = useState<number>(120);
-  const [followed, setFollowed] = useState<boolean>(false);
-
-  const incrementFollow = () => 
-  {
-    if (!followed) 
-    {
-      setFollowed(true);
-      setFollowers(followers + 1);
-    }
-  };
-
   const accessed: any = useAccessedPage();
 
   useEffect(() => 
@@ -39,7 +27,25 @@ export default function Page({ params }: { params: { id: string } })
     }
   }, []);
 
+  const accountData: UseBoundStore<any> = useAccountData();
+
+  const router = useRouter();
+
+  // TODO: Remove in future when backend will be ready
+  const [followers, setFollowers] = useState<number>(120);
+  const [followed, setFollowed] = useState<boolean>(false);
+
   const [data, setData] = useState<Account | null>(null);
+
+  // TODO: Remove in future when backend will be ready
+  const incrementFollow = () => 
+  {
+    if (!followed) 
+    {
+      setFollowed(true);
+      setFollowers(followers + 1);
+    }
+  };
 
   const updateProfile = () => 
   {
@@ -47,6 +53,13 @@ export default function Page({ params }: { params: { id: string } })
     {
       setData(response.data.data);
     });
+  };
+
+  const onChangeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
+  {
+    // @ts-ignore
+    await uploadImage(event.target.files[0], accountData);
+    updateProfile();
   };
 
   useEffect(() => 
@@ -70,34 +83,12 @@ export default function Page({ params }: { params: { id: string } })
     }
   }, [data]);
 
-  const accountData: UseBoundStore<any> = useAccountData();
-
   if (!data) return;
-
-  const uploadImage = (image: File) => 
-  {
-    if (image != null && accountData.data !== null) 
-    {
-      const formData = new FormData();
-      formData.append('file', image);
-      axios
-        .post(`${HOST_DNS}:3001/user/${accountData.data.id}/avatar/update`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          withCredentials: true,
-        })
-        .catch((error) => 
-        {
-          console.log(error);
-        });
-    }
-  };
 
   return (
     <React.Fragment>
       <div className='account-info flex mt-3'>
-        <label htmlFor='pfpUploader' className='mr-4'>
+        <label htmlFor='pfpUploader' className='mr-4 cursor-pointer'>
           <div
             className='h-36 w-36 overflow-hidden rounded-full flex items-center justify-center object-fill select-none'
             onClick={() => 
@@ -106,11 +97,17 @@ export default function Page({ params }: { params: { id: string } })
               updateProfile();
             }}
           >
-            <Image src={data.avatarUrl} alt='Profile picture' width={144} height={144} />
+            <Image
+              src={data.avatarUrl}
+              title={i18n.t('account.picture', { username: data.username })}
+              alt='Profile picture'
+              width={144}
+              height={144}
+            />
           </div>
         </label>
         <div>
-          <h1 className='text-xl font-bold antialiased'>{data.username}</h1>
+          <h1 className='text-xl font-bold'>{data.username}</h1>
           <div className='flex gap-3 mb-2'>
             <p>{i18n.t('account.following')}: 0</p>
             <p>
@@ -127,18 +124,19 @@ export default function Page({ params }: { params: { id: string } })
           </Button>
         </div>
       </div>
-      <input
-        type='file'
-        id='pfpUploader'
-        className='hidden'
-        accept='image/png, image/jpeg'
-        onChange={(event) => 
-        {
-          // TODO: Fix image applying only from second time
-          if (!event.target.files) return;
-          uploadImage(event.target.files[0]);
-        }}
-      />
+      {accountData.data && accountData.data.id === params.id && (
+        <input
+          type='file'
+          id='pfpUploader'
+          className='hidden'
+          accept='image/png, image/jpeg'
+          onChange={(event) => 
+          {
+            // FIXME: image applying only from second timez
+            onChangeUpload(event);
+          }}
+        />
+      )}
     </React.Fragment>
   );
 }

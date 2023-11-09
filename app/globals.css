@@ -6,11 +6,16 @@
 *::before,
 *::after {
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: auto;
+  font-family: var(--pikpokui-font);
 }
 
 @layer base {
   :root {
+    --pikpokui-font: -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Geneva, 'Noto Sans Armenian', 'Noto Sans Bengali',
+      'Noto Sans Cherokee', 'Noto Sans Devanagari', 'Noto Sans Ethiopic', 'Noto Sans Georgian', 'Noto Sans Hebrew', 'Noto Sans Kannada',
+      'Noto Sans Khmer', 'Noto Sans Lao', 'Noto Sans Osmanya', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Thai', arial, Tahoma, verdana,
+      sans-serif;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
 

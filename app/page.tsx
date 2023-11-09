@@ -33,7 +33,7 @@ export default function Home()
             }
             else 
             {
-              accessedPage.setLastAccessed(AccountStatus.Idle);
+              accessedPage.setLastAccessed(AccountStatus.fyp);
               router.push(accessedPage.lastAccessed);
             }
           })

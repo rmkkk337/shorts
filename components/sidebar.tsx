@@ -30,11 +30,9 @@ export const Sidebar = () =>
       {data ? (
         <div>
           <p className='text-xs text-zinc-400 mt-2'>{i18n.t('sidebar.following')}</p>
-          <SidebarUser />
-          <SidebarUser />
-          <SidebarUser />
-          <SidebarUser />
-          <SidebarUser />
+          <SidebarUser uid='6542aafb6420bfb6441f8e42' />
+          <SidebarUser uid='65443136387aa11128456989' />
+          <SidebarUser uid='6542b514db61815692afcde8' />
         </div>
       ) : (
         <p className='text-xs text-zinc-400 mt-3'>{i18n.t('fyp.no_account')}</p>
@@ -44,7 +42,7 @@ export const Sidebar = () =>
           className='h-8 w-[150px] mt-2'
           onClick={() => 
           {
-            accessedPage.setLastAccessed(AccountStatus.RedirectedToAuth);
+            accessedPage.setLastAccessed(AccountStatus.auth);
             router.push('/auth');
           }}
         >

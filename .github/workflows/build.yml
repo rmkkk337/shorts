@@ -20,9 +20,9 @@ jobs:
 
       - name: Create env file
         run: |
-          touch .env
-          echo "${{ secrets.ENV }}" > .env
-          cat .env
+          touch lib/conf.ts
+          echo "export const HOST_DNS = '${{ secrets.HOST_DNS }}'" > lib/conf.ts
+          cat lib/conf.ts
 
       - name: Install npm dependencies
         run: npm install
@@ -52,6 +52,4 @@ jobs:
           cd /home/ec2-user/shorts/
           npm i
           nohup sudo npm start > npm_start.log 2>&1 &
-          # Optionally, you can start with pm2 instead of nohup if needed:
-          # pm2 start npm --name "shorts" -- start -- --port 80
           '
