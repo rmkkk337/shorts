@@ -52,5 +52,6 @@ jobs:
           ssh -i key.pem ${{secrets.USERNAME}}@${{secrets.HOST_DNS}} -p 22 '
           cd /home/ec2-user/shorts/
           npm i
+          killall next-router-worker
           nohup sudo npm start > npm_start.log 2>&1 &
           '

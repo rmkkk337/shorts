@@ -8,6 +8,14 @@ First, install required packages:
 npm i
 ```
 
+Make sure to have `lib/conf.ts` file containing
+
+```
+export const HOST_DNS = http://your_dns_here
+```
+
+so API will work correctly
+
 Then run development server:
 
 ```bash
