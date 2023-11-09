@@ -9,6 +9,9 @@ import '@/app/globals.css';
 import { HOST_DNS } from '@/lib/conf';
 import axios from 'axios';
 import Image from 'next/image';
+import { Account } from '@/types/Account';
+// @ts-ignore
+import { Tagify } from 'react-tagify';
 
 type Props = {
   video?: any;
@@ -18,15 +21,10 @@ type Props = {
   uid: string;
 };
 
-type Metadata = {
-  username: string;
-  avatarUrl: string;
-};
-
 export const Video = (props: Props) => 
 {
   const [liked, setLiked] = useState<boolean>(false);
-  const [metadata, setMetadata] = useState<Metadata | null>(null);
+  const [metadata, setMetadata] = useState<Account | null>(null);
 
   useEffect(() => 
   {
@@ -46,12 +44,14 @@ export const Video = (props: Props) =>
             src={metadata.avatarUrl}
             width={32}
             height={32}
-            className='rounded-full w-8 h-8 object-cover'
+            className='rounded-full w-8 h-8 object-cover select-none'
             alt={`${metadata.username} profile picture`}
           />
           <h3 className='text-lg font-medium antialiased'>{metadata.username}</h3>
         </div>
-        <p className='text-xs max-w-[250px] mb-2 antialiased'>{props.description}</p>
+        <Tagify>
+          <p className='text-xs max-w-[250px] mb-2 antialiased'>{props.description}</p>
+        </Tagify>
       </div>
       <div className='flex'>
         <Player src={props.video} />

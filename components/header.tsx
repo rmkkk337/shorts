@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAccountData } from '@/hooks/account.actions';
 import Link from 'next/link';
-import { MessageSquare } from 'lucide-react';
+// import { MessageSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
@@ -37,7 +37,6 @@ export const Header = () =>
     router.push('/upload');
   }
 
-  // get user profile picture
   useEffect(() => 
   {
     if (data === null) return;
@@ -62,9 +61,10 @@ export const Header = () =>
         <Input placeholder={i18n.t('header.search')} className='h-8' />
       </div>
       <div className='action-buttons flex gap-2 items-center'>
-        <Link href='/chat'>
+        {/* TODO: Bring back when will be functional */}
+        {/* <Link href='/chat'>
           <MessageSquare />
-        </Link>
+        </Link> */}
         <Button
           variant='outline'
           className='h-8 text-black'

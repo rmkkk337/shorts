@@ -121,17 +121,18 @@ export const Player = (video?: any) =>
   useEffect(() => 
   {
     if (videoRef.current == null) return;
+    const localRef = videoRef.current;
 
-    videoRef.current.addEventListener('loadeddata', () => 
+    localRef.addEventListener('loadeddata', () => 
     {
       setLoaded(true);
     });
 
     return () => 
     {
-      if (videoRef.current == null) return;
+      if (localRef == null) return;
 
-      videoRef.current.removeEventListener('loadeddata', () => 
+      localRef.removeEventListener('loadeddata', () => 
       {});
     };
   }, []);
@@ -195,6 +196,7 @@ export const Player = (video?: any) =>
             />
           </div>
         </div>
+        {loaded == false ? <div className='h-26 w-26 black'></div> : null}
         <video ref={videoRef} className={`video-video ${loaded && 'fadeInVideo'}`} src={video.src} autoPlay loop></video>
       </div>
     </div>
