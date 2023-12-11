@@ -7,6 +7,11 @@ import { Slider } from './ui/slider';
 import useOnScreen from '@/hooks/isVisible';
 import { getStorageVolume, setStorageVolume } from '@/lib/volume.localStorage';
 
+export const PlaceholderVideo = () => 
+{
+  return <div className='rounded-sm bg-zinc-300 w-64 h-[460px]'></div>;
+};
+
 export const Player = (video?: any) => 
 {
   const [playing, setPlaying] = useState<boolean>(false);
@@ -114,7 +119,7 @@ export const Player = (video?: any) =>
 
   if (video.src == undefined) 
   {
-    return <div className='rounded-sm bg-zinc-300 w-64 h-[460px]'></div>;
+    return <PlaceholderVideo />;
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -139,7 +144,7 @@ export const Player = (video?: any) =>
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='video-container'>
+      <div className='video-container bg-zinc-200 rounded-md'>
         <div className='video-controls-container flex w-full items-center'>
           <div className='play-pause-button'>
             {playing ? (
@@ -196,7 +201,7 @@ export const Player = (video?: any) =>
             />
           </div>
         </div>
-        {loaded == false ? <div className='h-26 w-26 black'></div> : null}
+        {loaded ? null : <PlaceholderVideo />}
         <video ref={videoRef} className={`video-video ${loaded && 'fadeInVideo'}`} src={video.src} autoPlay loop></video>
       </div>
     </div>

@@ -1,142 +1,50 @@
-'use client';
-
-import { FirstLoadProps, useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
-import i18n from '@/lib/i18n';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { UseBoundStore } from 'zustand';
-import Image from 'next/image';
-import { Account } from '@/types/Account';
-import { Button } from '@/components/ui/button';
+import { Metadata } from 'next';
+import Content from './Content';
 import { HOST_DNS } from '@/lib/conf';
-import { uploadImage } from '@/lib/imageUtils';
+import axios from 'axios';
+import React from 'react';
+
+type MetadataProps = {
+  params: { id: string };
+};
+
+export async function generateMetadata({ params }: MetadataProps): Promise<Metadata> 
+{
+  const id = params.id;
+
+  try 
+  {
+    const profile = await axios.get(`${HOST_DNS}:3001/user/${id}`);
+
+    return {
+      title: `${profile.data.data.username} profile`,
+      description: `Check out ${profile.data.data.username} profile on pikpok`,
+      openGraph: {
+        images: [profile.data.data.avatarUrl],
+      },
+      other: {
+        'og:site_name': 'pikpok',
+      },
+    };
+  }
+  catch 
+  {
+    return {
+      title: `Profile not found`,
+      description: "This profile wasn't found",
+      openGraph: {
+        images: [
+          'https://firebasestorage.googleapis.com/v0/b/pikpok-7e43d.appspot.com/o/avatars%2Fdefault-avatar.jpeg?alt=media&token=16fe35e9-f2b7-4306-ac55-5f3131c33ca6',
+        ],
+      },
+      other: {
+        'og:site_name': 'pikpok',
+      },
+    };
+  }
+}
 
 export default function Page({ params }: { params: { id: string } }) 
 {
-  const load: FirstLoadProps = useFirstLoad();
-  const accessed: any = useAccessedPage();
-
-  useEffect(() => 
-  {
-    if (load.firstLoad) 
-    {
-      accessed.setLastAccessed(`/profile/${params.id}`);
-      router.push('/');
-      load.setFirstLoad(false);
-    }
-  }, []);
-
-  const accountData: UseBoundStore<any> = useAccountData();
-
-  const router = useRouter();
-
-  // TODO: Remove in future when backend will be ready
-  const [followers, setFollowers] = useState<number>(120);
-  const [followed, setFollowed] = useState<boolean>(false);
-
-  const [data, setData] = useState<Account | null>(null);
-
-  // TODO: Remove in future when backend will be ready
-  const incrementFollow = () => 
-  {
-    if (!followed) 
-    {
-      setFollowed(true);
-      setFollowers(followers + 1);
-    }
-  };
-
-  const updateProfile = () => 
-  {
-    axios.get(`${HOST_DNS}:3001/user/${params.id}`).then((response) => 
-    {
-      setData(response.data.data);
-    });
-  };
-
-  const onChangeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
-  {
-    // @ts-ignore
-    await uploadImage(event.target.files[0], accountData);
-    updateProfile();
-  };
-
-  useEffect(() => 
-  {
-    if (document != null) 
-    {
-      document.title = i18n.t('fyp.title');
-    }
-  }, []);
-
-  useEffect(() => 
-  {
-    updateProfile();
-  }, []);
-
-  useEffect(() => 
-  {
-    if (data && document) 
-    {
-      document.title = `${i18n.t('account.title')} ${data.username} - pikpok`;
-    }
-  }, [data]);
-
-  if (!data) return;
-
-  return (
-    <React.Fragment>
-      <div className='account-info flex mt-3'>
-        <label htmlFor='pfpUploader' className='mr-4 cursor-pointer'>
-          <div
-            className='h-36 w-36 overflow-hidden rounded-full flex items-center justify-center object-fill select-none'
-            onClick={() => 
-            {
-              if (accountData.data == null) return;
-              updateProfile();
-            }}
-          >
-            <Image
-              src={data.avatarUrl}
-              title={i18n.t('account.picture', { username: data.username })}
-              alt='Profile picture'
-              width={144}
-              height={144}
-            />
-          </div>
-        </label>
-        <div>
-          <h1 className='text-xl font-bold'>{data.username}</h1>
-          <div className='flex gap-3 mb-2'>
-            <p>{i18n.t('account.following')}: 0</p>
-            <p>
-              {i18n.t('account.followers')}: {followers}
-            </p>
-          </div>
-          <Button
-            onClick={() => 
-            {
-              incrementFollow();
-            }}
-          >
-            {i18n.t('account.follow')}
-          </Button>
-        </div>
-      </div>
-      {accountData.data && accountData.data.id === params.id && (
-        <input
-          type='file'
-          id='pfpUploader'
-          className='hidden'
-          accept='image/png, image/jpeg'
-          onChange={(event) => 
-          {
-            // FIXME: image applying only from second timez
-            onChangeUpload(event);
-          }}
-        />
-      )}
-    </React.Fragment>
-  );
+  return <Content id={params.id} />;
 }

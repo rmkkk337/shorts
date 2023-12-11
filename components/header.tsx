@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAccountData } from '@/hooks/account.actions';
+import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import Link from 'next/link';
 // import { MessageSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -24,6 +24,7 @@ export const Header = () =>
 {
   const router = useRouter();
   const accountData: any = useAccountData();
+  const accessedPage: any = useAccessedPage();
   const data = accountData.data;
   const [profilePicture, setProfilePicture] = useState<string>('');
 
@@ -115,6 +116,7 @@ export const Header = () =>
             className='h-8'
             onClick={() => 
             {
+              accessedPage.setLastAccessed(document.location.pathname);
               router.push('/auth');
             }}
           >

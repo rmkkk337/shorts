@@ -28,6 +28,11 @@ export default function Page()
     }
   }, [load, router]);
 
+  if (load.firstLoad) 
+  {
+    return null;
+  }
+
   return (
     <div className='videos-wrapper flex flex-col items-center w-[calc(100vw-170px)]'>
       <Video

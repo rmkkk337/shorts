@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import { useEffect } from 'react';
 import { getCookie } from 'cookies-next';
-import { AccountStatus } from '@/lib/account.status';
+import { Route } from '@/lib/account.status';
 import { HOST_DNS } from '@/lib/conf';
 
 export default function Home() 
@@ -33,7 +33,7 @@ export default function Home()
             }
             else 
             {
-              accessedPage.setLastAccessed(AccountStatus.fyp);
+              accessedPage.setLastAccessed(Route.fyp);
               router.push(accessedPage.lastAccessed);
             }
           })
