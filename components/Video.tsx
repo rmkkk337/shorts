@@ -54,7 +54,7 @@ export const Video = (props: Props) =>
         </Tagify>
       </div>
       <div className='flex'>
-        <Player src={props.video} />
+        <Player notplayable src={props.video} />
         <div className='self-end ml-4'>
           <div className='my-3 flex flex-col items-center'>
             <div

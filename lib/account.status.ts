@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-export enum AccountStatus {
+export enum Route {
   auth = '/auth',
   fyp = '/fyp',
 }

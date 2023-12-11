@@ -3,9 +3,9 @@
 import i18n from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter } from 'next/navigation';
-import { SidebarUser } from './sidebar/sidebarUser';
+import { SidebarUser } from './sidebarUser';
 import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
-import SidebarLink from './SidebarLink';
+import SidebarLink from '../SidebarLink';
 
 export const Sidebar = () => 
 {
@@ -25,13 +25,16 @@ export const Sidebar = () =>
         <SidebarLink pathname={pathname} url='/following'>
           {i18n.t('fyp.following')}
         </SidebarLink>
+        <SidebarLink pathname={pathname} url={`/${accountData.data?.id}`}>
+          Profile
+        </SidebarLink>
       </div>
       {data ? (
         <div>
           <p className='text-xs text-zinc-400 mt-2'>{i18n.t('sidebar.following')}</p>
-          <SidebarUser uid='6542aafb6420bfb6441f8e42' />
-          <SidebarUser uid='65443136387aa11128456989' />
-          <SidebarUser uid='6542b514db61815692afcde8' />
+          {accountData.data.subscribtions.map((user: any) => (
+            <SidebarUser key={user} uid={user} />
+          ))}
         </div>
       ) : (
         <p className='text-xs text-zinc-400 mt-3'>{i18n.t('fyp.no_account')}</p>

@@ -72,14 +72,17 @@
   "uploader": {
     "title": "Опублікувати відео | pikpok",
     "publish": "Опублікувати",
-    "video_will_look_like": "На стрічці Для Вас відео буде виглядати так:"
+    "video_will_look_like": "На стрічці Для Вас відео буде виглядати так:",
+    "upload_label": "Натисніть або перетягніть відео сюди"
   },
   "account": {
     "title": "Профіль",
     "follow": "Підписатись",
-    "following": "Підписників",
-    "followers": "Підписки",
-    "picture": "Світлина {{username}}"
+    "unfollow": "Відписатись",
+    "following": "Підписки",
+    "followers": "Підписників",
+    "picture": "Світлина {{username}}",
+    "change_profile_picture": "Натисніть тут щоб оновити світлину"
   },
   "page_error": {
     "not_found": "Сторінку не знайдено. Повернутись до сторінки"

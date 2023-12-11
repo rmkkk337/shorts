@@ -1,6 +1,6 @@
 'use client';
 
-import { useAccountData } from '@/hooks/account.actions';
+import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -9,6 +9,7 @@ export default function Page()
 {
   const router = useRouter();
   const accountData: any = useAccountData();
+  const accessedPage: any = useAccessedPage();
 
   useEffect(() => 
   {
@@ -17,8 +18,7 @@ export default function Page()
       deleteCookie('access-token');
     }
     accountData.clearAccountData();
-
-    router.push('/fyp');
+    router.push(accessedPage.lastAccessed);
   }, [router]);
 
   return <main></main>;

@@ -73,16 +73,20 @@
   "uploader": {
     "title": "Publish video | pikpok",
     "publish": "Publish",
-    "video_will_look_like": "On For You Page your video will look like this:"
+    "video_will_look_like": "On For You Page your video will look like this:",
+    "upload_label": "Upload or drop a video right here"
   },
   "account": {
     "title": "Account",
     "follow": "Follow",
+    "unfollow": "Unfollow",
     "following": "Following",
     "followers": "Followers",
-    "picture": "{{username}}'s profile picture"
+    "picture": "{{username}}'s profile picture",
+    "change_profile_picture": "Click here to change your profile picture"
   },
   "page_error": {
     "not_found": "Page not found. Go to"
-  }
+  },
+  "profile_picture_upgrading": "Updating your profile picture. Please wait"
 }
