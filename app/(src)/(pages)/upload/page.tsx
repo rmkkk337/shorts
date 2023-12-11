@@ -18,16 +18,13 @@ import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { TextArea } from '@/components/ui/TextArea';
 
-export default function Page() 
-{
+export default function Page() {
   const router = useRouter();
   const load = useFirstLoad();
   const accountData: UseBoundStore<any> = useAccountData();
 
-  useEffect(() => 
-  {
-    if (load.firstLoad) 
-    {
+  useEffect(() => {
+    if (load.firstLoad) {
       router.push('/');
       load.setFirstLoad(false);
     }
@@ -39,10 +36,8 @@ export default function Page()
 
   if (!accountData.data) return;
 
-  const uploadVideo = () => 
-  {
-    if (video != null) 
-    {
+  const uploadVideo = () => {
+    if (video != null) {
       const formData = new FormData();
       formData.append('file', video);
       axios
@@ -52,12 +47,10 @@ export default function Page()
           },
           withCredentials: true,
         })
-        .then(() => 
-        {
+        .then(() => {
           // console.log(response);
         })
-        .catch(() => 
-        {
+        .catch(() => {
           // console.log(error);
         });
     }
@@ -72,8 +65,7 @@ export default function Page()
           name='file'
           label={i18n.t('uploader.upload_label')}
           types={['mp4', 'mov']}
-          handleChange={(event: any) => 
-          {
+          handleChange={(event: any) => {
             setVideo(event);
           }}
         />
@@ -122,8 +114,7 @@ export default function Page()
             </div>
 
             <Button
-              onClick={() => 
-              {
+              onClick={() => {
                 uploadVideo();
               }}
               className='mt-2'

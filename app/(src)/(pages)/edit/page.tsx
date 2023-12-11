@@ -14,16 +14,13 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { TextArea } from '@/components/ui/TextArea';
 
-export default function Page() 
-{
+export default function Page() {
   const [uploading, setUploading] = useState<boolean>(false);
   const [data, setData] = useState<Account | null>(null);
 
   const router = useRouter();
-  useEffect(() => 
-  {
-    if (document != null) 
-    {
+  useEffect(() => {
+    if (document != null) {
       document.title = `${i18n.t('edit_profile')} | pikpok`;
     }
   }, []);
@@ -34,64 +31,51 @@ export default function Page()
   const [usernameValue, setUsernameValue] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
-  useEffect(() => 
-  {
-    if (load.firstLoad) 
-    {
+  useEffect(() => {
+    if (load.firstLoad) {
       accessedPage.setLastAccessed('/edit');
       router.push('/');
       load.setFirstLoad(false);
     }
   }, [load, router]);
 
-  useEffect(() => 
-  {
-    if (accountData.data) 
-    {
+  useEffect(() => {
+    if (accountData.data) {
       setUsernameValue(accountData.data.username);
       setDescription(accountData.data.description);
       updateProfile();
     }
   }, []);
 
-  if (load.firstLoad || !accountData.data) 
-  {
+  if (load.firstLoad || !accountData.data) {
     return null;
   }
 
-  const updateProfile = () => 
-  {
+  const updateProfile = () => {
     axios
       .get(`${HOST_DNS}:3001/user/${accountData.data.id}`, {
         withCredentials: true,
       })
-      .then((response) => 
-      {
+      .then((response) => {
         setData(response.data.data);
         accountData.setAccountData(response.data.data);
       });
   };
 
-  const onChangeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
-  {
+  const onChangeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setUploading(true);
-    try 
-    {
+    try {
       // @ts-ignore
       await uploadImage(event.target.files[0]);
       setUploading(false);
-    }
-    catch 
-    {
+    } catch {
       setUploading(false);
     }
     updateProfile();
   };
 
-  const updateUser = () => 
-  {
-    if (usernameValue.length >= 2) 
-    {
+  const updateUser = () => {
+    if (usernameValue.length >= 2) {
       axios
         .patch(
           `${HOST_DNS}:3001/user/${accountData.data.id}/patch`,
@@ -103,19 +87,14 @@ export default function Page()
             withCredentials: true,
           }
         )
-        .then(() => 
-        {
-          setTimeout(() => 
-          {
+        .then(() => {
+          setTimeout(() => {
             updateProfile();
             router.push(`/profile/@${usernameValue}`);
           }, 200);
         });
     }
   };
-
-  useEffect(() => 
-  {}, []);
 
   if (!data) return;
 
@@ -148,8 +127,7 @@ export default function Page()
           <Input
             className='mt-2 h-8'
             placeholder={i18n.t('auth.username')}
-            onChange={(event) => 
-            {
+            onChange={(event) => {
               setUsernameValue(event.target.value);
             }}
             value={usernameValue}
@@ -162,8 +140,7 @@ export default function Page()
           </p>
           <TextArea
             className='min-h-[140px] antialiased mt-2'
-            onChange={(event) => 
-            {
+            onChange={(event) => {
               setDescription(event.target.value);
             }}
             value={description}
@@ -172,8 +149,7 @@ export default function Page()
           />
           <Button
             className='mt-2'
-            onClick={() => 
-            {
+            onClick={() => {
               updateUser();
             }}
           >
@@ -186,8 +162,7 @@ export default function Page()
         id='pfpUploader'
         className='hidden'
         accept='image/png, image/jpeg'
-        onChange={(event) => 
-        {
+        onChange={(event) => {
           onChangeUpload(event);
         }}
       />

@@ -109,6 +109,11 @@ export default function Content(params: { id: string })
         <div>
           <div className='flex items-center gap-2'>
             <h1 className='text-xl font-bold'>{data.username}</h1>
+            {data.username == 'moe' ? (
+              <Badge variant='secondary' className='h-5'>
+                CEO
+              </Badge>
+            ) : null}
           </div>
           <p className='text-zinc-500 font-medium text-sm' style={{ whiteSpace: 'pre-wrap' }}>
             {data.description}
