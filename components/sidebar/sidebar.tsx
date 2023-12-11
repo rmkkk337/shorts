@@ -31,13 +31,13 @@ export const Sidebar = () =>
       </div>
       {data ? (
         <div>
-          <p className='text-xs text-zinc-400 mt-2'>{i18n.t('sidebar.following')}</p>
+          <p className='text-xs text-zinc-400 font-medium mt-2'>{i18n.t('sidebar.following')}</p>
           {accountData.data.subscribtions.map((user: any) => (
             <SidebarUser key={user} uid={user} />
           ))}
         </div>
       ) : (
-        <p className='text-xs text-zinc-400 mt-3'>{i18n.t('fyp.no_account')}</p>
+        <p className='text-xs text-zinc-400 mt-3 font-medium'>{i18n.t('fyp.no_account')}</p>
       )}
       {!data && (
         <Button

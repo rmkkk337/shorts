@@ -39,9 +39,13 @@ export function SidebarUser(props: Props)
     <div
       onClick={() => 
       {
-        router.push(`/profile/${props.uid}`);
+        router.push(`/profile/@${userData.username}`);
       }}
-      className='flex flex-row items-center mt-2 hover:bg-zinc-200/20 duration-200 px-2 py-1 rounded-sm select-none cursor-pointer'
+      className={`flex flex-row items-center mt-2 hover:bg-zinc-200/20 ${
+        document.location.pathname == `/profile/${props.uid}` || document.location.pathname == `/profile/${userData.username}`
+          ? 'bg-zinc-200/20'
+          : 'bg-white/0'
+      } duration-200 px-2 py-1 rounded-sm select-none cursor-pointer`}
     >
       <Image
         src={userData.avatarUrl}
@@ -50,7 +54,7 @@ export function SidebarUser(props: Props)
         className='w-8 h-8 rounded-full bg-zinc-200 overflow-hidden'
         alt={`${userData.username} profile picture`}
       />
-      <p className='text-sm ml-4'>{userData.username}</p>
+      <p className='text-sm ml-4 font-medium text-zinc-600'>{userData.username}</p>
     </div>
   );
 }

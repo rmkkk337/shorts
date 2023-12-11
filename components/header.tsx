@@ -94,7 +94,7 @@ export const Header = () =>
             <DropdownMenuContent className='mr-2'>
               <DropdownMenuLabel>{data.username}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link href={`/profile/${data.id}`}>
+              <Link href={`/profile/@${data.username}`}>
                 <DropdownMenuItem>{i18n.t('header.dropdown.profile')}</DropdownMenuItem>
               </Link>
               <Link href={`/settings`}>

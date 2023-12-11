@@ -29,12 +29,12 @@ export default function Home()
             if (response?.status === 200) 
             {
               accountData.setAccountData(response.data.data);
-              router.push(accessedPage.lastAccessed);
+              router.push(accessedPage.lastAccessed.replace('%40', '@'));
             }
             else 
             {
               accessedPage.setLastAccessed(Route.fyp);
-              router.push(accessedPage.lastAccessed);
+              router.push(accessedPage.lastAccessed.replace('%40', '@'));
             }
           })
           .catch((error) => 
