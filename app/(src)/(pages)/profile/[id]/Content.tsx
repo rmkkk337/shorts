@@ -33,10 +33,14 @@ export default function Content(params: { id: string })
 
   const followUser = async () => 
   {
-    await axios.get(`${HOST_DNS}:3001/user/${params.id}/follow`, {
-      withCredentials: true,
-    });
-    updateProfile();
+    await axios
+      .get(`${HOST_DNS}:3001/user/${params.id}/follow`, {
+        withCredentials: true,
+      })
+      .then(() => 
+      {
+        updateProfile();
+      });
   };
 
   const updateProfile = () => 
@@ -85,7 +89,7 @@ export default function Content(params: { id: string })
   {
     if (data && document) 
     {
-      document.title = `${i18n.t('account.title')} ${data.username} - pikpok`;
+      document.title = `${i18n.t('account.title', { username: data.username })} - pikpok`;
     }
   }, [data]);
 

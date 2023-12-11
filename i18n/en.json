@@ -77,7 +77,7 @@
     "upload_label": "Upload or drop a video right here"
   },
   "account": {
-    "title": "Account",
+    "title": "{{username}} profile",
     "follow": "Follow",
     "unfollow": "Unfollow",
     "following": "Following",
