@@ -12,7 +12,7 @@ import { HOST_DNS } from '@/lib/conf';
 import { Account } from '@/types/Account';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { TextArea } from '@/components/ui/TextArea';
+import { TextArea } from '@/components/TextArea';
 
 export default function Page() {
   const [uploading, setUploading] = useState<boolean>(false);

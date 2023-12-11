@@ -16,7 +16,7 @@ import { HOST_DNS } from '@/lib/conf';
 import { Player } from '@/components/player';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import Image from 'next/image';
-import { TextArea } from '@/components/ui/TextArea';
+import { TextArea } from '@/components/TextArea';
 
 export default function Page() {
   const router = useRouter();
