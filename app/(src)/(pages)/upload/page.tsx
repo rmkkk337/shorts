@@ -16,6 +16,7 @@ import { HOST_DNS } from '@/lib/conf';
 import { Player } from '@/components/player';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import Image from 'next/image';
+import { TextArea } from '@/components/ui/TextArea';
 
 export default function Page() 
 {
@@ -62,10 +63,10 @@ export default function Page()
     }
   };
 
-  return <main className='h-screen w-[calc(100vw-240px)] flex items-center justify-center'>Closed for maintenance</main>;
+  return null;
 
   return (
-    <main className='h-screen w-[calc(100vw-240px)] flex flex-col items-center justify-center'>
+    <main className='h-screen flex flex-col items-center justify-center'>
       {video == null ? (
         <FileUploader
           name='file'
@@ -94,8 +95,8 @@ export default function Page()
             <p className='text-xs max-w-[250px] mb-2'>{description}</p>
           </div>
           <div>
-            <div className='flex'>
-              {video && <Player src={URL.createObjectURL(video as Blob)} />}
+            <div className='flex items-center'>
+              {video && <Player className='w-16' src={URL.createObjectURL(video as Blob)} />}
               <div className='self-end ml-4'>
                 <div className='my-3 flex flex-col items-center'>
                   <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
@@ -115,7 +116,11 @@ export default function Page()
                   </div>
                 </div>
               </div>
+              <TextArea placeholder={i18n.t('description')} className='min-h-[140px] ml-6' onChange={(event) => setDescription(event.target.value)}>
+                {description}
+              </TextArea>
             </div>
+
             <Button
               onClick={() => 
               {
@@ -128,7 +133,6 @@ export default function Page()
           </div>
         </div>
       )}
-      {video ? <textarea onChange={(event) => setDescription(event.target.value)}>{description}</textarea> : null}
     </main>
   );
 }

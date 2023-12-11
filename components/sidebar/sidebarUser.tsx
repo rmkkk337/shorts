@@ -49,8 +49,8 @@ export function SidebarUser(props: Props)
     >
       <Image
         src={userData.avatarUrl}
-        height={32}
-        width={32}
+        height={64}
+        width={64}
         className='w-8 h-8 rounded-full bg-zinc-200 overflow-hidden'
         alt={`${userData.username} profile picture`}
       />

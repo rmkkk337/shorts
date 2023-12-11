@@ -144,7 +144,7 @@ export const Player = (video?: any) =>
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='video-container bg-zinc-200 rounded-md'>
+      <div className='video-container bg-zinc-200 rounded-md min-w-[280px]'>
         <div className='video-controls-container flex w-full items-center'>
           <div className='play-pause-button'>
             {playing ? (

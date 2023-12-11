@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { Account } from '@/types/Account';
 import { Button } from '@/components/ui/button';
 import { HOST_DNS } from '@/lib/conf';
+import { Badge } from '@/components/ui/badge';
 
 export default function Content(params: { id: string }) 
 {
@@ -89,7 +90,7 @@ export default function Content(params: { id: string })
   {
     if (params.id.charAt(0) === '%' || params.id.charAt(0) === '@') 
     {
-      return accountData.data?.username !== params.id.split('%40')[1];
+      return accountData.data?.username !== decodeURI(params.id.split('%40')[1]);
     }
     return accountData?.data?.id !== params.id;
   };
@@ -106,7 +107,12 @@ export default function Content(params: { id: string })
           height={144}
         />
         <div>
-          <h1 className='text-xl font-bold'>{data.username}</h1>
+          <div className='flex items-center gap-2'>
+            <h1 className='text-xl font-bold'>{data.username}</h1>
+          </div>
+          <p className='text-zinc-500 font-medium text-sm' style={{ whiteSpace: 'pre-wrap' }}>
+            {data.description}
+          </p>
           <div className='flex gap-3 mb-2'>
             <p className='text-zinc-600 flex gap-1 select-none'>
               {i18n.t('account.following')}

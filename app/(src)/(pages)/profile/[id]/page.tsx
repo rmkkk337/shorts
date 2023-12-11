@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 
     return {
       title: `${profile.data.data.username} profile`,
-      description: `Check out ${profile.data.data.username} profile on pikpok`,
+      description: `Check out ${profile.data.data.username} profile on pikpok.\nAbout: ${profile.data.data.description}`,
       openGraph: {
         images: [profile.data.data.avatarUrl],
       },

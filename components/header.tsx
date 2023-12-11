@@ -16,6 +16,7 @@ import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import Link from 'next/link';
 // import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
+import Logo from '@/app/favicon.png';
 
 export const Header = () => 
 {
@@ -37,12 +38,14 @@ export const Header = () =>
   return (
     <header className='bg-white px-6 py-2 flex items-center justify-between border-b border-solid fixed w-screen z-20'>
       <h2
-        className='text-xl font-bold cursor-pointer select-none text-black'
+        className='text-xl font-bold cursor-pointer select-none text-black flex items-center gap-1'
         onClick={() => 
         {
           router.push('/fyp');
         }}
       >
+        {/* @ts-ignore */}
+        <Image src={Logo} width={20} height={20} />
         pikpok
       </h2>
       <div className='search-bar flex-inital w-64'>
@@ -69,9 +72,9 @@ export const Header = () =>
               <Image
                 className='rounded-full w-8 h-8 object-cover select-none'
                 src={accountData.data.avatarUrl}
-                alt='Your profile picutre'
-                height={32}
-                width={32}
+                alt={i18n.t('account.picture', { username: accountData.data.username })}
+                height={64}
+                width={64}
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent className='mr-2'>

@@ -1,7 +1,7 @@
 'use client';
 
 // import { Video } from '@/components/Video';
-import { useAccountData, useFirstLoad } from '@/hooks/account.actions';
+import { useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
 import i18n from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ import { HOST_DNS } from '@/lib/conf';
 import { Account } from '@/types/Account';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { TextArea } from '@/components/ui/TextArea';
 
 export default function Page() 
 {
@@ -29,12 +30,15 @@ export default function Page()
 
   const load: any = useFirstLoad();
   const accountData: any = useAccountData();
+  const accessedPage: any = useAccessedPage();
   const [usernameValue, setUsernameValue] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
   useEffect(() => 
   {
     if (load.firstLoad) 
     {
+      accessedPage.setLastAccessed('/edit');
       router.push('/');
       load.setFirstLoad(false);
     }
@@ -45,6 +49,7 @@ export default function Page()
     if (accountData.data) 
     {
       setUsernameValue(accountData.data.username);
+      setDescription(accountData.data.description);
       updateProfile();
     }
   }, []);
@@ -92,6 +97,7 @@ export default function Page()
           `${HOST_DNS}:3001/user/${accountData.data.id}/patch`,
           {
             username: usernameValue,
+            description: description,
           },
           {
             withCredentials: true,
@@ -107,6 +113,9 @@ export default function Page()
         });
     }
   };
+
+  useEffect(() => 
+  {}, []);
 
   if (!data) return;
 
@@ -135,7 +144,7 @@ export default function Page()
         </label>
         <p className='text-xs font-semibold text-zinc-500 select-none mt-2'>{i18n.t('account.change_profile_picture')}</p>
         <div className='pt-2 border-t border-zinc-100 max-w-xl mt-2'>
-          {usernameValue.length < 2 && <p className='text-xs font-semibold text-red-500 select-none mt-2'>Довжина має бути не менше двох символів</p>}
+          {usernameValue.length < 2 && <p className='text-xs font-semibold text-red-500 select-none'>Довжина має бути не менше двох символів</p>}
           <Input
             className='mt-2 h-8'
             placeholder={i18n.t('auth.username')}
@@ -151,6 +160,16 @@ export default function Page()
               {document.location.origin}/profile/@{usernameValue}
             </span>
           </p>
+          <TextArea
+            className='min-h-[140px] antialiased mt-2'
+            onChange={(event) => 
+            {
+              setDescription(event.target.value);
+            }}
+            value={description}
+            maxLength={50}
+            placeholder={i18n.t('description')}
+          />
           <Button
             className='mt-2'
             onClick={() => 

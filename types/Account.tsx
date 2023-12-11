@@ -5,4 +5,5 @@ export interface Account {
   subscribers: string[];
   subscribtions: string[];
   followed: boolean;
+  description: string;
 }

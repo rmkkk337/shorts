@@ -95,5 +95,6 @@
   "profile_picture_upgrading": "Updating your profile picture. Please wait",
   "edit_profile": "Edit profile",
   "url_preview": "Link to your profile will look this:",
-  "update_profile": "Update profile"
+  "update_profile": "Update profile",
+  "description": "Description"
 }
