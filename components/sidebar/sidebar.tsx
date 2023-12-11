@@ -25,8 +25,8 @@ export const Sidebar = () =>
         <SidebarLink pathname={pathname} url='/following'>
           {i18n.t('fyp.following')}
         </SidebarLink>
-        <SidebarLink pathname={pathname} url={`/${accountData.data?.id}`}>
-          Profile
+        <SidebarLink pathname={pathname} url={`/profile/${accountData.data?.id}`}>
+          {i18n.t('header.dropdown.profile')}
         </SidebarLink>
       </div>
       {data ? (

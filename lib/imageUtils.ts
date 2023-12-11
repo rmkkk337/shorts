@@ -31,7 +31,6 @@ export const uploadImage = (image: File, data: any): Promise<void> =>
         })
         .catch((error) => 
         {
-          console.log(error);
           reject(error);
         });
     }

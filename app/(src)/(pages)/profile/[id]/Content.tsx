@@ -47,7 +47,6 @@ export default function Content(params: { id: string })
       })
       .then((response) => 
       {
-        console.log(response.data.data);
         setData(response.data.data);
       });
   };

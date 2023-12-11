@@ -72,6 +72,20 @@ export default function Register()
       )
       .then(() => 
       {
+        axios.post(
+          `${HOST_DNS}:3001/auth/login`,
+          {
+            email: email,
+            password: password,
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          }
+        );
         router.push('/');
       })
       .catch(() => 

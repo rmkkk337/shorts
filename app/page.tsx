@@ -37,9 +37,12 @@ export default function Home()
               router.push(accessedPage.lastAccessed);
             }
           })
-          .catch(() => 
+          .catch((error) => 
           {
-            router.push(accessedPage.lastAccessed);
+            if (error.response.data.data.error === 'User doesn`t exist') 
+            {
+              router.push('/logout');
+            }
           });
       }
     }
