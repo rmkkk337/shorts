@@ -15,10 +15,7 @@ import {
 import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import Link from 'next/link';
 // import { MessageSquare } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import axios from 'axios';
-import { HOST_DNS } from '@/lib/conf';
 
 export const Header = () => 
 {
@@ -26,7 +23,6 @@ export const Header = () =>
   const accountData: any = useAccountData();
   const accessedPage: any = useAccessedPage();
   const data = accountData.data;
-  const [profilePicture, setProfilePicture] = useState<string>('');
 
   function handleUploadButton() 
   {
@@ -37,15 +33,6 @@ export const Header = () =>
     }
     router.push('/upload');
   }
-
-  useEffect(() => 
-  {
-    if (data === null) return;
-    axios.get(`${HOST_DNS}:3001/user/${data.id}/`).then((response) => 
-    {
-      setProfilePicture(response.data.data.avatarUrl);
-    });
-  }, [data]);
 
   return (
     <header className='bg-white px-6 py-2 flex items-center justify-between border-b border-solid fixed w-screen z-20'>
@@ -79,17 +66,13 @@ export const Header = () =>
         {data ? (
           <DropdownMenu>
             <DropdownMenuTrigger className='outline-none focus-within:outline-none focus:outline-none'>
-              {profilePicture != '' ? (
-                <Image alt='Your profile picture' className='rounded-full w-8 h-8 object-cover' height={32} width={32} src={profilePicture} />
-              ) : (
-                <Image
-                  className='rounded-full w-8 h-8 object-cover'
-                  src={accountData.data.avatarUrl}
-                  alt='Your profile picutre'
-                  height={32}
-                  width={32}
-                />
-              )}
+              <Image
+                className='rounded-full w-8 h-8 object-cover select-none'
+                src={accountData.data.avatarUrl}
+                alt='Your profile picutre'
+                height={32}
+                width={32}
+              />
             </DropdownMenuTrigger>
             <DropdownMenuContent className='mr-2'>
               <DropdownMenuLabel>{data.username}</DropdownMenuLabel>
@@ -97,7 +80,7 @@ export const Header = () =>
               <Link href={`/profile/@${data.username}`}>
                 <DropdownMenuItem>{i18n.t('header.dropdown.profile')}</DropdownMenuItem>
               </Link>
-              <Link href={`/settings`}>
+              <Link href={`/edit`}>
                 <DropdownMenuItem>{i18n.t('header.dropdown.settings')}</DropdownMenuItem>
               </Link>
               <DropdownMenuItem

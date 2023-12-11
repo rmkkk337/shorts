@@ -88,13 +88,25 @@ export default function Register()
         );
         router.push('/');
       })
-      .catch(() => 
+      .catch((error) => 
       {
-        toast.toast({
-          title: i18n.t('error.title'),
-          description: i18n.t('error.description'),
-          variant: 'destructive',
-        });
+        console.log(error.response.data.data.error);
+        if (error.response.data.data.error === 'User already exists') 
+        {
+          toast.toast({
+            title: i18n.t('error.already_exists.title'),
+            description: i18n.t('error.already_exists.description'),
+            variant: 'destructive',
+          });
+        }
+        else 
+        {
+          toast.toast({
+            title: i18n.t('error.title'),
+            description: i18n.t('error.description'),
+            variant: 'destructive',
+          });
+        }
       });
 
     setPassword('');

@@ -108,11 +108,11 @@ export default function Content(params: { id: string })
         <div>
           <h1 className='text-xl font-bold'>{data.username}</h1>
           <div className='flex gap-3 mb-2'>
-            <p className='text-zinc-600 flex gap-1'>
+            <p className='text-zinc-600 flex gap-1 select-none'>
               {i18n.t('account.following')}
               <span className='text-zinc-800 font-semibold'>{data.subscribtions.length}</span>
             </p>
-            <p className='text-zinc-600 flex gap-1'>
+            <p className='text-zinc-600 flex gap-1 select-none'>
               {i18n.t('account.followers')}
               <span className='text-zinc-800 font-semibold'>{data.subscribers.length}</span>
             </p>
@@ -138,7 +138,7 @@ export default function Content(params: { id: string })
                 router.push('/edit');
               }}
             >
-              Редагувати профіль
+              {i18n.t('edit_profile')}
             </Button>
           ) : null}
         </div>

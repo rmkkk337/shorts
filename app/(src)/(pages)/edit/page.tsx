@@ -11,6 +11,7 @@ import axios from 'axios';
 import { HOST_DNS } from '@/lib/conf';
 import { Account } from '@/types/Account';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export default function Page() 
 {
@@ -72,7 +73,7 @@ export default function Page()
     try 
     {
       // @ts-ignore
-      await uploadImage(event.target.files[0], accountData);
+      await uploadImage(event.target.files[0]);
       setUploading(false);
     }
     catch 
@@ -80,6 +81,31 @@ export default function Page()
       setUploading(false);
     }
     updateProfile();
+  };
+
+  const updateUser = () => 
+  {
+    if (usernameValue.length >= 2) 
+    {
+      axios
+        .patch(
+          `${HOST_DNS}:3001/user/${accountData.data.id}/patch`,
+          {
+            username: usernameValue,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => 
+        {
+          setTimeout(() => 
+          {
+            updateProfile();
+            router.push(`/profile/@${usernameValue}`);
+          }, 200);
+        });
+    }
   };
 
   if (!data) return;
@@ -93,8 +119,8 @@ export default function Page()
       >
         {uploading && <p className='text-white font-semibold'>{i18n.t('profile_picture_upgrading')}</p>}
       </div>
-      <div className='w-[calc(100vw-170px)] z-50'>
-        <h1 className='text-2xl font-bold mt-2 ml-2 mb-2'>Редагувати профіль</h1>
+      <div className='z-50 mr-3 min-w-[355px]'>
+        <h1 className='text-2xl font-bold mt-2 ml-2 mb-2 select-none'>{i18n.t('edit_profile')}</h1>
         <label htmlFor='pfpUploader' className='mr-4 cursor-pointer w-[144px] flex items-center justify-center'>
           <div className='overflow-hidden rounded-full flex object-fill select-none w-[144px]'>
             <Image
@@ -107,12 +133,12 @@ export default function Page()
             />
           </div>
         </label>
-        <p className='text-xs font-semibold text-zinc-500 select-none mt-2'>Натисніть на вашу світлину щоб завантажити нову</p>
-        <div className='pt-2 border-t border-zinc-100 max-w-xl mt-3'>
-          <p className='text-xs font-semibold text-zinc-500 select-none'>Імʼя користувача</p>
+        <p className='text-xs font-semibold text-zinc-500 select-none mt-2'>{i18n.t('account.change_profile_picture')}</p>
+        <div className='pt-2 border-t border-zinc-100 max-w-xl mt-2'>
+          <p className='text-xs font-semibold text-zinc-500 select-none'></p>
           <Input
             className='mt-2 h-8'
-            placeholder='Імʼя користувача'
+            placeholder={i18n.t('auth.username')}
             onChange={(event) => 
             {
               setUsernameValue(event.target.value);
@@ -120,11 +146,20 @@ export default function Page()
             value={usernameValue}
           />
           <p className='text-xs font-semibold text-zinc-500 select-none mt-2'>
-            Посиланням на ваш профіль буде{' '}
+            {i18n.t('url_preview')}{' '}
             <span className='text-zinc-700'>
               {document.location.origin}/profile/@{usernameValue}
             </span>
           </p>
+          <Button
+            className='mt-2'
+            onClick={() => 
+            {
+              updateUser();
+            }}
+          >
+            {i18n.t('update_profile')}
+          </Button>
         </div>
       </div>
       <input

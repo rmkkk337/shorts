@@ -25,13 +25,13 @@ export const Sidebar = () =>
         <SidebarLink pathname={pathname} url='/following'>
           {i18n.t('fyp.following')}
         </SidebarLink>
-        <SidebarLink pathname={pathname} url={`/profile/${accountData.data?.id}`}>
+        <SidebarLink pathname={pathname} url={`/profile/@${accountData.data?.username}`}>
           {i18n.t('header.dropdown.profile')}
         </SidebarLink>
       </div>
       {data ? (
         <div>
-          <p className='text-xs text-zinc-400 font-medium mt-2'>{i18n.t('sidebar.following')}</p>
+          <p className='text-xs text-zinc-400 font-medium mt-2 select-none'>{i18n.t('sidebar.following')}</p>
           {accountData.data.subscribtions.map((user: any) => (
             <SidebarUser key={user} uid={user} />
           ))}
