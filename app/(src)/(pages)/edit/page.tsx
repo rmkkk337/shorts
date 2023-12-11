@@ -23,7 +23,7 @@ export default function Page()
   {
     if (document != null) 
     {
-      document.title = i18n.t('fyp.title');
+      document.title = `${i18n.t('edit_profile')} | pikpok`;
     }
   }, []);
 
@@ -135,7 +135,7 @@ export default function Page()
         </label>
         <p className='text-xs font-semibold text-zinc-500 select-none mt-2'>{i18n.t('account.change_profile_picture')}</p>
         <div className='pt-2 border-t border-zinc-100 max-w-xl mt-2'>
-          <p className='text-xs font-semibold text-zinc-500 select-none'></p>
+          {usernameValue.length < 2 && <p className='text-xs font-semibold text-red-500 select-none mt-2'>Довжина має бути не менше двох символів</p>}
           <Input
             className='mt-2 h-8'
             placeholder={i18n.t('auth.username')}
