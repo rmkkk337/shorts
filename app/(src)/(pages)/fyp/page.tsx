@@ -1,59 +1,48 @@
 'use client';
 
+import { Video } from '@/components/Video';
 // import { Video } from '@/components/Video';
 import { useFirstLoad } from '@/hooks/account.actions';
+import { HOST_DNS } from '@/lib/conf';
 import i18n from '@/lib/i18n';
+import { Video as VideoType } from '@/types/Video';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function Page() 
-{
+export default function Page() {
   const router = useRouter();
-  useEffect(() => 
-  {
-    if (document != null) 
-    {
+  const load: any = useFirstLoad();
+  const [videos, setVideos] = useState<VideoType[]>([]);
+
+  useEffect(() => {
+    if (document != null) {
       document.title = i18n.t('fyp.title');
     }
+    getVideos();
   }, []);
 
-  const load: any = useFirstLoad();
-
-  useEffect(() => 
-  {
-    if (load.firstLoad) 
-    {
+  useEffect(() => {
+    if (load.firstLoad) {
       router.push('/');
       load.setFirstLoad(false);
     }
   }, [load, router]);
 
-  if (load.firstLoad) 
-  {
+  const getVideos = async () => {
+    const videos = await axios.get(`${HOST_DNS}:3001/video/posts`);
+    setVideos(videos.data.data.reverse());
+  };
+
+  if (load.firstLoad) {
     return null;
   }
 
   return (
     <div className='videos-wrapper flex flex-col items-center w-[calc(100vw-170px)]'>
-      {/* <Video
-        likes={13}
-        comments={0}
-        uid='6542aafb6420bfb6441f8e42'
-        description='Cute video with cats! #cats #fyp #funny #cute'
-        video={
-          'https://firebasestorage.googleapis.com/v0/b/pikpok-7e43d.appspot.com/o/videos%2Fmoe%2Fb07bcc6079614ef494776f0abe4a0f8b.mp4-Thu%20Nov%2002%202023%2022%3A38%3A43%20GMT%2B0200%20(%D0%B7%D0%B0%20%D1%81%D1%85%D1%96%D0%B4%D0%BD%D0%BE%D1%94%D0%B2%D1%80%D0%BE%D0%BF%D0%B5%D0%B9%D1%81%D1%8C%D0%BA%D0%B8%D0%BC%20%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82%D0%BD%D0%B8%D0%BC%20%D1%87%D0%B0%D1%81%D0%BE%D0%BC)?alt=media&token=89d6bc48-3898-4c87-86b6-9e27fdcfe06d'
-        }
-      />
-      <Video
-        likes={0}
-        comments={0}
-        uid='6542aafb6420bfb6441f8e42'
-        description='Cute video with cats!'
-        video={
-          'https://firebasestorage.googleapis.com/v0/b/pikpok-7e43d.appspot.com/o/videos%2Fmoe%2Fb07bcc6079614ef494776f0abe4a0f8b.mp4-Thu%20Nov%2002%202023%2022%3A38%3A43%20GMT%2B0200%20(%D0%B7%D0%B0%20%D1%81%D1%85%D1%96%D0%B4%D0%BD%D0%BE%D1%94%D0%B2%D1%80%D0%BE%D0%BF%D0%B5%D0%B9%D1%81%D1%8C%D0%BA%D0%B8%D0%BC%20%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82%D0%BD%D0%B8%D0%BC%20%D1%87%D0%B0%D1%81%D0%BE%D0%BC)?alt=media&token=89d6bc48-3898-4c87-86b6-9e27fdcfe06d'
-        }
-      /> */}
-      {/* <Video likes={0} comments={0} username='moe' description='This is very first video on pikpok!' /> */}
+      {videos.map((video: VideoType) => (
+        <Video key={video.id} likes={video.likes} comments={0} uid={video.creatorId} description={video.description} video={video.url} />
+      ))}
     </div>
   );
 }

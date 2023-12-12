@@ -12,18 +12,15 @@ import { Button } from '@/components/ui/button';
 import { HOST_DNS } from '@/lib/conf';
 import { Badge } from '@/components/ui/badge';
 
-export default function Content(params: { id: string }) 
-{
+export default function Content(params: { id: string }) {
   const load: FirstLoadProps = useFirstLoad();
   const accessed: any = useAccessedPage();
   const router = useRouter();
   const accountData: UseBoundStore<any> = useAccountData();
   const [isFollowing, setIsFollowing] = useState<Boolean>(false);
 
-  useEffect(() => 
-  {
-    if (load.firstLoad) 
-    {
+  useEffect(() => {
+    if (load.firstLoad) {
       router.push('/');
       load.setFirstLoad(false);
     }
@@ -31,65 +28,51 @@ export default function Content(params: { id: string })
 
   const [data, setData] = useState<Account | null>(null);
 
-  const followUser = async () => 
-  {
+  const followUser = async () => {
     await axios
       .get(`${HOST_DNS}:3001/user/${data?.id}/follow`, {
         withCredentials: true,
       })
-      .then(() => 
-      {
-        setTimeout(async () => 
-        {
+      .then(() => {
+        setTimeout(async () => {
           await updateProfile();
         }, 200);
       });
   };
 
-  const updateProfile = async () => 
-  {
-    try 
-    {
+  const updateProfile = async () => {
+    try {
       const response = await axios.get(`${HOST_DNS}:3001/user/${params.id}`, {
         withCredentials: true,
       });
       setIsFollowing(response.data.data.followed);
       setData(response.data.data);
-    }
-    catch 
-    {
+    } catch {
       //
     }
   };
 
-  useEffect(() => 
-  {
-    if (document != null) 
-    {
+  useEffect(() => {
+    if (document != null) {
       document.title = i18n.t('fyp.title');
     }
   }, []);
 
-  useLayoutEffect(() => 
-  {
+  useLayoutEffect(() => {
     accessed.setLastAccessed(`/profile/${params.id}`);
     updateProfile();
   }, []);
 
-  useEffect(() => 
-  {
-    if (data && document) 
-    {
+  useEffect(() => {
+    if (data && document) {
       document.title = `${i18n.t('account.title', { username: data.username })} - pikpok`;
     }
   }, [data]);
 
   if (!data) return;
 
-  const isNotOwnPage = () => 
-  {
-    if (params.id.charAt(0) === '%' || params.id.charAt(0) === '@') 
-    {
+  const isNotOwnPage = () => {
+    if (params.id.charAt(0) === '%' || params.id.charAt(0) === '@') {
       return accountData.data?.username !== decodeURI(params.id.split('%40')[1]);
     }
     return accountData?.data?.id !== params.id;
@@ -116,7 +99,7 @@ export default function Content(params: { id: string })
             ) : null}
           </div>
           <p className='text-zinc-500 font-medium text-sm' style={{ whiteSpace: 'pre-wrap' }}>
-            {data.description}
+            {data.description.trim()}
           </p>
           <div className='flex gap-3 mb-2'>
             <p className='text-zinc-600 flex gap-1 select-none'>
@@ -130,10 +113,8 @@ export default function Content(params: { id: string })
           </div>
           {isNotOwnPage() ? (
             <Button
-              onClick={() => 
-              {
-                if (!accountData?.data?.id) 
-                {
+              onClick={() => {
+                if (!accountData?.data?.id) {
                   router.push('/auth');
                 }
                 followUser();
@@ -144,8 +125,7 @@ export default function Content(params: { id: string })
           ) : null}
           {!isNotOwnPage() ? (
             <Button
-              onClick={() => 
-              {
+              onClick={() => {
                 router.push('/edit');
               }}
             >
