@@ -90,7 +90,6 @@ export default function Register()
       })
       .catch((error) => 
       {
-        console.log(error.response.data.data.error);
         if (error.response.data.data.error === 'User already exists') 
         {
           toast.toast({

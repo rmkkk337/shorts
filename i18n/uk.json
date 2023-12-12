@@ -76,7 +76,6 @@
   "uploader": {
     "title": "Опублікувати відео | pikpok",
     "publish": "Опублікувати",
-    "video_will_look_like": "На стрічці Для Вас відео буде виглядати так:",
     "upload_label": "Натисніть або перетягніть відео сюди"
   },
   "account": {
@@ -95,5 +94,6 @@
   "url_preview": "Посиланням на ваш профіль буде",
   "edit_profile": "Редагувати профіль",
   "update_profile": "Оновити профіль",
-  "description": "Опис"
+  "description": "Опис",
+  "cancel_upload": "Відмінити завантаження"
 }

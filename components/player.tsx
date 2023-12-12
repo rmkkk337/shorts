@@ -1,17 +1,23 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FilledPauseIcon, FilledPlayIcon, Muted, Playing } from './icons/icons';
 import '@/components/player.css';
 import { Slider } from './ui/slider';
 import useOnScreen from '@/hooks/isVisible';
 import { getStorageVolume, setStorageVolume } from '@/lib/volume.localStorage';
 
-export const PlaceholderVideo = () => {
+type Props = {
+  src?: string;
+};
+
+export const PlaceholderVideo = () => 
+{
   return <div className='rounded-sm bg-zinc-300 w-64 h-[460px]'></div>;
 };
 
-export const Player = (video?: any) => {
+export const Player: React.FC<Props> = ({ src }) => 
+{
   const [playing, setPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(40);
   const [muted, setMuted] = useState<boolean>(false);
@@ -21,30 +27,39 @@ export const Player = (video?: any) => {
   const videoRef = useRef<any>(null);
   const isVisible = useOnScreen(videoRef, 0.9);
 
-  const playbackHandler = () => {
+  const playbackHandler = () => 
+  {
     if (videoRef.current == null) return;
 
-    if (videoRef.current.paused) {
+    if (videoRef.current.paused) 
+    {
       videoRef.current.play();
       setPlaying(true);
-    } else {
+    }
+    else 
+    {
       videoRef.current.pause();
       setPlaying(false);
     }
   };
 
-  const mutedHandler = () => {
+  const mutedHandler = () => 
+  {
     if (videoRef.current == null) return;
 
-    if (videoRef.current.muted) {
+    if (videoRef.current.muted) 
+    {
       videoRef.current.muted = false;
       setMuted(false);
-      if (lastMutedVolume === 0) {
+      if (lastMutedVolume === 0) 
+      {
         setVolume(20);
         return;
       }
       setVolume(lastMutedVolume);
-    } else if (videoRef.current.muted === false) {
+    }
+    else if (videoRef.current.muted === false) 
+    {
       videoRef.current.muted = true;
       setMuted(true);
       setLastVolumeMuted(volume);
@@ -52,35 +67,46 @@ export const Player = (video?: any) => {
     }
   };
 
-  const volumeHandler = (event: any) => {
-    if (volume > 0) {
+  const volumeHandler = (event: any) => 
+  {
+    if (volume > 0) 
+    {
       setMuted(false);
       videoRef.current.muted = false;
     }
     setVolume(event[0]);
   };
 
-  useEffect(() => {
-    if (isVisible) {
+  useEffect(() => 
+  {
+    if (isVisible) 
+    {
       videoRef.current.play();
-      if (!videoRef.current.paused) {
+      if (!videoRef.current.paused) 
+      {
         setPlaying(true);
       }
-    } else {
+    }
+    else 
+    {
       setPlaying(false);
       if (videoRef.current == null) return;
       videoRef.current.pause();
     }
   }, [isVisible]);
 
-  useEffect(() => {
+  useEffect(() => 
+  {
     if (videoRef.current == null) return;
     videoRef.current.volume = volume / 100;
 
-    if (videoRef.current.volume === 0) {
+    if (videoRef.current.volume === 0) 
+    {
       videoRef.current.muted = true;
       setMuted(true);
-    } else {
+    }
+    else 
+    {
       setMuted(false);
       videoRef.current.muted = false;
     }
@@ -89,28 +115,34 @@ export const Player = (video?: any) => {
     setStorageVolume(volume);
   }, [volume]);
 
-  useEffect(() => {
+  useEffect(() => 
+  {
     const vol = getStorageVolume();
     setVolume(vol);
   }, [playing]);
 
-  if (video.src == undefined) {
+  if (src == undefined) 
+  {
     return <PlaceholderVideo />;
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
+  useEffect(() => 
+  {
     if (videoRef.current == null) return;
     const localRef = videoRef.current;
 
-    localRef.addEventListener('loadeddata', () => {
+    localRef.addEventListener('loadeddata', () => 
+    {
       setLoaded(true);
     });
 
-    return () => {
+    return () => 
+    {
       if (localRef == null) return;
 
-      localRef.removeEventListener('loadeddata', () => {});
+      localRef.removeEventListener('loadeddata', () => 
+      {});
     };
   }, []);
 
@@ -121,7 +153,8 @@ export const Player = (video?: any) => {
           <div className='play-pause-button'>
             {playing ? (
               <div
-                onClick={() => {
+                onClick={() => 
+                {
                   playbackHandler();
                 }}
               >
@@ -129,7 +162,8 @@ export const Player = (video?: any) => {
               </div>
             ) : (
               <div
-                onClick={() => {
+                onClick={() => 
+                {
                   playbackHandler();
                 }}
               >
@@ -141,7 +175,8 @@ export const Player = (video?: any) => {
             <div className='mute-button mr-3'>
               {muted ? (
                 <div
-                  onClick={() => {
+                  onClick={() => 
+                  {
                     mutedHandler();
                   }}
                 >
@@ -149,7 +184,8 @@ export const Player = (video?: any) => {
                 </div>
               ) : (
                 <div
-                  onClick={() => {
+                  onClick={() => 
+                  {
                     mutedHandler();
                   }}
                 >
@@ -162,14 +198,15 @@ export const Player = (video?: any) => {
               className='w-20'
               value={[volume]}
               max={100}
-              onValueChange={(e) => {
+              onValueChange={(e) => 
+              {
                 volumeHandler(e);
               }}
             />
           </div>
         </div>
         {loaded ? null : <PlaceholderVideo />}
-        <video ref={videoRef} className={`video-video ${loaded && 'fadeInVideo'}`} src={video.src} autoPlay loop></video>
+        <video ref={videoRef} className={`video-video ${loaded && 'fadeInVideo'}`} src={src} autoPlay loop></video>
       </div>
     </div>
   );

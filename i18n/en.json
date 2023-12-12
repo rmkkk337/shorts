@@ -77,7 +77,6 @@
   "uploader": {
     "title": "Publish video | pikpok",
     "publish": "Publish",
-    "video_will_look_like": "On For You Page your video will look like this:",
     "upload_label": "Upload or drop a video right here"
   },
   "account": {
@@ -96,5 +95,6 @@
   "edit_profile": "Edit profile",
   "url_preview": "Link to your profile will look this:",
   "update_profile": "Update profile",
-  "description": "Description"
+  "description": "Description",
+  "cancel_upload": "Cancel upload"
 }

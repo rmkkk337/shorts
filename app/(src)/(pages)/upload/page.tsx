@@ -12,18 +12,30 @@ import React from 'react';
 import '@/app/globals.css';
 import i18n from '@/lib/i18n';
 import { Player } from '@/components/player';
-import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { TextArea } from '@/components/TextArea';
 import { uploadVideo } from '@/lib/uploadVideo';
+import { ChevronLeft } from 'lucide-react';
 
-export default function Page() {
+export default function Page() 
+{
   const router = useRouter();
   const load = useFirstLoad();
   const accountData: UseBoundStore<any> = useAccountData();
+  const MemoVideo = React.memo(Player);
 
-  useEffect(() => {
-    if (load.firstLoad) {
+  useEffect(() => 
+  {
+    if (document != null) 
+    {
+      document.title = `${i18n.t('uploader.title')}`;
+    }
+  }, []);
+
+  useEffect(() => 
+  {
+    if (load.firstLoad) 
+    {
       router.push('/');
       load.setFirstLoad(false);
     }
@@ -36,17 +48,29 @@ export default function Page() {
 
   return (
     <main className='h-screen flex flex-col items-center justify-center'>
-      <FileUploader
-        name='file'
-        label={i18n.t('uploader.upload_label')}
-        types={['mp4', 'mov']}
-        handleChange={(event: any) => {
-          setVideo(event);
-        }}
-      />
+      {video == null && (
+        <FileUploader
+          name='file'
+          label={i18n.t('uploader.upload_label')}
+          types={['mp4', 'mov']}
+          handleChange={(event: any) => 
+          {
+            setVideo(event);
+          }}
+        />
+      )}
       {video != null && (
         <div className='w-[50vw] mx-auto my-8'>
-          {/* <p>{i18n.t('uploader.video_will_look_like')}</p> */}
+          <p
+            onClick={() => 
+            {
+              setVideo(null);
+              setDescription('');
+            }}
+            className='flex items-center cursor-pointer hover:underline text-sm text-zinc-500 font-semibold mb-2'
+          >
+            <ChevronLeft className='text-zinc-500' /> {i18n.t('cancel_upload')}
+          </p>
           <div className='info-wrapper'>
             <div className='user-title flex items-center justify-start gap-2 mb-2'>
               <Image
@@ -56,49 +80,34 @@ export default function Page() {
                 className='rounded-full w-8 h-8 object-cover select-none'
                 alt={i18n.t('account.picture', { username: accountData.data.username })}
               />
-              <h3 className='text-lg font-medium'>{accountData.data.username}</h3>
+              <h3 className='font-medium antialiased text-zinc-600'>{accountData.data.username}</h3>
             </div>
             <p className='text-xs max-w-[250px] mb-2'>{description}</p>
           </div>
           <div>
             <div className='flex items-center'>
-              {video && <Player src={URL.createObjectURL(video as Blob)} />}
-              <div className='self-end ml-4'>
-                <div className='my-3 flex flex-col items-center'>
-                  <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
-                    <Heart size={20} />
-                  </div>
-                  <p className='font-medium text-sm select-none'>0</p>
-                </div>
-                <div className='my-3 flex flex-col items-center'>
-                  <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
-                    <MessageCircle size={20} />
-                  </div>
-                  <p className='font-medium text-sm select-none'>0</p>
-                </div>
-                <div className='my-3 flex flex-col items-center'>
-                  <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
-                    <Share2 size={20} />
-                  </div>
-                </div>
+              <div className='self-start'>
+                <MemoVideo src={URL.createObjectURL(video as Blob)} />
               </div>
-              <TextArea
-                placeholder={i18n.t('description')}
-                className='min-h-[140px] h-full ml-6'
-                onChange={(event) => setDescription(event.target.value)}
-              >
-                {description}
-              </TextArea>
+              <div className='ml-6 w-full'>
+                <TextArea
+                  placeholder={i18n.t('description')}
+                  className='min-h-[240px] h-full w-full max-w-[260px] resize-none'
+                  onChange={(event) => setDescription(event.target.value)}
+                >
+                  {description}
+                </TextArea>
+                <Button
+                  onClick={() => 
+                  {
+                    uploadVideo({ video, description });
+                  }}
+                  className='mt-2 w-full max-w-[260px]'
+                >
+                  {i18n.t('uploader.publish')}
+                </Button>
+              </div>
             </div>
-
-            <Button
-              onClick={() => {
-                uploadVideo({ video, description });
-              }}
-              className='mt-2'
-            >
-              {i18n.t('uploader.publish')}
-            </Button>
           </div>
         </div>
       )}

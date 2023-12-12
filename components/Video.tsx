@@ -1,8 +1,6 @@
-// TODO: Add loading circle while source is loading
-
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Player } from './player';
 import { MessageCircle, Share2, Heart } from 'lucide-react';
 import '@/app/globals.css';
@@ -12,6 +10,8 @@ import Image from 'next/image';
 import { Account } from '@/types/Account';
 // @ts-ignore
 import { Tagify } from 'react-tagify';
+import i18n from '@/lib/i18n';
+import Link from 'next/link';
 
 type Props = {
   video?: any;
@@ -21,18 +21,18 @@ type Props = {
   uid: string;
 };
 
-export const Video = (props: Props) => 
+export const Video: React.FC<Props> = ({ video, description, likes, comments, uid }) => 
 {
   const [liked, setLiked] = useState<boolean>(false);
   const [metadata, setMetadata] = useState<Account | null>(null);
 
   useEffect(() => 
   {
-    axios.get(`${HOST_DNS}:3001/user/${props.uid}`).then((response: any) => 
+    axios.get(`${HOST_DNS}:3001/user/${uid}`).then((response: any) => 
     {
       setMetadata(response.data.data);
     });
-  }, [props]);
+  }, [uid]);
 
   if (!metadata) return;
 
@@ -45,16 +45,18 @@ export const Video = (props: Props) =>
             width={32}
             height={32}
             className='rounded-full w-8 h-8 object-cover select-none'
-            alt={`${metadata.username} profile picture`}
+            alt={i18n.t('account.picture', { username: metadata.username })}
           />
-          <h3 className='text-lg font-medium antialiased'>{metadata.username}</h3>
+          <Link href={`/profile/@${metadata.username}`}>
+            <h3 className='font-medium antialiased text-zinc-600 hover:underline cursor-pointer'>{metadata.username}</h3>
+          </Link>
         </div>
         <Tagify>
-          <p className='text-xs max-w-[250px] mb-2 antialiased'>{props.description}</p>
+          <p className='text-xs max-w-[250px] mb-2 antialiased'>{description}</p>
         </Tagify>
       </div>
       <div className='flex'>
-        <Player notplayable src={props.video} />
+        <Player src={video} />
         <div className='self-end ml-4'>
           <div className='my-3 flex flex-col items-center'>
             <div
@@ -66,13 +68,13 @@ export const Video = (props: Props) =>
             >
               {liked ? <Heart className='like-animation select-none' size={20} fill='true' /> : <Heart className='select-none' size={20} />}
             </div>
-            <p className='font-medium text-sm select-none mt-1'>{props.likes ? props.likes : 0}</p>
+            <p className='font-medium text-sm select-none mt-1'>{likes ? likes : 0}</p>
           </div>
           <div className='my-3 flex flex-col items-center'>
             <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
               <MessageCircle size={20} />
             </div>
-            <p className='font-medium text-sm select-none mt-1'>{props.comments ? props.comments : 0}</p>
+            <p className='font-medium text-sm select-none mt-1'>{comments ? comments : 0}</p>
           </div>
           <div className='my-3 flex flex-col items-center'>
             <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
