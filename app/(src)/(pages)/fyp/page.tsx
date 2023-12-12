@@ -10,31 +10,38 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-export default function Page() {
+export default function Page() 
+{
   const router = useRouter();
   const load: any = useFirstLoad();
   const [videos, setVideos] = useState<VideoType[]>([]);
 
-  useEffect(() => {
-    if (document != null) {
+  useEffect(() => 
+  {
+    if (document != null) 
+    {
       document.title = i18n.t('fyp.title');
     }
     getVideos();
   }, []);
 
-  useEffect(() => {
-    if (load.firstLoad) {
+  useEffect(() => 
+  {
+    if (load.firstLoad) 
+    {
       router.push('/');
       load.setFirstLoad(false);
     }
   }, [load, router]);
 
-  const getVideos = async () => {
+  const getVideos = async () => 
+  {
     const videos = await axios.get(`${HOST_DNS}:3001/video/posts`);
     setVideos(videos.data.data.reverse());
   };
 
-  if (load.firstLoad) {
+  if (load.firstLoad) 
+  {
     return null;
   }
 

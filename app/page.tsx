@@ -4,8 +4,6 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import { useEffect } from 'react';
-import { getCookie } from 'cookies-next';
-import { Route } from '@/lib/account.status';
 import { HOST_DNS } from '@/lib/conf';
 
 export default function Home() 
@@ -18,33 +16,35 @@ export default function Home()
   {
     if (document) 
     {
-      const token = getCookie('access-token');
-
-      if (token !== '') 
-      {
-        axios
-          .get(`${HOST_DNS}:3001/user`, { withCredentials: true })
-          .then((response) => 
+      axios
+        .get(`${HOST_DNS}:3001/user`, { withCredentials: true })
+        .then((response) => 
+        {
+          if (response?.status === 200) 
           {
-            if (response?.status === 200) 
-            {
-              accountData.setAccountData(response.data.data);
-              router.push(accessedPage.lastAccessed.replace('%40', '@'));
-            }
-            else 
-            {
-              accessedPage.setLastAccessed(Route.fyp);
-              router.push(accessedPage.lastAccessed.replace('%40', '@'));
-            }
-          })
-          .catch((error) => 
+            accountData.setAccountData(response.data.data);
+            router.push(accessedPage.lastAccessed.replace('%40', '@'));
+            return;
+          }
+          else 
           {
-            if (error.response.data.data.error === 'User doesn`t exist') 
-            {
-              router.push('/logout');
-            }
-          });
-      }
+            router.push(accessedPage.lastAccessed.replace('%40', '@'));
+            return;
+          }
+        })
+        .catch((error) => 
+        {
+          if (error.response.data.error === 'Pikpoker isn`t authenticated') 
+          {
+            router.push(accessedPage.lastAccessed.replace('%40', '@'));
+            return;
+          }
+          if (error.response.data.data.error === 'User doesn`t exist') 
+          {
+            router.push('/logout');
+            return;
+          }
+        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
