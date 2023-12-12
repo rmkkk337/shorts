@@ -38,7 +38,8 @@ jobs:
           chmod 400 key.pem
           ssh -i key.pem ${{secrets.USERNAME}}@${{secrets.HOST_DNS}} -p 22 '
           killall next-router-worker
-          sudo -rf /home/ec2-user/shorts
+          rm -rf /home/ec2-user/shorts
+          sudo rm -rf /home/ec2-user/shorts
           '
 
       - name: Deploy to Server
