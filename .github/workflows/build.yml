@@ -39,7 +39,6 @@ jobs:
           ssh -i key.pem ${{secrets.USERNAME}}@${{secrets.HOST_DNS}} -p 22 '
           killall next-router-worker
           sudo -rf /home/ec2-user/shorts
-          nohup sudo npm start > npm_start.log 2>&1 &
           '
 
       - name: Deploy to Server
