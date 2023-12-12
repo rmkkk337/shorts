@@ -31,17 +31,6 @@ jobs:
       - name: Run build task
         run: npm run build --if-present
 
-      - name: Delete previous
-        run: |
-          touch key.pem
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
-          chmod 400 key.pem
-          ssh -i key.pem ${{secrets.USERNAME}}@${{secrets.HOST_DNS}} -p 22 '
-          killall next-router-worker
-          rm -rf /home/ec2-user/shorts
-          sudo rm -rf /home/ec2-user/shorts
-          '
-
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         with:
