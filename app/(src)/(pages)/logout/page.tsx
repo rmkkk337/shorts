@@ -18,7 +18,8 @@ export default function Page()
       deleteCookie('access-token');
     }
     accountData.clearAccountData();
-    router.push(accessedPage.lastAccessed);
+    router.push(accessedPage.lastAccessed.replace('%40', '@'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return <main></main>;

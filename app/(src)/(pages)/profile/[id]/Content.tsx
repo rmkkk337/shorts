@@ -30,6 +30,7 @@ export default function Content(params: { id: string })
       router.push('/');
       load.setFirstLoad(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [data, setData] = useState<Account | null>(null);
@@ -77,6 +78,8 @@ export default function Content(params: { id: string })
   {
     accessed.setLastAccessed(`/profile/${params.id}`);
     updateProfile();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => 

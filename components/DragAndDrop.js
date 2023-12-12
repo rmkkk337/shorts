@@ -1,3 +1,6 @@
+/* eslint-disable indent */
+/* eslint-disable brace-style */
+
 import { jsx as n, jsxs as e, Fragment as r } from 'react/jsx-runtime';
 import t, { css as o } from 'styled-components';
 import { useState as i, useCallback as a, useEffect as l, useRef as s } from 'react';

@@ -44,8 +44,7 @@ export const Header = () =>
           router.push('/fyp');
         }}
       >
-        {/* @ts-ignore */}
-        <Image src={Logo} width={20} height={20} />
+        <Image alt='' src={Logo} width={20} height={20} />
         pikpok
       </h2>
       <div className='search-bar flex-inital w-64'>

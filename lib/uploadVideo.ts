@@ -6,8 +6,10 @@ type UploadProps = {
   description: string;
 };
 
-export const uploadVideo = (props: UploadProps) => {
-  if (props.video != null) {
+export const uploadVideo = (props: UploadProps) => 
+{
+  if (props.video != null) 
+  {
     const formData = new FormData();
     formData.append('file', props.video);
     formData.append('description', props.description);

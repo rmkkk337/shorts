@@ -12,6 +12,9 @@ import AppContent from '@/components/AppContent';
 export const metadata: Metadata = {
   title: 'Welcome to pikpok | pikpok',
   description: 'Pikpok - platform to share your short videos',
+  other: {
+    'og:site_name': 'pikpok',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) 

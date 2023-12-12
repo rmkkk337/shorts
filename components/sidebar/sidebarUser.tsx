@@ -23,6 +23,7 @@ export function SidebarUser(props: Props)
   useEffect(() => 
   {
     getUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!userData) 

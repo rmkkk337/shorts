@@ -89,7 +89,8 @@
     "change_profile_picture": "Click on your profile picture to change it"
   },
   "page_error": {
-    "not_found": "Page not found. Go to"
+    "not_found": "Page not found. Go to",
+    "not_fixable": "Application just have crashed. Go to"
   },
   "profile_picture_upgrading": "Updating your profile picture. Please wait",
   "edit_profile": "Edit profile",

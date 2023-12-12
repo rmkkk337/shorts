@@ -44,6 +44,11 @@ export default function Home()
             router.push('/logout');
             return;
           }
+          else 
+          {
+            router.push('/fyp');
+            return;
+          }
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

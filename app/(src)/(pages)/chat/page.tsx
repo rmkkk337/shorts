@@ -8,7 +8,8 @@ import { useAccountData } from '@/hooks/account.actions';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-export default function Page() {
+export default function Page() 
+{
   const accountData: any = useAccountData();
   const data = accountData.data;
   const [messageText, setMessageText] = useState<string>('');
@@ -90,7 +91,8 @@ export default function Page() {
     },
   ];
 
-  function sendMessage() {
+  function sendMessage() 
+  {
     setMessages([...messages, { sender: data?.username ? data.username : 'untitled', content: messageText }]);
     setMessageText('');
   }
@@ -125,7 +127,8 @@ export default function Page() {
       <div className='messages-sidebar w-[20%] min-w-[200px] border-l bg-zinc-100 px-5 py-2 border-r border-zinc-200 h-[calc(100vh-48px)]'>
         <h1 className='text-xl font-medium py-2 border-b border-zinc-200'>{i18n.t('messages.title')}</h1>
         <div className='pt-2'>
-          {contacts.map((contact, index) => {
+          {contacts.map((contact, index) => 
+          {
             return (
               <div
                 key={index}
@@ -149,7 +152,8 @@ export default function Page() {
         </div>
         <div className='flex flex-1 flex-col overflow-hidden'>
           <div className='messages pl-4 bg-zinc-100 overflow-scroll'>
-            {messages.map((message: any, index: number) => {
+            {messages.map((message: any, index: number) => 
+            {
               return (
                 <div key={index} className='message py-2'>
                   <div className='text-sm font-medium'>{message.sender}</div>
@@ -161,14 +165,16 @@ export default function Page() {
           <div className='self-end mt-auto mb-4 mx-4 w-[96%] flex gap-2'>
             <Input
               // ref={inputFieldRef}
-              onChange={(event) => {
+              onChange={(event) => 
+              {
                 setMessageText(event.target.value);
               }}
               placeholder={i18n.t('messages.send_message')}
               className='bg-white w-full'
             />
             <Button
-              onClick={() => {
+              onClick={() => 
+              {
                 sendMessage();
               }}
             >
