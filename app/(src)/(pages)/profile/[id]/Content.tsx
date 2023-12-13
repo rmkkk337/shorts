@@ -2,15 +2,13 @@
 
 import { FirstLoadProps, useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
 import i18n from '@/lib/i18n';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { UseBoundStore } from 'zustand';
 import Image from 'next/image';
 import { Account } from '@/types/Account';
 import { Button } from '@/components/ui/button';
-import { HOST_DNS } from '@/lib/conf';
-import { Badge } from '@/components/ui/badge';
+import { followUser, getUser, isNotOwnPage } from '@/controllers/users.controller';
 
 export default function Content(params: { id: string }) 
 {
@@ -35,35 +33,11 @@ export default function Content(params: { id: string })
 
   const [data, setData] = useState<Account | null>(null);
 
-  const followUser = async () => 
-  {
-    await axios
-      .get(`${HOST_DNS}:3001/user/${data?.id}/follow`, {
-        withCredentials: true,
-      })
-      .then(() => 
-      {
-        setTimeout(async () => 
-        {
-          await updateProfile();
-        }, 200);
-      });
-  };
-
   const updateProfile = async () => 
   {
-    try 
-    {
-      const response = await axios.get(`${HOST_DNS}:3001/user/${params.id}`, {
-        withCredentials: true,
-      });
-      setIsFollowing(response.data.data.followed);
-      setData(response.data.data);
-    }
-    catch 
-    {
-      //
-    }
+    const response = await getUser(params.id);
+    setIsFollowing(response.followed);
+    setData(response);
   };
 
   useEffect(() => 
@@ -92,21 +66,12 @@ export default function Content(params: { id: string })
 
   if (!data) return;
 
-  const isNotOwnPage = () => 
-  {
-    if (params.id.charAt(0) === '%' || params.id.charAt(0) === '@') 
-    {
-      return accountData.data?.username !== decodeURI(params.id.split('%40')[1]);
-    }
-    return accountData?.data?.id !== params.id;
-  };
-
   return (
     <React.Fragment>
       <div className='account-info flex mt-3 z-50'>
         <Image
           src={data.avatarUrl}
-          className='rounded-full mr-3 w-[144px] h-[144px]'
+          className='rounded-full mr-3 w-[144px] h-[144px] object-cover'
           title={accountData.data?.id === data.id ? i18n.t('account.change_profile_picture') : i18n.t('account.picture', { username: data.username })}
           alt={i18n.t('account.picture', { username: data.username })}
           width={144}
@@ -115,11 +80,6 @@ export default function Content(params: { id: string })
         <div>
           <div className='flex items-center gap-2'>
             <h1 className='text-xl font-bold'>{data.username}</h1>
-            {data.username == 'moe' ? (
-              <Badge variant='secondary' className='h-5'>
-                CEO
-              </Badge>
-            ) : null}
           </div>
           <p className='text-zinc-500 font-medium text-sm' style={{ whiteSpace: 'pre-wrap' }}>
             {data.description.trim()}
@@ -134,21 +94,25 @@ export default function Content(params: { id: string })
               <span className='text-zinc-800 font-semibold'>{data.subscribers.length}</span>
             </p>
           </div>
-          {isNotOwnPage() ? (
+          {isNotOwnPage(params.id, accountData.data.id, accountData.data.username) ? (
             <Button
-              onClick={() => 
+              onClick={async () => 
               {
                 if (!accountData?.data?.id) 
                 {
                   router.push('/auth');
+                  return;
                 }
-                followUser();
+                const followed = await followUser(data.id);
+                if (followed) 
+                {
+                  updateProfile();
+                }
               }}
             >
               {isFollowing ? i18n.t('account.unfollow') : i18n.t('account.follow')}
             </Button>
-          ) : null}
-          {!isNotOwnPage() ? (
+          ) : (
             <Button
               onClick={() => 
               {
@@ -157,7 +121,7 @@ export default function Content(params: { id: string })
             >
               {i18n.t('edit_profile')}
             </Button>
-          ) : null}
+          )}
         </div>
       </div>
     </React.Fragment>

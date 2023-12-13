@@ -14,7 +14,7 @@ import i18n from '@/lib/i18n';
 import { Player } from '@/components/player';
 import Image from 'next/image';
 import { TextArea } from '@/components/TextArea';
-import { uploadVideo } from '@/lib/uploadVideo';
+import { uploadVideo } from '@/controllers/posts.controller';
 import { ChevronLeft } from 'lucide-react';
 
 export default function Page() 
@@ -112,7 +112,10 @@ export default function Page()
               <Button
                 onClick={() => 
                 {
-                  uploadVideo({ video, description });
+                  uploadVideo({ video, description }).then(() => 
+                  {
+                    router.push('/fyp');
+                  });
                 }}
                 className='mt-2 w-full max-w-[260px]'
               >

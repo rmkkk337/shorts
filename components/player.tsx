@@ -5,7 +5,7 @@ import { FilledPauseIcon, FilledPlayIcon, Muted, Playing } from './icons/icons';
 import '@/components/player.css';
 import { Slider } from './ui/slider';
 import useOnScreen from '@/hooks/isVisible';
-import { getStorageVolume, setStorageVolume } from '@/lib/volume.localStorage';
+import { getStorageVolume, setStorageVolume } from '@/common/player';
 
 type Props = {
   src?: string;
@@ -148,7 +148,7 @@ export const Player: React.FC<Props> = ({ src }) =>
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='video-container bg-zinc-200 rounded-md min-w-[280px]'>
+      <div className='video-container bg-black rounded-md min-w-[280px] min-h-[480px]'>
         <div className='video-controls-container flex w-full items-center justify-between'>
           <div className='play-pause-button'>
             {playing ? (

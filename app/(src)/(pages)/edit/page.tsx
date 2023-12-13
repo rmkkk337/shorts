@@ -7,13 +7,14 @@ import i18n from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { uploadImage } from '@/lib/imageUtils';
+import { uploadImage } from '@/controllers/posts.controller';
 import axios from 'axios';
 import { HOST_DNS } from '@/lib/conf';
 import { Account } from '@/types/Account';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { TextArea } from '@/components/TextArea';
+import { getUser } from '@/controllers/users.controller';
 
 export default function Page() 
 {
@@ -60,17 +61,11 @@ export default function Page()
     return null;
   }
 
-  const updateProfile = () => 
+  const updateProfile = async () => 
   {
-    axios
-      .get(`${HOST_DNS}:3001/user/${accountData.data.id}`, {
-        withCredentials: true,
-      })
-      .then((response) => 
-      {
-        setData(response.data.data);
-        accountData.setAccountData(response.data.data);
-      });
+    const response = await getUser(accountData.data.id);
+    setData(response);
+    accountData.setAccountData(response);
   };
 
   const onChangeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 

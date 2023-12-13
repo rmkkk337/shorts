@@ -10,6 +10,13 @@ export const useAccountData = create((set) => ({
   {
     set({ data: data });
   },
+  setSubscriptions: (data: Object) => 
+  {
+    set({
+      ...data,
+      subscribtions: data,
+    });
+  },
 }));
 
 export interface FirstLoadProps {

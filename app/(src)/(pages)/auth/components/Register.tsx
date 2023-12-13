@@ -3,16 +3,22 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { HOST_DNS } from '@/lib/conf';
 import i18n from '@/lib/i18n';
-import axios from 'axios';
+import { register } from '@/controllers/users.controller';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 
 export default function Register() 
 {
-  // document.title = i18n.t('register.title');
+  useEffect(() => 
+  {
+    if (document != null) 
+    {
+      document.title = i18n.t('register.title');
+    }
+  }, []);
+
   const toast = useToast();
 
   const [email, setEmail] = useState<string>('');
@@ -21,6 +27,7 @@ export default function Register()
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const router = useRouter();
 
+  // Handle login, password input changes
   const eventHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => 
   {
     const { name, value } = event.target;
@@ -54,43 +61,17 @@ export default function Register()
       return;
     }
 
-    axios
-      .post(
-        `${HOST_DNS}:3001/auth/registration`,
-        {
-          username: username,
-          email: email,
-          password: password,
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      )
-      .then(() => 
+    register(email, username, password)
+      .then((response) => 
       {
-        axios.post(
-          `${HOST_DNS}:3001/auth/login`,
-          {
-            email: email,
-            password: password,
-          },
-          {
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          }
-        );
-        router.push('/');
+        if (response === 'success') 
+        {
+          router.push('/');
+        }
       })
       .catch((error) => 
       {
-        if (error.response.data.data.error === 'User already exists') 
+        if (error === 'User already exists') 
         {
           toast.toast({
             title: i18n.t('error.already_exists.title'),

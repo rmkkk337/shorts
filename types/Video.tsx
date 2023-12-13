@@ -3,7 +3,7 @@ export type Video = {
   creatorId: string;
   description: string;
   id: string;
-  likes: number;
+  likes: string[];
   shares: number;
   url: string;
 };

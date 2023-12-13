@@ -12,29 +12,61 @@ import { Account } from '@/types/Account';
 import { Tagify } from 'react-tagify';
 import i18n from '@/lib/i18n';
 import Link from 'next/link';
+import { getLastComment, likeVideo } from '@/controllers/posts.controller';
+import { useAccountData } from '@/hooks/account.actions';
+import { getUser } from '@/controllers/users.controller';
 
 type Props = {
   video?: any;
   description: string;
-  likes?: number;
-  comments?: number;
   uid: string;
+  id: string;
 };
 
-export const Video: React.FC<Props> = ({ video, description, likes, comments, uid }) => 
+export const Video: React.FC<Props> = (props: Props) => 
 {
+  const { video, description, uid, id } = props;
   const [liked, setLiked] = useState<boolean>(false);
   const [metadata, setMetadata] = useState<Account | null>(null);
+  const [likes, setLikes] = useState<number | null>(null);
+  const [comments, setComments] = useState<number | null>(null);
+  const accountData: any = useAccountData();
+  const [lastComment, setLastComment] = useState<any>(null);
+  const [lastCommentUser, setLastCommentUser] = useState<Account | null>(null);
 
   useEffect(() => 
   {
-    axios.get(`${HOST_DNS}:3001/user/${uid}`).then((response: any) => 
+    getUser(uid).then((user) => 
     {
-      setMetadata(response.data.data);
+      setMetadata(user);
     });
   }, [uid]);
 
-  if (!metadata) return;
+  useEffect(() => 
+  {
+    axios.get(`${HOST_DNS}:3001/video/post/${id}`).then((res) => 
+    {
+      setLikes(res.data.data.likes.length);
+      setComments(res.data.data.comments.length);
+      if (accountData.data) 
+      {
+        setLiked(res.data.data.likes.includes(accountData.data.id));
+      }
+      getLastComment(id).then((response) => 
+      {
+        setLastComment(response);
+        if (response !== undefined) 
+        {
+          getUser(response.creatorId).then((user) => 
+          {
+            setLastCommentUser(user);
+          });
+        }
+      });
+    });
+  }, [liked]);
+
+  if (!metadata || likes == null) return;
 
   return (
     <div className='w-[50vw] mx-auto my-8'>
@@ -60,21 +92,22 @@ export const Video: React.FC<Props> = ({ video, description, likes, comments, ui
         <div className='self-end ml-4'>
           <div className='my-3 flex flex-col items-center'>
             <div
-              onClick={() => 
+              onClick={async () => 
               {
-                setLiked(!liked);
+                const liked = await likeVideo(id, accountData.data.id);
+                setLiked(liked);
               }}
               className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'
             >
               {liked ? <Heart className='like-animation select-none' size={20} fill='true' /> : <Heart className='select-none' size={20} />}
             </div>
-            <p className='font-medium text-sm select-none mt-1'>{likes ? likes : 0}</p>
+            <p className='font-medium text-sm select-none mt-1'>{likes}</p>
           </div>
           <div className='my-3 flex flex-col items-center'>
             <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
               <MessageCircle size={20} />
             </div>
-            <p className='font-medium text-sm select-none mt-1'>{comments ? comments : 0}</p>
+            <p className='font-medium text-sm select-none mt-1'>{comments}</p>
           </div>
           <div className='my-3 flex flex-col items-center'>
             <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
@@ -83,6 +116,25 @@ export const Video: React.FC<Props> = ({ video, description, likes, comments, ui
           </div>
         </div>
       </div>
+      {lastCommentUser != null ? (
+        <div className='bg-zinc-100 w-[280px] h-10 mt-2 rounded-sm flex items-center px-2'>
+          <Link className='flex' href={`/profile/@${lastCommentUser.username}`}>
+            <Image
+              src={lastCommentUser.avatarUrl}
+              width={32}
+              height={32}
+              className='rounded-full w-8 h-8 object-cover select-none'
+              alt={i18n.t('account.picture', { username: lastCommentUser.username })}
+            />
+            <div className='ml-2'>
+              <div className='flex'>
+                <p className='text-xs font-medium antialiased'>{lastCommentUser.username}</p>
+              </div>
+              <p className='text-xs text-zinc-800 antialiased'>{lastComment.text}</p>
+            </div>
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 };

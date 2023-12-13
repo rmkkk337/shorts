@@ -4,17 +4,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import i18n from '@/lib/i18n';
-import axios from 'axios';
 import { useAccountData } from '@/hooks/account.actions';
 import React from 'react';
-import { isEmail } from '@/lib/isEmail';
-import { HOST_DNS } from '@/lib/conf';
+import { isEmail } from '@/common/regex';
+import { login } from '@/controllers/users.controller';
 
 export default function Login() 
 {
-  // document.title = i18n.t('login.title');
+  useEffect(() => 
+  {
+    if (document != null) 
+    {
+      document.title = i18n.t('login.title');
+    }
+  }, []);
 
   const router = useRouter();
   const toast = useToast();
@@ -23,6 +28,7 @@ export default function Login()
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  // Handle login, password input changes
   const eventHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => 
   {
     const { name, value } = event.target;
@@ -37,7 +43,9 @@ export default function Login()
       break;
     }
   };
-  const handleSubmit = () => 
+
+  // Handles login button click
+  const handleSubmit = async () => 
   {
     setPassword('');
 
@@ -61,35 +69,15 @@ export default function Login()
       return;
     }
 
-    axios
-      .post(
-        `${HOST_DNS}:3001/auth/login`,
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      )
+    login(email, password)
       .then((response) => 
       {
-        if (response.data.status === 200) 
-        {
-          axios.get(`${HOST_DNS}:3001/user/`, { withCredentials: true }).then((response) => 
-          {
-            accountData.setAccountData(response.data.data);
-            router.push('/');
-          });
-        }
+        accountData.setAccountData(response);
+        router.push('/');
       })
       .catch((error) => 
       {
-        if (error.response.data.data.error === 'Incorrect password') 
+        if (error == 'Incorrect password') 
         {
           toast.toast({
             title: i18n.t('error.incorrect_password.title'),
@@ -97,7 +85,7 @@ export default function Login()
             variant: 'destructive',
           });
         }
-        else if (error.response.data.data.error === 'User doesn`t exist') 
+        else if (error == "User doesn't exist") 
         {
           toast.toast({
             title: i18n.t('error.user_doesnt_exist.title'),
