@@ -6,9 +6,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SidebarUser } from './sidebarUser';
 import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import SidebarLink from '../SidebarLink';
-// import { useEffect } from 'react';
-// import axios from 'axios';
-// import { HOST_DNS } from '@/lib/conf';
 
 export const Sidebar = () => 
 {
@@ -17,22 +14,7 @@ export const Sidebar = () =>
 
   const accountData: any = useAccountData();
   const accessedPage: any = useAccessedPage();
-  // const [subscribtions, setSubscribtions] = useState<Account[]>([]);
   const data = accountData.data;
-
-  // const getInfo = () =>
-  // {
-  //   axios.get(`${HOST_DNS}:3001/user`, { withCredentials: true }).then((res) =>
-  //   {
-  //     accountData.setSubscriptions(res.data.data.subscribtions);
-  //     setSubscribtions(accountData.data.subscribtions);
-  //   });
-  // };
-
-  // useEffect(() =>
-  // {
-  //   getInfo();
-  // }, [pathname]);
 
   return (
     <div className='w-[170px] h-screen mx-6 mt-2 fixed top-14 block mr-15 left-0 z-10'>
