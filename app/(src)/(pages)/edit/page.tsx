@@ -2,7 +2,7 @@
 'use client';
 
 // import { Video } from '@/components/Video';
-import { useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
+import { AccessedPageStore, AccountStore, FirstLoadStore, useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
 import i18n from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -30,9 +30,9 @@ export default function Page()
     }
   }, []);
 
-  const load: any = useFirstLoad();
-  const accountData: any = useAccountData();
-  const accessedPage: any = useAccessedPage();
+  const load: FirstLoadStore = useFirstLoad();
+  const accountData: AccountStore = useAccountData();
+  const accessedPage: AccessedPageStore = useAccessedPage();
   const [usernameValue, setUsernameValue] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
@@ -42,7 +42,6 @@ export default function Page()
     {
       accessedPage.setLastAccessed('/edit');
       router.push('/');
-      load.setFirstLoad(false);
     }
   }, [load, router]);
 
@@ -63,9 +62,12 @@ export default function Page()
 
   const updateProfile = async () => 
   {
-    const response = await getUser(accountData.data.id);
-    setData(response);
-    accountData.setAccountData(response);
+    if (accountData.data && accountData.data.id) 
+    {
+      const response = await getUser(accountData.data.id);
+      setData(response);
+      accountData.setAccountData(response);
+    }
   };
 
   const onChangeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
@@ -86,7 +88,7 @@ export default function Page()
 
   const updateUser = () => 
   {
-    if (usernameValue.length >= 2) 
+    if (usernameValue.length >= 2 && accountData.data) 
     {
       axios
         .patch(

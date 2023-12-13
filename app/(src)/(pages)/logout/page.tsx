@@ -1,6 +1,6 @@
 'use client';
 
-import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
+import { AccessedPageStore, AccountStore, useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -8,8 +8,8 @@ import { useEffect } from 'react';
 export default function Page() 
 {
   const router = useRouter();
-  const accountData: any = useAccountData();
-  const accessedPage: any = useAccessedPage();
+  const accountData: AccountStore = useAccountData();
+  const accessedPage: AccessedPageStore = useAccessedPage();
 
   useEffect(() => 
   {

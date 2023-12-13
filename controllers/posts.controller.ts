@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { HOST_DNS } from '../lib/conf';
 import { Video } from '@/types/Video';
+import { Comment } from '@/types/Account';
 
 type UploadProps = {
   video: string | Blob;
@@ -76,7 +77,7 @@ export const likeVideo = async (id: string, uid: string): Promise<boolean> =>
 /**
   @name Upload image to server
   @param { File } image - Profile picture
-  @param { any } data - User data
+  @param { Account } data - User data
   @returns { void }
 */
 
@@ -123,12 +124,6 @@ export const getVideos = (): Promise<Video[]> =>
       })
       .catch((error) => reject(error));
   });
-};
-
-type Comment = {
-  id: string;
-  creatorId: string;
-  text: string;
 };
 
 export const getLastComment = (id: string): Promise<Comment> => 

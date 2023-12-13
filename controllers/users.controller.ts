@@ -24,7 +24,7 @@ export const followUser = (id: string): Promise<boolean> =>
   });
 };
 
-export const login = (email: string, password: string): Promise<object | string> => 
+export const login = (email: string, password: string): Promise<Account> => 
 {
   return new Promise((resolve, reject) => 
   {
@@ -126,7 +126,7 @@ export const register = (email: string, username: string, password: string): Pro
  * @returns True if requested page is not current account page, false otherwise
  */
 
-export const isNotOwnPage = (id: string, accountID: string, accountUsername: string): boolean => 
+export const isNotOwnPage = (id: string, accountID: string | undefined, accountUsername: string | undefined): boolean => 
 {
   if (accountID === undefined || accountUsername === undefined) 
   {

@@ -6,7 +6,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import i18n from '@/lib/i18n';
-import { useAccountData } from '@/hooks/account.actions';
+import { AccountStore, useAccountData } from '@/hooks/account.actions';
 import React from 'react';
 import { isEmail } from '@/common/regex';
 import { login } from '@/controllers/users.controller';
@@ -23,7 +23,7 @@ export default function Login()
 
   const router = useRouter();
   const toast = useToast();
-  const accountData: any = useAccountData();
+  const accountData: AccountStore = useAccountData();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');

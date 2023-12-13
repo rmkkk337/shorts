@@ -1,10 +1,9 @@
 'use client';
 
-import { FirstLoadProps, useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
+import { AccessedPageStore, AccountStore, FirstLoadStore, useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
 import i18n from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { UseBoundStore } from 'zustand';
 import Image from 'next/image';
 import { Account } from '@/types/Account';
 import { Button } from '@/components/ui/button';
@@ -12,12 +11,11 @@ import { followUser, getUser, isNotOwnPage } from '@/controllers/users.controlle
 
 export default function Content(params: { id: string }) 
 {
-  const load: FirstLoadProps = useFirstLoad();
-  const accessed: any = useAccessedPage();
+  const load: FirstLoadStore = useFirstLoad();
+  const accountData: AccountStore = useAccountData();
+  const accessedPage: AccessedPageStore = useAccessedPage();
   const router = useRouter();
-  const accountData: UseBoundStore<any> = useAccountData();
   const [isFollowing, setIsFollowing] = useState<Boolean>(false);
-  const accessedPage: any = useAccessedPage();
 
   useEffect(() => 
   {
@@ -26,7 +24,6 @@ export default function Content(params: { id: string })
     if (load.firstLoad) 
     {
       router.push('/');
-      load.setFirstLoad(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -50,7 +47,7 @@ export default function Content(params: { id: string })
 
   useLayoutEffect(() => 
   {
-    accessed.setLastAccessed(`/profile/${params.id}`);
+    accessedPage.setLastAccessed(`/profile/${params.id}`);
     updateProfile();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,7 +61,7 @@ export default function Content(params: { id: string })
     }
   }, [data]);
 
-  if (!data) return;
+  if (!data || load.firstLoad) return null;
 
   return (
     <React.Fragment>

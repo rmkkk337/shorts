@@ -1,5 +1,11 @@
+type Comment = {
+  id: string;
+  creatorId: string;
+  text: string;
+};
+
 export type Video = {
-  comments: unknown[];
+  comments: Comment[];
   creatorId: string;
   description: string;
   id: string;

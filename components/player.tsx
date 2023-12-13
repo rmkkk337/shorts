@@ -24,7 +24,7 @@ export const Player: React.FC<Props> = ({ src }) =>
   const [lastMutedVolume, setLastVolumeMuted] = useState<number>(0);
   const [loaded, setLoaded] = useState<boolean>(false);
 
-  const videoRef = useRef<any>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isVisible = useOnScreen(videoRef, 0.9);
 
   const playbackHandler = () => 
@@ -67,9 +67,9 @@ export const Player: React.FC<Props> = ({ src }) =>
     }
   };
 
-  const volumeHandler = (event: any) => 
+  const volumeHandler = (event: number[]) => 
   {
-    if (volume > 0) 
+    if (volume > 0 && videoRef.current) 
     {
       setMuted(false);
       videoRef.current.muted = false;
@@ -79,7 +79,7 @@ export const Player: React.FC<Props> = ({ src }) =>
 
   useEffect(() => 
   {
-    if (isVisible) 
+    if (isVisible && videoRef.current) 
     {
       videoRef.current.play();
       if (!videoRef.current.paused) 

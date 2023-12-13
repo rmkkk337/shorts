@@ -2,15 +2,16 @@
 
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
+import { AccessedPageStore, AccountStore, FirstLoadStore, useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
 import { useEffect } from 'react';
 import { HOST_DNS } from '@/lib/conf';
 
 export default function Home() 
 {
   const router = useRouter();
-  const accountData: any = useAccountData();
-  const accessedPage: any = useAccessedPage();
+  const accountData: AccountStore = useAccountData();
+  const accessedPage: AccessedPageStore = useAccessedPage();
+  const load: FirstLoadStore = useFirstLoad();
 
   useEffect(() => 
   {
@@ -23,11 +24,13 @@ export default function Home()
           if (response?.status === 200) 
           {
             accountData.setAccountData(response.data.data);
+            load.setFirstLoad(false);
             router.push(accessedPage.lastAccessed.replace('%40', '@'));
             return;
           }
           else 
           {
+            load.setFirstLoad(false);
             router.push(accessedPage.lastAccessed.replace('%40', '@'));
             return;
           }
@@ -36,21 +39,25 @@ export default function Home()
         {
           if (error.response.data.error === 'Pikpoker isn`t authenticated') 
           {
+            load.setFirstLoad(false);
             router.push(accessedPage.lastAccessed.replace('%40', '@'));
             return;
           }
           if (error.response.data.data.error === 'User doesn`t exist') 
           {
+            load.setFirstLoad(false);
             router.push('/logout');
             return;
           }
           else if (error.response.status === 403) 
           {
+            load.setFirstLoad(false);
             router.push(accessedPage.lastAccessed.replace('%40', '@'));
             return;
           }
           else 
           {
+            load.setFirstLoad(false);
             router.push('/fyp');
             return;
           }

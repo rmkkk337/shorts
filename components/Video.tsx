@@ -7,17 +7,19 @@ import '@/app/globals.css';
 import { HOST_DNS } from '@/lib/conf';
 import axios from 'axios';
 import Image from 'next/image';
-import { Account } from '@/types/Account';
+import { Account, Comment } from '@/types/Account';
 // @ts-ignore
 import { Tagify } from 'react-tagify';
 import i18n from '@/lib/i18n';
 import Link from 'next/link';
 import { getLastComment, likeVideo } from '@/controllers/posts.controller';
-import { useAccountData } from '@/hooks/account.actions';
+import { AccountStore, useAccountData } from '@/hooks/account.actions';
 import { getUser } from '@/controllers/users.controller';
+import { useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 type Props = {
-  video?: any;
+  video?: string;
   description: string;
   uid: string;
   id: string;
@@ -30,9 +32,10 @@ export const Video: React.FC<Props> = (props: Props) =>
   const [metadata, setMetadata] = useState<Account | null>(null);
   const [likes, setLikes] = useState<number | null>(null);
   const [comments, setComments] = useState<number | null>(null);
-  const accountData: any = useAccountData();
-  const [lastComment, setLastComment] = useState<any>(null);
+  const accountData: AccountStore = useAccountData();
+  const [lastComment, setLastComment] = useState<Comment | null>(null);
   const [lastCommentUser, setLastCommentUser] = useState<Account | null>(null);
+  const router: AppRouterInstance = useRouter();
 
   useEffect(() => 
   {
@@ -69,7 +72,7 @@ export const Video: React.FC<Props> = (props: Props) =>
   if (!metadata || likes == null) return;
 
   return (
-    <div className='w-[50vw] mx-auto my-8'>
+    <div className='w-[50vw] mx-auto my-8 snap-center'>
       <div className='info-wrapper'>
         <div className='user-title flex items-center justify-start gap-2 mb-2 select-none'>
           <Image
@@ -94,17 +97,26 @@ export const Video: React.FC<Props> = (props: Props) =>
             <div
               onClick={async () => 
               {
-                const liked = await likeVideo(id, accountData.data.id);
-                setLiked(liked);
+                if (accountData.data?.id) 
+                {
+                  const liked = await likeVideo(id, accountData.data.id);
+                  setLiked(liked);
+                }
               }}
               className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'
             >
-              {liked ? <Heart className='like-animation select-none' size={20} fill='true' /> : <Heart className='select-none' size={20} />}
+              {liked ? <Heart className='like-animation select-none ' size={20} fill='true' /> : <Heart className='select-none' size={20} />}
             </div>
             <p className='font-medium text-sm select-none mt-1'>{likes}</p>
           </div>
           <div className='my-3 flex flex-col items-center'>
-            <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
+            <div
+              className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'
+              onClick={() => 
+              {
+                router.push(`/video/${id}`);
+              }}
+            >
               <MessageCircle size={20} />
             </div>
             <p className='font-medium text-sm select-none mt-1'>{comments}</p>
@@ -116,7 +128,7 @@ export const Video: React.FC<Props> = (props: Props) =>
           </div>
         </div>
       </div>
-      {lastCommentUser != null ? (
+      {lastCommentUser && lastComment ? (
         <div className='bg-zinc-100 w-[280px] h-10 mt-2 rounded-sm flex items-center px-2'>
           <Link className='flex' href={`/profile/@${lastCommentUser.username}`}>
             <Image

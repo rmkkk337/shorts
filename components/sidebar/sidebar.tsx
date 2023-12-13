@@ -4,7 +4,7 @@ import i18n from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter } from 'next/navigation';
 import { SidebarUser } from './sidebarUser';
-import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
+import { AccessedPageStore, AccountStore, useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import SidebarLink from '../SidebarLink';
 
 export const Sidebar = () => 
@@ -12,8 +12,8 @@ export const Sidebar = () =>
   const pathname = usePathname();
   const router = useRouter();
 
-  const accountData: any = useAccountData();
-  const accessedPage: any = useAccessedPage();
+  const accountData: AccountStore = useAccountData();
+  const accessedPage: AccessedPageStore = useAccessedPage();
   const data = accountData.data;
 
   return (
@@ -29,10 +29,10 @@ export const Sidebar = () =>
           {i18n.t('header.dropdown.profile')}
         </SidebarLink>
       </div>
-      {data ? (
+      {data && accountData.data ? (
         <div className='h-full overflow-y-scroll'>
           <p className='text-xs text-zinc-400 font-medium mt-2 select-none'>{i18n.t('sidebar.following')}</p>
-          {accountData.data.subscribtions.map((user: any) => (
+          {accountData.data.subscribtions.map((user: string) => (
             <SidebarUser key={user} uid={user} />
           ))}
         </div>

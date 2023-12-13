@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAccessedPage, useAccountData } from '@/hooks/account.actions';
+import { AccessedPageStore, AccountStore, useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import Link from 'next/link';
 // import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
@@ -21,8 +21,8 @@ import Logo from '@/app/favicon.png';
 export const Header = () => 
 {
   const router = useRouter();
-  const accountData: any = useAccountData();
-  const accessedPage: any = useAccessedPage();
+  const accountData: AccountStore = useAccountData();
+  const accessedPage: AccessedPageStore = useAccessedPage();
   const data = accountData.data;
 
   function handleUploadButton() 
@@ -65,7 +65,7 @@ export const Header = () =>
         >
           {i18n.t('header.upload')}
         </Button>
-        {data ? (
+        {accountData.data && data ? (
           <DropdownMenu>
             <DropdownMenuTrigger className='outline-none focus-within:outline-none focus:outline-none'>
               <Image

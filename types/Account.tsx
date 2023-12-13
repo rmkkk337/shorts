@@ -1,5 +1,5 @@
 export interface Account {
-  id: string;
+  id: string | undefined;
   username: string;
   avatarUrl: string;
   subscribers: string[];
@@ -7,3 +7,9 @@ export interface Account {
   followed: boolean;
   description: string;
 }
+
+export type Comment = {
+  id: string;
+  creatorId: string;
+  text: string;
+};

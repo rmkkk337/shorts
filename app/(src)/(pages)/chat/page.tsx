@@ -4,13 +4,18 @@ import { SendHorizontal } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import i18n from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
-import { useAccountData } from '@/hooks/account.actions';
+import { AccountStore, useAccountData } from '@/hooks/account.actions';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
+type Message = {
+  sender: string;
+  content: string;
+};
+
 export default function Page() 
 {
-  const accountData: any = useAccountData();
+  const accountData: AccountStore = useAccountData();
   const data = accountData.data;
   const [messageText, setMessageText] = useState<string>('');
   // const inputFieldRef = React.useRef<HTMLInputElement>(null);
@@ -82,7 +87,7 @@ export default function Page()
     },
   ];
 
-  const [messages, setMessages] = useState<any>(messagesOld);
+  const [messages, setMessages] = useState<Message[]>(messagesOld);
 
   const contacts = [
     {
@@ -152,7 +157,7 @@ export default function Page()
         </div>
         <div className='flex flex-1 flex-col overflow-hidden'>
           <div className='messages pl-4 bg-zinc-100 overflow-scroll'>
-            {messages.map((message: any, index: number) => 
+            {messages.map((message: Message, index: number) => 
             {
               return (
                 <div key={index} className='message py-2'>

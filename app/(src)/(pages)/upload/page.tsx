@@ -5,8 +5,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FileUploader } from '@/components/DragAndDrop';
 import { useRouter } from 'next/navigation';
-import { useAccountData, useFirstLoad } from '@/hooks/account.actions';
-import { UseBoundStore } from 'zustand';
+import { AccountStore, useAccountData, useFirstLoad } from '@/hooks/account.actions';
 import { Button } from '@/components/ui/button';
 import React from 'react';
 import '@/app/globals.css';
@@ -21,7 +20,7 @@ export default function Page()
 {
   const router = useRouter();
   const load = useFirstLoad();
-  const accountData: UseBoundStore<any> = useAccountData();
+  const accountData: AccountStore = useAccountData();
 
   useEffect(() => 
   {
@@ -36,7 +35,6 @@ export default function Page()
     if (load.firstLoad) 
     {
       router.push('/');
-      load.setFirstLoad(false);
     }
   }, [load, router]);
 
@@ -61,7 +59,7 @@ export default function Page()
           name='file'
           label={i18n.t('uploader.upload_label')}
           types={['mp4', 'mov']}
-          handleChange={(event: any) => 
+          handleChange={(event: File) => 
           {
             setVideo(event);
           }}
@@ -72,7 +70,7 @@ export default function Page()
 
   return (
     <main className='h-screen flex flex-col items-center justify-center'>
-      <div className='w-[50vw] mx-auto my-8'>
+      <div className='w-[50vw] mx-auto py-8'>
         <p
           onClick={() => 
           {

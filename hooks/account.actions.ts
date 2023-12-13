@@ -1,31 +1,40 @@
+/* eslint-disable no-unused-vars */
+import { Account } from '@/types/Account';
 import { create } from 'zustand';
 
-export const useAccountData = create((set) => ({
+export type AccountStore = {
+  clearAccountData: () => void;
+  data: Account | null;
+  setAccountData: (data: Account) => void;
+  setSubscriptions: (data: Account) => void;
+};
+
+export const useAccountData = create<AccountStore>((set) => ({
   data: null,
   clearAccountData: () => 
   {
     set({ data: null });
   },
-  setAccountData: (data: Object) => 
+  setAccountData: (data: Account) => 
   {
-    set({ data: data });
+    set({ data });
   },
-  setSubscriptions: (data: Object) => 
+  setSubscriptions: (data: Account) => 
   {
     set({
       ...data,
-      subscribtions: data,
+      // @ts-ignore
+      subscriptions: data,
     });
   },
 }));
 
-export interface FirstLoadProps {
+export type FirstLoadStore = {
   firstLoad: boolean;
-  // eslint-disable-next-line no-unused-vars
   setFirstLoad: (value: boolean) => void;
-}
+};
 
-export const useFirstLoad = create<FirstLoadProps>((set) => ({
+export const useFirstLoad = create<FirstLoadStore>((set) => ({
   firstLoad: true,
   setFirstLoad: (value: boolean) => 
   {
@@ -33,7 +42,12 @@ export const useFirstLoad = create<FirstLoadProps>((set) => ({
   },
 }));
 
-export const useAccessedPage = create((set) => ({
+export type AccessedPageStore = {
+  lastAccessed: string;
+  setLastAccessed: (value: string) => void;
+};
+
+export const useAccessedPage = create<AccessedPageStore>((set) => ({
   lastAccessed: '/fyp',
   setLastAccessed: (value: string) => 
   {
