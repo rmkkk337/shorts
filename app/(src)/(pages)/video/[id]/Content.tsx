@@ -13,10 +13,14 @@ export default function Content(params: { id: string })
 {
   const [video, setVideo] = useState<VideoType | null>(null);
   const router = useRouter();
-  axios.get(`${HOST_DNS}:3001/video/post/${params.id}`).then((response) => 
+
+  useEffect(() => 
   {
-    setVideo(response.data.data);
-  });
+    axios.get(`${HOST_DNS}:3001/video/post/${params.id}`).then((response) => 
+    {
+      setVideo(response.data.data);
+    });
+  }, [params.id]);
 
   const load: FirstLoadStore = useFirstLoad();
   const accessedPage: AccessedPageStore = useAccessedPage();
@@ -25,7 +29,7 @@ export default function Content(params: { id: string })
   {
     if (load.firstLoad) 
     {
-      accessedPage.setLastAccessed(`/video/${params.id}`)
+      accessedPage.setLastAccessed(`/video/${params.id}`);
       router.push('/');
     }
   }, [load, router]);

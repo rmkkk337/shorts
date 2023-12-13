@@ -67,7 +67,7 @@ export const Video: React.FC<Props> = (props: Props) =>
         }
       });
     });
-  }, [liked, accountData.data, id]);
+  }, [liked]);
 
   if (!metadata || likes == null) return <div></div>;
 
