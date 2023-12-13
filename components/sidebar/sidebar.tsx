@@ -25,9 +25,11 @@ export const Sidebar = () =>
         <SidebarLink pathname={pathname} url='/following'>
           {i18n.t('fyp.following')}
         </SidebarLink>
-        <SidebarLink pathname={pathname} url={`/profile/@${accountData.data?.username}`}>
-          {i18n.t('header.dropdown.profile')}
-        </SidebarLink>
+        {accountData.data?.username && (
+          <SidebarLink pathname={pathname} url={`/profile/@${accountData.data?.username}`}>
+            {i18n.t('header.dropdown.profile')}
+          </SidebarLink>
+        )}
       </div>
       {data && accountData.data ? (
         <div className='h-full overflow-y-scroll'>
