@@ -67,9 +67,9 @@ export const Video: React.FC<Props> = (props: Props) =>
         }
       });
     });
-  }, [liked]);
+  }, [liked, accountData.data, id]);
 
-  if (!metadata || likes == null) return;
+  if (!metadata || likes == null) return <div></div>;
 
   return (
     <div className='w-[50vw] mx-auto my-8 snap-center'>

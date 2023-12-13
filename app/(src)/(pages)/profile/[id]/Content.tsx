@@ -69,7 +69,7 @@ export default function Content(params: { id: string })
         <Image
           src={data.avatarUrl}
           className='rounded-full mr-3 w-[144px] h-[144px] object-cover'
-          title={accountData.data?.id === data.id ? i18n.t('account.change_profile_picture') : i18n.t('account.picture', { username: data.username })}
+          title={i18n.t('account.picture', { username: data.username })}
           alt={i18n.t('account.picture', { username: data.username })}
           width={144}
           height={144}
@@ -100,10 +100,13 @@ export default function Content(params: { id: string })
                   router.push('/auth');
                   return;
                 }
-                const followed = await followUser(data.id);
-                if (followed) 
+                if (data.id) 
                 {
-                  updateProfile();
+                  const followed = await followUser(data.id);
+                  if (followed) 
+                  {
+                    updateProfile();
+                  }
                 }
               }}
             >

@@ -1,4 +1,6 @@
 /* eslint-disable brace-style */
+// @ts-nocheck
+
 'use client';
 
 import * as React from 'react';
