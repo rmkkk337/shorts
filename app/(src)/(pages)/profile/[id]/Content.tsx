@@ -94,7 +94,7 @@ export default function Content(params: { id: string })
               <span className='text-zinc-800 font-semibold'>{data.subscribers.length}</span>
             </p>
           </div>
-          {isNotOwnPage(params.id, accountData.data.id, accountData.data.username) ? (
+          {isNotOwnPage(params.id, accountData.data?.id, accountData.data?.username) ? (
             <Button
               onClick={async () => 
               {

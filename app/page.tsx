@@ -44,6 +44,11 @@ export default function Home()
             router.push('/logout');
             return;
           }
+          else if (error.response.status === 403) 
+          {
+            router.push(accessedPage.lastAccessed.replace('%40', '@'));
+            return;
+          }
           else 
           {
             router.push('/fyp');

@@ -128,6 +128,10 @@ export const register = (email: string, username: string, password: string): Pro
 
 export const isNotOwnPage = (id: string, accountID: string, accountUsername: string): boolean => 
 {
+  if (accountID === undefined || accountUsername === undefined) 
+  {
+    return true;
+  }
   if (id.charAt(0) === '%' || id.charAt(0) === '@') 
   {
     return accountUsername !== decodeURI(id.split('%40')[1]);
