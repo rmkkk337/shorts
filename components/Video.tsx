@@ -71,7 +71,7 @@ export const Video: React.FC<Props> = (props: Props) =>
   if (!metadata || likes == null) return <div></div>;
 
   return (
-    <div className='sm:w-[50vw] mx-auto my-8 snap-center'>
+    <div className='sm:w-[50vw] mx-auto my-8 snap-start snap-margin'>
       <div className='info-wrapper'>
         <Link className='user-title flex items-center justify-start gap-2 mb-2 select-none' href={`/profile/@${metadata.username}`}>
           <Image

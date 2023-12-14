@@ -4,6 +4,7 @@
 
 html {
   scroll-snap-type: y mandatory;
+  scroll-snap-stop: always;
 }
 
 *,
@@ -11,7 +12,11 @@ html {
 *::after {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: auto;
-  font-family: var(--pikpokui-font);
+  /* font-family: var(--pikpokui-font); */
+}
+
+.snap-margin {
+  scroll-margin-top: 90px;
 }
 
 @layer base {

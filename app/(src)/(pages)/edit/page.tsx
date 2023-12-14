@@ -123,7 +123,7 @@ export default function Page()
       >
         {uploading && <p className='text-white font-semibold'>{i18n.t('profile_picture_upgrading')}</p>}
       </div>
-      <div className='z-50 mr-3 min-w-[355px]'>
+      <div className='z-50 mx-3 min-w-[355px]'>
         <h1 className='text-2xl font-bold mt-2 ml-2 mb-2 select-none'>{i18n.t('edit_profile')}</h1>
         <label htmlFor='pfpUploader' className='mr-4 cursor-pointer w-[144px] flex items-center justify-center'>
           <div className='overflow-hidden rounded-full flex object-fill select-none w-[144px]'>
