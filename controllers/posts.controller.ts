@@ -36,12 +36,17 @@ export const uploadVideo = (props: UploadProps): Promise<string | object> =>
   });
 };
 
-export const getVideo = async (id: string): Promise<Video> => 
-{
-  return axios.get(`${HOST_DNS}:3001/video/posts/${id}/like`, {
-    withCredentials: true,
-  });
-};
+// export const getVideo = async (id: string): Promise<Video> =>
+// {
+//   return axios
+//     .get(`${HOST_DNS}:3001/video/posts/${id}/like`, {
+//       withCredentials: true,
+//     })
+//     .then((res) =>
+//     {
+//       return res.data.data;
+//     });
+// };
 
 /**
   @param {string} id Video id
@@ -51,21 +56,34 @@ export const getVideo = async (id: string): Promise<Video> =>
 
 export const likeVideo = async (id: string, uid: string): Promise<boolean> => 
 {
-  getVideo(id).then(() => 
+  return new Promise((resolve, reject) => 
   {
-    getVideo(id).then((res: Video) => 
+    try 
     {
-      if (res.likes.includes(uid)) 
-      {
-        return true;
-      }
-      else 
-      {
-        return false;
-      }
-    });
+      axios
+        .get(`${HOST_DNS}:3001/video/posts/${id}/like`, {
+          withCredentials: true,
+        })
+        .then(() => 
+        {
+          axios.get(`${HOST_DNS}:3001/video/post/${id}/`).then((res) => 
+          {
+            if (res.data.data.likes.includes(uid)) 
+            {
+              resolve(true);
+            }
+            else 
+            {
+              resolve(false);
+            }
+          });
+        });
+    }
+    catch (error) 
+    {
+      reject(error);
+    }
   });
-  return false;
 };
 
 /**
