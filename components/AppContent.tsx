@@ -6,5 +6,9 @@ interface AppContentProps {
 
 export default function AppContent(AppContentProps: AppContentProps) 
 {
-  return <main className='mt-12 ml-60 flex flex-col w-[calc(100vw-240px)] h-[calc(100vh-48px)]'>{AppContentProps.children}</main>;
+  return (
+    <main className='mt-12 sm:ml-60 w-screen items-center sm:items-start flex flex-col sm:w-[calc(100vw-240px)] h-[calc(100vh-48px)]'>
+      {AppContentProps.children}
+    </main>
+  );
 }

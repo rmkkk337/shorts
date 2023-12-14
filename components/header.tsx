@@ -47,7 +47,7 @@ export const Header = () =>
         <Image alt='' src={Logo} width={20} height={20} />
         pikpok
       </h2>
-      <div className='search-bar flex-inital w-64'>
+      <div className='search-bar flex-inital w-40 sm:w-64'>
         <Input placeholder={i18n.t('header.search')} className='h-8' />
       </div>
       <div className='action-buttons flex gap-2 items-center'>
@@ -55,9 +55,10 @@ export const Header = () =>
         {/* <Link href='/chat'>
           <MessageSquare />
         </Link> */}
+        {/* In future instead of hiding dl button replace it with icon */}
         <Button
           variant='outline'
-          className='h-8 text-black'
+          className='h-8 text-black hidden sm:flex'
           onClick={() => 
           {
             handleUploadButton();
@@ -69,7 +70,7 @@ export const Header = () =>
           <DropdownMenu>
             <DropdownMenuTrigger className='outline-none focus-within:outline-none focus:outline-none'>
               <Image
-                className='rounded-full w-8 h-8 object-cover select-none'
+                className='rounded-full min-w-8 w-8 h-8 object-cover select-none'
                 src={accountData.data.avatarUrl}
                 alt={i18n.t('account.picture', { username: accountData.data.username })}
                 height={64}

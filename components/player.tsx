@@ -88,7 +88,14 @@ export const Player: React.FC<Props> = ({ src, videoID }) =>
       {
         videoStore.setVideoID(videoID);
         videoStore.setIsPlaying(true);
-        videoRef.current.play();
+        try 
+        {
+          videoRef.current.play();
+        }
+        catch 
+        {
+          //
+        }
         setPlaying(!videoRef.current.paused);
       }
     }
@@ -217,7 +224,7 @@ export const Player: React.FC<Props> = ({ src, videoID }) =>
           </div>
         </div>
         {loaded ? null : <PlaceholderVideo />}
-        <video ref={videoRef} className={`video-video ${loaded && 'fadeInVideo'}`} src={src} autoPlay loop></video>
+        <video playsInline preload='auto' ref={videoRef} className={`video-video ${loaded && 'fadeInVideo'}`} src={src} autoPlay loop></video>
       </div>
     </div>
   );

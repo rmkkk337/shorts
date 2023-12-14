@@ -40,7 +40,7 @@ export default function Page()
   }
 
   return (
-    <div className='videos-wrapper flex flex-col items-center w-[calc(100vw-170px)]'>
+    <div className='videos-wrapper flex flex-col items-center'>
       {videos.map((video: VideoType) => (
         <Video key={video.id} id={video.id} uid={video.creatorId} description={video.description} video={video.url} />
       ))}
