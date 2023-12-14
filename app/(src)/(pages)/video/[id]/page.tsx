@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 
     return {
       title: `pikpok · ${profile.username}`,
-      description: `Likes ${video.likes.length}, comments: ${video.comments.length}. ${video.description ? `«${video.description}»` : null}`,
+      description: `Likes ${video.likes.length}, comments: ${video.comments.length}. ${video.description ? `«${video.description}»` : ''}`,
       openGraph: {
         images: [video.url],
       },
