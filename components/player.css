@@ -42,10 +42,6 @@
   justify-content: center;
 }
 
-.play-pause-button {
-  margin-right: 80%;
-}
-
 @keyframes fadeInVideo {
   0% {
     display: hidden;

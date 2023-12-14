@@ -29,6 +29,22 @@ export const Player: React.FC<Props> = ({ src, videoID }) =>
   const videoRef = useRef<HTMLVideoElement>(null);
   const isVisible = useOnScreen(videoRef, 1);
   const videoStore: VideoIdStore = useVideoId();
+  const mobileDevice = (): boolean => 
+  {
+    if (window.clientInformation.userAgent.includes('Android') || window.clientInformation.userAgent.includes('iPhone')) 
+    {
+      try 
+      {
+        document.createEvent('TouchEvent');
+        return true;
+      }
+      catch 
+      {
+        return false;
+      }
+    }
+    return false;
+  };
 
   const playbackHandler = () => 
   {
@@ -168,7 +184,7 @@ export const Player: React.FC<Props> = ({ src, videoID }) =>
     <div className='flex items-center justify-center'>
       <div className='video-container bg-black rounded-md min-w-[280px] min-h-[480px]'>
         <div className='video-controls-container flex w-full items-center justify-between'>
-          <div className='play-pause-button'>
+          <div className={`play-pause-button ${mobileDevice() ? 'mr-[150%]' : 'mr-[80%]'}`}>
             {playing ? (
               <div
                 onClick={() => 
@@ -211,16 +227,18 @@ export const Player: React.FC<Props> = ({ src, videoID }) =>
                 </div>
               )}
             </div>
-            <Slider
-              defaultValue={[volume]}
-              className='w-20'
-              value={[volume]}
-              max={100}
-              onValueChange={(e) => 
-              {
-                volumeHandler(e);
-              }}
-            />
+            {!mobileDevice() && (
+              <Slider
+                defaultValue={[volume]}
+                className='w-20'
+                value={[volume]}
+                max={100}
+                onValueChange={(e) => 
+                {
+                  volumeHandler(e);
+                }}
+              />
+            )}
           </div>
         </div>
         {loaded ? null : <PlaceholderVideo />}
