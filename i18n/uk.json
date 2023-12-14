@@ -96,5 +96,6 @@
   "edit_profile": "Редагувати профіль",
   "update_profile": "Оновити профіль",
   "description": "Опис",
-  "cancel_upload": "Відмінити завантаження"
+  "cancel_upload": "Відмінити завантаження",
+  "video_by": "Відео опубліковане {{username}}"
 }

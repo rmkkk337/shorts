@@ -97,5 +97,6 @@
   "url_preview": "Link to your profile will look this:",
   "update_profile": "Update profile",
   "description": "Description",
-  "cancel_upload": "Cancel upload"
+  "cancel_upload": "Cancel upload",
+  "video_by": "Video by {{username}}"
 }

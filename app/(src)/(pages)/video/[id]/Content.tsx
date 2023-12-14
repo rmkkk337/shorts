@@ -4,6 +4,7 @@ import { Video } from '@/components/Video';
 import { getUser } from '@/controllers/users.controller';
 import { useFirstLoad, useAccessedPage, FirstLoadStore, AccessedPageStore } from '@/hooks/account.actions';
 import { HOST_DNS } from '@/lib/conf';
+import i18n from '@/lib/i18n';
 import { Video as VideoType } from '@/types/Video';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -23,7 +24,7 @@ export default function Content(params: { id: string })
       {
         getUser(response.data.data.creatorId).then((response) => 
         {
-          document.title = `Video by ${response.username}`;
+          document.title = i18n.t('video_by', { username: response.username });
         });
       }
     });

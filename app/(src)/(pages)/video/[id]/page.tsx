@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 
     return {
       title: `pikpok · ${profile.username}`,
-      description: `Likes ${video.likes.length}, comments: ${video.comments.length}. «${video.description}»`,
+      description: `Likes ${video.likes.length}, comments: ${video.comments.length}. ${video.description ? `«${video.description}»` : null}`,
       openGraph: {
         images: [video.url],
       },
@@ -40,8 +40,8 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
   catch 
   {
     return {
-      title: `Profile not found`,
-      description: "This profile wasn't found",
+      title: 'Video is not found',
+      description: "This video wasn't found",
       openGraph: {
         images: [
           'https://firebasestorage.googleapis.com/v0/b/pikpok-7e43d.appspot.com/o/avatars%2Fdefault-avatar.jpeg?alt=media&token=16fe35e9-f2b7-4306-ac55-5f3131c33ca6',
