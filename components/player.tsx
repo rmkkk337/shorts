@@ -6,9 +6,11 @@ import '@/components/player.css';
 import { Slider } from './ui/slider';
 import useOnScreen from '@/hooks/isVisible';
 import { getStorageVolume, setStorageVolume } from '@/common/player';
+import { VideoIdStore, useVideoId } from '@/hooks/account.actions';
 
 type Props = {
   src?: string;
+  videoID?: string;
 };
 
 export const PlaceholderVideo = () => 
@@ -16,7 +18,7 @@ export const PlaceholderVideo = () =>
   return <div className='rounded-sm bg-zinc-300 w-64 h-[460px]'></div>;
 };
 
-export const Player: React.FC<Props> = ({ src }) => 
+export const Player: React.FC<Props> = ({ src, videoID }) => 
 {
   const [playing, setPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(40);
@@ -25,7 +27,8 @@ export const Player: React.FC<Props> = ({ src }) =>
   const [loaded, setLoaded] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const isVisible = useOnScreen(videoRef, 0.9);
+  const isVisible = useOnScreen(videoRef, 1);
+  const videoStore: VideoIdStore = useVideoId();
 
   const playbackHandler = () => 
   {
@@ -81,17 +84,25 @@ export const Player: React.FC<Props> = ({ src }) =>
   {
     if (isVisible && videoRef.current) 
     {
-      videoRef.current.play();
-      if (!videoRef.current.paused) 
+      if (videoID && videoRef.current.paused && !videoStore.isPlaying && videoStore.videoID == '') 
       {
-        setPlaying(true);
+        videoStore.setVideoID(videoID);
+        videoStore.setIsPlaying(true);
+        videoRef.current.play();
+        setPlaying(!videoRef.current.paused);
       }
     }
     else 
     {
+      if (videoStore.videoID === videoID) 
+      {
+        videoStore.setVideoID('');
+      }
+      videoStore.setIsPlaying(false);
       setPlaying(false);
       if (videoRef.current == null) return;
       videoRef.current.pause();
+      videoRef.current.currentTime = 0;
     }
   }, [isVisible]);
 
@@ -123,7 +134,7 @@ export const Player: React.FC<Props> = ({ src }) =>
 
   if (src == undefined) 
   {
-    return <PlaceholderVideo />;
+    return null;
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks

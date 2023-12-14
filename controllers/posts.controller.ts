@@ -36,6 +36,13 @@ export const uploadVideo = (props: UploadProps): Promise<string | object> =>
   });
 };
 
+export const getVideo = async (id: string): Promise<Video> => 
+{
+  return axios.get(`${HOST_DNS}:3001/video/posts/${id}/like`, {
+    withCredentials: true,
+  });
+};
+
 /**
   @param {string} id Video id
   @param {string} uid User id
@@ -44,40 +51,26 @@ export const uploadVideo = (props: UploadProps): Promise<string | object> =>
 
 export const likeVideo = async (id: string, uid: string): Promise<boolean> => 
 {
-  return new Promise((resolve, reject) => 
+  getVideo(id).then(() => 
   {
-    try 
+    getVideo(id).then((res: Video) => 
     {
-      axios
-        .get(`${HOST_DNS}:3001/video/posts/${id}/like`, {
-          withCredentials: true,
-        })
-        .then(() => 
-        {
-          axios.get(`${HOST_DNS}:3001/video/post/${id}/`).then((res) => 
-          {
-            if (res.data.data.likes.includes(uid)) 
-            {
-              resolve(true);
-            }
-            else 
-            {
-              resolve(false);
-            }
-          });
-        });
-    }
-    catch (error) 
-    {
-      reject(error);
-    }
+      if (res.likes.includes(uid)) 
+      {
+        return true;
+      }
+      else 
+      {
+        return false;
+      }
+    });
   });
+  return false;
 };
 
 /**
-  @name Upload image to server
+  @name - Upload image to server
   @param { File } image - Profile picture
-  @param { Account } data - User data
   @returns { void }
 */
 
@@ -126,7 +119,7 @@ export const getVideos = (): Promise<Video[]> =>
   });
 };
 
-export const getLastComment = (id: string): Promise<Comment> => 
+export const getComments = (id: string): Promise<Comment[]> => 
 {
   return new Promise((resolve, reject) => 
   {
@@ -134,8 +127,7 @@ export const getLastComment = (id: string): Promise<Comment> =>
       .get(`${HOST_DNS}:3001/video/posts/${id}/comments`)
       .then((response: AxiosResponse) => 
       {
-        const comments = response.data.data.reverse();
-        resolve(comments[0]);
+        resolve(response.data.data.reverse());
       })
       .catch((error) => reject(error?.response?.data?.error));
   });

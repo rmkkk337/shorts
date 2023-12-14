@@ -139,12 +139,18 @@ export const isNotOwnPage = (id: string, accountID: string | undefined, accountU
   return accountID !== id;
 };
 
-export const getUser = (id: string): Promise<Account> => 
+/**
+ *
+ * @param id Requested userID
+ * @returns Account object
+ */
+
+export const getUser = (id?: string): Promise<Account> => 
 {
   return new Promise((resolve, reject) => 
   {
     axios
-      .get(`${HOST_DNS}:3001/user/${id}`, {
+      .get(`${HOST_DNS}:3001/user/${id ? id : null}`, {
         withCredentials: true,
       })
       .then((response) => 

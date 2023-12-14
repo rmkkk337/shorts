@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import Content from './Content';
-import { HOST_DNS } from '@/lib/conf';
-import axios from 'axios';
 import React from 'react';
+import { getUser } from '@/controllers/users.controller';
 
 type MetadataProps = {
   params: { id: string };
@@ -14,13 +13,13 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 
   try 
   {
-    const profile = await axios.get(`${HOST_DNS}:3001/user/${id}`);
+    const profile = await getUser(id);
 
     return {
-      title: `${profile.data.data.username} profile`,
-      description: `Check out ${profile.data.data.username} profile on pikpok.\nAbout: ${profile.data.data.description}`,
+      title: `${profile.username} profile`,
+      description: `Check out ${profile.username} profile on pikpok.${profile.description ? `\nAbout: ${profile.description}` : null}`,
       openGraph: {
-        images: [profile.data.data.avatarUrl],
+        images: [profile.avatarUrl],
       },
       other: {
         'og:site_name': 'pikpok',

@@ -54,3 +54,23 @@ export const useAccessedPage = create<AccessedPageStore>((set) => ({
     set({ lastAccessed: value });
   },
 }));
+
+export type VideoIdStore = {
+  isPlaying: boolean;
+  videoID: string;
+  setVideoID: (value: string) => void;
+  setIsPlaying: (value: boolean) => void;
+};
+
+export const useVideoId = create<VideoIdStore>((set) => ({
+  isPlaying: false,
+  videoID: '',
+  setVideoID: (value: string) => 
+  {
+    set({ videoID: value });
+  },
+  setIsPlaying: (value: boolean) => 
+  {
+    set({ isPlaying: value });
+  },
+}));

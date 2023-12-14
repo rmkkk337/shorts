@@ -1,9 +1,8 @@
-import { HOST_DNS } from '@/lib/conf';
-import axios from 'axios';
 import { Account } from '@/types/Account';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { getUser } from '@/controllers/users.controller';
 
 type Props = {
   uid: string;
@@ -12,12 +11,12 @@ type Props = {
 export function SidebarUser(props: Props) 
 {
   const router = useRouter();
+  const { uid } = props;
   const [userData, setUserData] = useState<Account>();
   async function getUserData() 
   {
-    const res = await axios.get(`${HOST_DNS}:3001/user/${props.uid}`);
-
-    setUserData(res.data.data);
+    const user = await getUser(uid);
+    setUserData(user);
   }
 
   useEffect(() => 
@@ -52,7 +51,7 @@ export function SidebarUser(props: Props)
         src={userData.avatarUrl}
         height={64}
         width={64}
-        className='w-8 h-8 rounded-full bg-zinc-200 overflow-hidden'
+        className='w-8 h-8 rounded-full bg-zinc-200 overflow-hidden min-w-[32px]'
         alt={`${userData.username} profile picture`}
       />
       <p className='text-sm ml-4 font-medium text-zinc-600'>{userData.username}</p>
