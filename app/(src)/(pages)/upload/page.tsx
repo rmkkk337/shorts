@@ -70,7 +70,7 @@ export default function Page()
 
   return (
     <main className='h-screen flex flex-col items-center justify-center'>
-      <div className='w-[50vw] mx-auto py-8'>
+      <div className='w-[50vw] mx-auto py-8 mt-12 sm:mt-0'>
         <p
           onClick={() => 
           {
@@ -95,14 +95,14 @@ export default function Page()
           <p className='text-xs max-w-[250px] mb-2'>{description}</p>
         </div>
         <div>
-          <div className='flex items-center'>
+          <div className='flex items-center flex-col sm:flex-row'>
             <div className='self-start'>
-              <Player src={videoUrl} />
+              <Player upload src={videoUrl} />
             </div>
-            <div className='ml-6 w-full'>
+            <div className='sm:ml-6 w-full'>
               <TextArea
-                placeholder={i18n.t('description')}
-                className='min-h-[240px] h-full w-full max-w-[260px] resize-none'
+                placeholder={i18n.t('upload.video_description')}
+                className='w-[280px] min-h-[240px] h-full min-w-[160px] sm:w-full max-w-[280px] mt-2 sm:mt-0 resize-none'
                 onChange={(event) => setDescription(event.target.value)}
               >
                 {description}
@@ -115,7 +115,7 @@ export default function Page()
                     router.push('/fyp');
                   });
                 }}
-                className='mt-2 w-full max-w-[260px]'
+                className='w-[280px] mt-2 sm:w-full sm:max-w-[260px]'
               >
                 {i18n.t('uploader.publish')}
               </Button>

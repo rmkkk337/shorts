@@ -11,6 +11,7 @@ import { VideoIdStore, useVideoId } from '@/hooks/account.actions';
 type Props = {
   src?: string;
   videoID?: string;
+  upload?: boolean;
 };
 
 export const PlaceholderVideo = () => 
@@ -18,7 +19,7 @@ export const PlaceholderVideo = () =>
   return <div className='rounded-sm bg-zinc-300 w-64 h-[460px]'></div>;
 };
 
-export const Player: React.FC<Props> = ({ src, videoID }) => 
+export const Player: React.FC<Props> = ({ src, videoID, upload }) => 
 {
   const [playing, setPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(40);
@@ -98,6 +99,19 @@ export const Player: React.FC<Props> = ({ src, videoID }) =>
 
   useEffect(() => 
   {
+    if (upload && videoRef.current) 
+    {
+      try 
+      {
+        videoRef.current.play();
+      }
+      catch 
+      {
+        //
+      }
+      setPlaying(!videoRef.current.paused);
+      return;
+    }
     if (isVisible && videoRef.current) 
     {
       if (videoID && videoRef.current.paused && !videoStore.isPlaying && videoStore.videoID == '') 

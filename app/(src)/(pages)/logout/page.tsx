@@ -18,6 +18,10 @@ export default function Page()
       deleteCookie('access-token');
     }
     accountData.clearAccountData();
+    if (accessedPage.lastAccessed == '/edit') 
+    {
+      router.push('/fyp');
+    }
     router.push(accessedPage.lastAccessed.replace('%40', '@'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);

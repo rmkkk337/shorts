@@ -8,6 +8,10 @@ import Image from 'next/image';
 import { Account } from '@/types/Account';
 import { Button } from '@/components/ui/button';
 import { followUser, getUser, isNotOwnPage } from '@/controllers/users.controller';
+import { getUserPosts } from '@/controllers/posts.controller';
+import { Video } from '@/types/Video';
+import Link from 'next/link';
+import { Heart } from 'lucide-react';
 
 export default function Content(params: { id: string }) 
 {
@@ -16,6 +20,7 @@ export default function Content(params: { id: string })
   const accessedPage: AccessedPageStore = useAccessedPage();
   const router = useRouter();
   const [isFollowing, setIsFollowing] = useState<Boolean>(false);
+  const [posts, setPosts] = useState<Video[]>([]);
 
   useEffect(() => 
   {
@@ -32,6 +37,10 @@ export default function Content(params: { id: string })
 
   const updateProfile = async () => 
   {
+    getUserPosts(params.id).then((response) => 
+    {
+      setPosts(response);
+    });
     const response = await getUser(params.id);
     setIsFollowing(response.followed);
     setData(response);
@@ -57,7 +66,7 @@ export default function Content(params: { id: string })
   {
     if (data && document) 
     {
-      document.title = `${i18n.t('account.title', { username: data.username })} - pikpok`;
+      document.title = `${i18n.t('account.title', { username: data.username })} | pikpok`;
     }
   }, [data]);
 
@@ -65,7 +74,7 @@ export default function Content(params: { id: string })
 
   return (
     <React.Fragment>
-      <div className='account-info flex mt-3 z-50'>
+      <div className='account-info flex mt-3 mx-2 sm:mx-0'>
         <Image
           src={data.avatarUrl}
           className='rounded-full mr-3 w-[144px] h-[144px] object-cover'
@@ -78,21 +87,22 @@ export default function Content(params: { id: string })
           <div className='flex items-center gap-2'>
             <h1 className='text-xl font-bold'>{data.username}</h1>
           </div>
-          <p className='text-zinc-500 font-medium text-sm' style={{ whiteSpace: 'pre-wrap' }}>
+          <p className='text-zinc-500 font-medium text-xs sm:text-sm' style={{ whiteSpace: 'pre-wrap' }}>
             {data.description.trim()}
           </p>
           <div className='flex gap-3 mb-2'>
-            <p className='text-zinc-600 flex gap-1 select-none'>
+            <p className='text-zinc-600 flex gap-1 select-none text-sm sm:text-base'>
               {i18n.t('account.following')}
               <span className='text-zinc-800 font-semibold'>{data.subscribtions.length}</span>
             </p>
-            <p className='text-zinc-600 flex gap-1 select-none'>
+            <p className='text-zinc-600 flex gap-1 select-none text-sm sm:text-base'>
               {i18n.t('account.followers')}
               <span className='text-zinc-800 font-semibold'>{data.subscribers.length}</span>
             </p>
           </div>
           {isNotOwnPage(params.id, accountData.data?.id, accountData.data?.username) ? (
             <Button
+              className='text-md sm:text-base'
               onClick={async () => 
               {
                 if (!accountData?.data?.id) 
@@ -114,6 +124,7 @@ export default function Content(params: { id: string })
             </Button>
           ) : (
             <Button
+              className='text-mdsm:text-base'
               onClick={() => 
               {
                 router.push('/edit');
@@ -123,6 +134,22 @@ export default function Content(params: { id: string })
             </Button>
           )}
         </div>
+      </div>
+      <div className='w-full mt-12 min-w-[370px] flex gap-0.5 flex-wrap justify-center sm:justify-start max-w-[680px]'>
+        {posts.length != 0 &&
+          posts.map((video) => (
+            <Link
+              href={`/video/${video.id}`}
+              key={video.id}
+              className='overflow-hidden w-[170px] min-h-[16rem] bg-black flex items-center relative rounded-[5px]'
+            >
+              <video src={video.url}></video>
+              <p className='absolute bottom-2 left-2 flex gap-1 text-sm items-center text-white font-medium'>
+                <Heart size={16} color='white' />
+                {video.likes.length}
+              </p>
+            </Link>
+          ))}
       </div>
     </React.Fragment>
   );

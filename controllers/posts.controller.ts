@@ -150,3 +150,11 @@ export const getComments = (id: string): Promise<Comment[]> =>
       .catch((error) => reject(error?.response?.data?.error));
   });
 };
+
+export const getUserPosts = (id: string): Promise<Video[]> => 
+{
+  return axios.get(`${HOST_DNS}:3001/user/${id}/posts`).then((response) => 
+  {
+    return response.data.data.reverse();
+  });
+};

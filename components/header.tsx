@@ -17,6 +17,7 @@ import Link from 'next/link';
 // import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import Logo from '@/app/favicon.png';
+import { Download } from 'lucide-react';
 
 export const Header = () => 
 {
@@ -58,13 +59,14 @@ export const Header = () =>
         {/* In future instead of hiding dl button replace it with icon */}
         <Button
           variant='outline'
-          className='h-8 text-black hidden sm:flex'
+          className='h-8 text-black sm:flex gap-1 items-center'
           onClick={() => 
           {
             handleUploadButton();
           }}
         >
-          {i18n.t('header.upload')}
+          <Download size={16} />
+          <p className='hidden sm:block'>{i18n.t('header.upload')}</p>
         </Button>
         {accountData.data && data ? (
           <DropdownMenu>

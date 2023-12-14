@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SidebarUser } from './sidebarUser';
 import { AccessedPageStore, AccountStore, useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import SidebarLink from '../SidebarLink';
+import { Home, LayoutList, User } from 'lucide-react';
 
 export const Sidebar = () => 
 {
@@ -17,16 +18,16 @@ export const Sidebar = () =>
   const data = accountData.data;
 
   return (
-    <div className='w-[170px] h-screen mx-6 mt-2 fixed top-14 mr-15 left-0 z-10 hidden sm:block'>
+    <div className='w-[170px] h-screen mx-6 mt-2 fixed top-14 left-0 z-10 hidden sm:block'>
       <div className='buttons pb-3 border-b border-solid flex flex-col'>
-        <SidebarLink pathname={pathname} url='/fyp'>
+        <SidebarLink pathname={pathname} url='/fyp' icon={<Home size={16} />}>
           {i18n.t('fyp.fyp')}
         </SidebarLink>
-        <SidebarLink pathname={pathname} url='/following'>
+        <SidebarLink pathname={pathname} url='/following' icon={<LayoutList size={16} />}>
           {i18n.t('fyp.following')}
         </SidebarLink>
         {accountData.data?.username && (
-          <SidebarLink pathname={pathname} url={`/profile/@${accountData.data?.username}`}>
+          <SidebarLink icon={<User size={16} />} pathname={pathname} url={`/profile/@${accountData.data?.username}`}>
             {i18n.t('header.dropdown.profile')}
           </SidebarLink>
         )}

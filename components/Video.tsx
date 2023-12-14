@@ -91,7 +91,7 @@ export const Video: React.FC<Props> = (props: Props) =>
         <Player src={video} videoID={id} />
         <div className='self-end ml-4'>
           <div className='my-3 flex flex-col items-center'>
-            <div
+            <button
               onClick={async () => 
               {
                 if (accountData.data?.id) 
@@ -103,11 +103,11 @@ export const Video: React.FC<Props> = (props: Props) =>
               className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'
             >
               {liked ? <Heart className='like-animation select-none ' size={20} fill='true' /> : <Heart className='select-none' size={20} />}
-            </div>
+            </button>
             <p className='font-medium text-sm select-none mt-1'>{likes}</p>
           </div>
           <div className='my-3 flex flex-col items-center'>
-            <div
+            <button
               className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'
               onClick={() => 
               {
@@ -115,13 +115,13 @@ export const Video: React.FC<Props> = (props: Props) =>
               }}
             >
               <MessageCircle size={20} />
-            </div>
+            </button>
             <p className='font-medium text-sm select-none mt-1'>{comments}</p>
           </div>
           <div className='my-3 flex flex-col items-center'>
-            <div className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
+            <button className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
               <Share2 size={20} />
-            </div>
+            </button>
           </div>
         </div>
         {/* {withComments &&

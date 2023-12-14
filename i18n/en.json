@@ -96,7 +96,7 @@
   "edit_profile": "Edit profile",
   "url_preview": "Link to your profile will look this:",
   "update_profile": "Update profile",
-  "description": "Description",
+  "description": "Tell something about yourself",
   "cancel_upload": "Cancel upload",
   "video_by": "Video by {{username}}"
 }
