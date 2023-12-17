@@ -12,6 +12,8 @@ import { getUserPosts } from '@/controllers/posts.controller';
 import { Video } from '@/types/Video';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
+import Subscribers from '@/components/profile/Subscribers';
+import Subscriptions from '@/components/profile/Subscriptions';
 
 export default function Content(params: { id: string }) 
 {
@@ -21,19 +23,6 @@ export default function Content(params: { id: string })
   const router = useRouter();
   const [isFollowing, setIsFollowing] = useState<Boolean>(false);
   const [posts, setPosts] = useState<Video[]>([]);
-
-  useEffect(() => 
-  {
-    updateProfile();
-    accessedPage.setLastAccessed(`/profile/${params.id}`);
-    if (load.firstLoad) 
-    {
-      router.push('/');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const [data, setData] = useState<Account | null>(null);
 
   const updateProfile = async () => 
   {
@@ -46,12 +35,25 @@ export default function Content(params: { id: string })
     setData(response);
   };
 
+  const [data, setData] = useState<Account | null>(null);
+
   useEffect(() => 
   {
-    if (document != null) 
+    if (data && document) 
     {
-      document.title = i18n.t('fyp.title');
+      document.title = `${i18n.t('account.title', { username: data.username })} | pikpok`;
     }
+  }, [data]);
+
+  useEffect(() => 
+  {
+    updateProfile();
+    accessedPage.setLastAccessed(`/profile/${params.id}`);
+    if (load.firstLoad) 
+    {
+      router.push('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useLayoutEffect(() => 
@@ -61,14 +63,6 @@ export default function Content(params: { id: string })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => 
-  {
-    if (data && document) 
-    {
-      document.title = `${i18n.t('account.title', { username: data.username })} | pikpok`;
-    }
-  }, [data]);
 
   if (!data || load.firstLoad) return null;
 
@@ -91,14 +85,8 @@ export default function Content(params: { id: string })
             {data.description.trim()}
           </p>
           <div className='flex gap-3 mb-2'>
-            <p className='text-zinc-600 flex gap-1 select-none text-sm sm:text-base'>
-              {i18n.t('account.following')}
-              <span className='text-zinc-800 font-semibold'>{data.subscribtions.length}</span>
-            </p>
-            <p className='text-zinc-600 flex gap-1 select-none text-sm sm:text-base'>
-              {i18n.t('account.followers')}
-              <span className='text-zinc-800 font-semibold'>{data.subscribers.length}</span>
-            </p>
+            <Subscriptions subscribtions={data.subscribtions} />
+            <Subscribers subscribtions={data.subscribers} />
           </div>
           {isNotOwnPage(params.id, accountData.data?.id, accountData.data?.username) ? (
             <Button
@@ -124,7 +112,7 @@ export default function Content(params: { id: string })
             </Button>
           ) : (
             <Button
-              className='text-mdsm:text-base'
+              className='text-md sm:text-base'
               onClick={() => 
               {
                 router.push('/edit');
@@ -143,7 +131,7 @@ export default function Content(params: { id: string })
               key={video.id}
               className='overflow-hidden w-[170px] min-h-[16rem] bg-black flex items-center relative rounded-[5px]'
             >
-              <video src={video.url}></video>
+              <video disablePictureInPicture src={video.url}></video>
               <p className='absolute bottom-2 left-2 flex gap-1 text-sm items-center text-white font-medium'>
                 <Heart size={16} color='white' />
                 {video.likes.length}

@@ -51,7 +51,7 @@ export function SidebarUser(props: Props)
         src={userData.avatarUrl}
         height={64}
         width={64}
-        className='w-8 h-8 rounded-full bg-zinc-200 overflow-hidden min-w-[32px]'
+        className='w-8 h-8 rounded-full bg-zinc-200 overflow-hidden min-w-[32px] object-cover'
         alt={`${userData.username} profile picture`}
       />
       <p className='text-sm ml-4 font-medium text-zinc-600'>{userData.username}</p>

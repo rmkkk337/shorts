@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import i18n from '@/lib/i18n';
 import { AccountStore, useAccountData } from '@/hooks/account.actions';
 import React from 'react';
@@ -13,12 +13,33 @@ import { login } from '@/controllers/users.controller';
 
 export default function Login() 
 {
+  const buttonRef: any = useRef(null);
   useEffect(() => 
   {
     if (document != null) 
     {
       document.title = i18n.t('login.title');
+      document.addEventListener('keydown', (event) => 
+      {
+        // When user press enter we click on login button,
+        // have side effects such as displaying modal and procceding to login
+        // but if doing click on button we don't have such behavior
+        // FIXME: fix this behavior somehow
+        if (event.key.toLowerCase() === 'enter' && buttonRef != null) 
+        {
+          buttonRef.current?.click();
+        }
+      });
     }
+
+    return () => 
+    {
+      if (document != null) 
+      {
+        document.removeEventListener('keydown', () => 
+        {});
+      }
+    };
   }, []);
 
   const router = useRouter();
@@ -47,8 +68,6 @@ export default function Login()
   // Handles login button click
   const handleSubmit = async () => 
   {
-    setPassword('');
-
     if (isEmail(email) === false) 
     {
       toast.toast({
@@ -59,41 +78,43 @@ export default function Login()
       return;
     }
 
-    if (password.length < 4) 
+    if (password.length >= 4) 
+    {
+      login(email, password)
+        .then((response) => 
+        {
+          accountData.setAccountData(response);
+          router.push('/');
+        })
+        .catch((error) => 
+        {
+          if (error == 'Incorrect password') 
+          {
+            toast.toast({
+              title: i18n.t('error.incorrect_password.title'),
+              description: i18n.t('error.incorrect_password.description'),
+              variant: 'destructive',
+            });
+          }
+          else if (error == "User doesn't exist") 
+          {
+            toast.toast({
+              title: i18n.t('error.user_doesnt_exist.title'),
+              description: i18n.t('error.user_doesnt_exist.description'),
+              variant: 'destructive',
+            });
+          }
+        });
+    }
+    else 
     {
       toast.toast({
         title: i18n.t('error.password_too_short.title'),
         description: i18n.t('error.password_too_short.description'),
         variant: 'destructive',
       });
-      return;
     }
-
-    login(email, password)
-      .then((response) => 
-      {
-        accountData.setAccountData(response);
-        router.push('/');
-      })
-      .catch((error) => 
-      {
-        if (error == 'Incorrect password') 
-        {
-          toast.toast({
-            title: i18n.t('error.incorrect_password.title'),
-            description: i18n.t('error.incorrect_password.description'),
-            variant: 'destructive',
-          });
-        }
-        else if (error == "User doesn't exist") 
-        {
-          toast.toast({
-            title: i18n.t('error.user_doesnt_exist.title'),
-            description: i18n.t('error.user_doesnt_exist.description'),
-            variant: 'destructive',
-          });
-        }
-      });
+    setPassword('');
   };
 
   return (
@@ -112,9 +133,22 @@ export default function Login()
         maxLength={20}
       />
       <Button
+        ref={buttonRef}
         onClick={() => 
         {
-          handleSubmit();
+          if (password.length > 4) 
+          {
+            toast.toast({
+              title: i18n.t('error.password_too_short.title'),
+              description: i18n.t('error.password_too_short.description'),
+              variant: 'destructive',
+            });
+            return;
+          }
+          else 
+          {
+            handleSubmit();
+          }
         }}
         className='w-full max-w-xs'
       >

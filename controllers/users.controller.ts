@@ -24,6 +24,14 @@ export const followUser = (id: string): Promise<boolean> =>
   });
 };
 
+/**
+ *
+ * @param email
+ * @param password
+ * @onfullfilled Return string success
+ * @onrejected Return error string
+ */
+
 export const login = (email: string, password: string): Promise<Account> => 
 {
   return new Promise((resolve, reject) => 
@@ -159,4 +167,22 @@ export const getUser = (id?: string): Promise<Account> =>
       })
       .catch((error) => reject(error));
   });
+};
+
+/**
+ *
+ * @param subList Takes string array of subscribers
+ * @returns Detailed list in Account type of all given subscribers
+ */
+export const getUserSubsList = (subList: string[]): Account[] => 
+{
+  const subscribersList: Account[] = [];
+  subList.forEach((id) => 
+  {
+    getUser(id).then((user) => 
+    {
+      subscribersList.push(user);
+    });
+  });
+  return subscribersList;
 };

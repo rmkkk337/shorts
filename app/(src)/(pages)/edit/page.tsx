@@ -15,6 +15,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { TextArea } from '@/components/TextArea';
 import { getUser } from '@/controllers/users.controller';
+import { Pencil } from 'lucide-react';
+import { isValidString } from '@/common/regex';
 
 export default function Page() 
 {
@@ -70,6 +72,7 @@ export default function Page()
     }
   };
 
+  // Setting upload state to inform user that image is uploading
   const onChangeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
   {
     setUploading(true);
@@ -86,9 +89,10 @@ export default function Page()
     updateProfile();
   };
 
+  // Send a request to change user data
   const updateUser = () => 
   {
-    if (usernameValue.length >= 2 && accountData.data) 
+    if (usernameValue.length >= 2 && accountData.data && isValidString(usernameValue)) 
     {
       axios
         .patch(
@@ -125,7 +129,7 @@ export default function Page()
       </div>
       <div className='z-50 mx-3 min-w-[355px]'>
         <h1 className='text-2xl font-bold mt-2 ml-2 mb-2 select-none'>{i18n.t('edit_profile')}</h1>
-        <label htmlFor='pfpUploader' className='mr-4 cursor-pointer w-[144px] flex items-center justify-center'>
+        <label htmlFor='pfpUploader' className='relative mr-4 cursor-pointer w-[144px] flex items-center justify-center'>
           <div className='overflow-hidden rounded-full flex object-fill select-none w-[144px]'>
             <Image
               src={data.avatarUrl}
@@ -136,10 +140,16 @@ export default function Page()
               height={144}
             />
           </div>
+          <div className='absolute h-full w-full bg-black/30 z-10 hover:bg-black/60 duration-200 rounded-full flex items-center justify-center'>
+            <Pencil size={24} color='white' />
+          </div>
         </label>
         <p className='text-xs font-semibold text-zinc-500 select-none mt-2'>{i18n.t('account.change_profile_picture')}</p>
-        <div className='pt-2 border-t border-zinc-100 max-w-xl mt-2'>
-          {usernameValue.length < 2 && <p className='text-xs font-semibold text-red-500 select-none'>Довжина має бути не менше двох символів</p>}
+        <div className='pt-2 border-t border-zinc-100 w-[450px] mt-2'>
+          {usernameValue.length < 2 && (
+            <p className='text-xs font-semibold text-red-500 select-none'>{i18n.t('length_must_be_not_less_than', { length: 2 })}</p>
+          )}
+          {!isValidString(usernameValue) && <p className='text-xs font-semibold text-red-500 select-none'>{i18n.t('username_characters_error')}</p>}
           <Input
             className='mt-2 h-8'
             placeholder={i18n.t('auth.username')}

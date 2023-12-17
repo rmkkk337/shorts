@@ -25,3 +25,16 @@ export function mention(description: string): string
   const regex = /@(\w+)/g;
   return description.replace(regex, '<Link to="/profile/@$1>@$1</Link>');
 }
+
+/**
+ *
+ * @param input Takes username input
+ * @returns Whether username is valid or not
+ */
+
+export function isValidString(input: string): boolean 
+{
+  if (input == '') return true;
+  let pattern = /^[a-z0-9]+$/;
+  return pattern.test(input);
+}

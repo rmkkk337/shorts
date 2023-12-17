@@ -68,6 +68,10 @@
     "invalid_email": {
       "title": "Invalid email",
       "description": "Make sure that you've entered the correct email."
+    },
+    "special_characters": {
+      "title": "Error in your nickname",
+      "description": "Nickname can't contain special characters."
     }
   },
   "messages": {
@@ -98,5 +102,9 @@
   "update_profile": "Update profile",
   "description": "Tell something about yourself",
   "cancel_upload": "Cancel upload",
-  "video_by": "Video by {{username}}"
+  "video_by": "Video by {{username}}",
+  "length_must_be_not_less_than": "Length must be not less than {{length}} characters",
+  "username_characters_error": "Username can't have any special characters",
+  "no_followings": "This user is not following anyone yet.",
+  "no_followers": "This user doesn't have any followers."
 }

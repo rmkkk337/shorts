@@ -1,4 +1,5 @@
 {
+  "application_name": "pikpok",
   "login": {
     "text": "Увійти в",
     "bold": "pikpok",
@@ -67,6 +68,10 @@
     "invalid_email": {
       "title": "Неправильна пошта",
       "description": "Перевірте правильність введення пошти та спробуйте ще раз"
+    },
+    "special_characters": {
+      "title": "Помилка в імені користувача",
+      "description": "Імʼя користувача не може містити спеціальні символи."
     }
   },
   "messages": {
@@ -97,5 +102,9 @@
   "update_profile": "Оновити профіль",
   "description": "Розкажіть щось про себе",
   "cancel_upload": "Відмінити завантаження",
-  "video_by": "Відео опубліковане {{username}}"
+  "video_by": "Відео опубліковане {{username}}",
+  "length_must_be_not_less_than": "Довжина має бути не менше {{length}} символів",
+  "username_characters_error": "Імʼя користувача не може містити спеціальні символи",
+  "no_followings": "Цей користувач поки що ні за ким не слідкує.",
+  "no_followers": "Цей користувач не має підписників."
 }
