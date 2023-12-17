@@ -14,6 +14,8 @@ import Link from 'next/link';
 import { Heart } from 'lucide-react';
 import Subscribers from '@/components/profile/Subscribers';
 import Subscriptions from '@/components/profile/Subscriptions';
+import { Badge } from '@/components/ui/badge';
+import { followingState } from '@/common/profile';
 
 export default function Content(params: { id: string }) 
 {
@@ -64,6 +66,16 @@ export default function Content(params: { id: string })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const renderBadge = () => 
+  {
+    if (data && accountData.data?.id) 
+    {
+      const subscribeState = followingState(data.subscribtions, data?.subscribers, accountData.data.id);
+
+      return subscribeState && <Badge>{i18n.t(subscribeState)}</Badge>;
+    }
+  };
+
   if (!data || load.firstLoad) return null;
 
   return (
@@ -80,6 +92,7 @@ export default function Content(params: { id: string })
         <div>
           <div className='flex items-center gap-2'>
             <h1 className='text-xl font-bold'>{data.username}</h1>
+            {renderBadge()}
           </div>
           <p className='text-zinc-500 font-medium text-xs sm:text-sm' style={{ whiteSpace: 'pre-wrap' }}>
             {data.description.trim()}

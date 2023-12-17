@@ -26,7 +26,7 @@
   "fyp": {
     "title": "For You Page | pikpok",
     "fyp": "For You Page",
-    "no_account": "Login to follow people, like videos and view comments",
+    "no_account": "Login to follow people, like videos and leave comments",
     "following": "Following"
   },
   "header": {
@@ -106,5 +106,7 @@
   "length_must_be_not_less_than": "Length must be not less than {{length}} characters",
   "username_characters_error": "Username can't have any special characters",
   "no_followings": "This user is not following anyone yet.",
-  "no_followers": "This user doesn't have any followers."
+  "no_followers": "This user doesn't have any followers.",
+  "following_you": "Following you",
+  "friends": "Friends"
 }
