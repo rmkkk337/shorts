@@ -136,7 +136,7 @@ export default function Login()
         ref={buttonRef}
         onClick={() => 
         {
-          if (password.length > 4) 
+          if (password.length < 4) 
           {
             toast.toast({
               title: i18n.t('error.password_too_short.title'),
