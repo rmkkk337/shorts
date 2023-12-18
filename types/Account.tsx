@@ -13,3 +13,8 @@ export type Comment = {
   creatorId: string;
   text: string;
 };
+
+export type Comments = {
+  user: Account;
+  comment: Comment;
+};

@@ -17,6 +17,7 @@ import { AccountStore, useAccountData } from '@/hooks/account.actions';
 import { getUser } from '@/controllers/users.controller';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { usePathname } from 'next/navigation';
 
 type Props = {
   video?: string;
@@ -34,6 +35,7 @@ export const Video: React.FC<Props> = (props: Props) =>
   const accountData: AccountStore = useAccountData();
   const router: AppRouterInstance = useRouter();
   const [comments, setComments] = useState<number>(0);
+  const path = usePathname();
 
   useEffect(() => 
   {
@@ -56,22 +58,10 @@ export const Video: React.FC<Props> = (props: Props) =>
     });
   }, [liked]);
 
-  // useEffect(() =>
-  // {
-  //   if (withComments)
-  //   {
-  //     getComments(id).then((response) =>
-  //     {
-  //       console.log(response);
-  //       setComments(response);
-  //     });
-  //   }
-  // }, [withComments, id]);
-
   if (!metadata || likes == null) return <div></div>;
 
   return (
-    <div className='sm:w-[50vw] mx-auto my-8 snap-start snap-margin'>
+    <div className={`${path == '/fyp' || (path == '/following' && 'sm:w-[50vw]')} mx-auto my-8 snap-start snap-margin`}>
       <div className='info-wrapper'>
         <Link className='user-title flex items-center justify-start gap-2 mb-2 select-none' href={`/profile/@${metadata.username}`}>
           <Image
