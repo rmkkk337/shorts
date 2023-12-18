@@ -108,5 +108,6 @@
   "no_followings": "This user is not following anyone yet.",
   "no_followers": "This user doesn't have any followers.",
   "following_you": "Following you",
-  "friends": "Friends"
+  "friends": "Friends",
+  "write_comment": "Write a comment..."
 }

@@ -14,12 +14,15 @@ import { Comments } from '@/types/Account';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { SendHorizonal } from 'lucide-react';
 
 export default function Content(params: { id: string }) 
 {
   const [comments, setComments] = useState<Comments[]>([]);
   const [video, setVideo] = useState<VideoType | null>(null);
   const [commentText, setCommentText] = useState<string>('');
+  const [commentRequestEnded, setCommentRequestEnded] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => 
@@ -49,35 +52,33 @@ export default function Content(params: { id: string })
     }
   }, [load, router]);
 
-  const getComponentComments = async () => 
+  const getComponentComments = () => 
   {
-    setTimeout(() => 
+    getComments(params.id).then((response) => 
     {
-      getComments(params.id).then((response) => 
+      let comments: any[] = [];
+      let getUserPromises: any[] = [];
+
+      response.forEach((comment) => 
       {
-        let comments: any[] = [];
-        let getUserPromises: any[] = [];
-
-        response.forEach((comment) => 
+        let userPromise = getUser(comment.creatorId).then((user) => 
         {
-          let userPromise = getUser(comment.creatorId).then((user) => 
-          {
-            return {
-              user: user,
-              comment: comment,
-            };
-          });
-
-          getUserPromises.push(userPromise);
+          return {
+            user: user,
+            comment: comment,
+          };
         });
 
-        Promise.all(getUserPromises).then((commentsWithUsers) => 
-        {
-          comments = [...comments, ...commentsWithUsers];
-          setComments(comments);
-        });
+        getUserPromises.push(userPromise);
       });
-    }, 500);
+
+      Promise.all(getUserPromises).then((commentsWithUsers) => 
+      {
+        comments = [...comments, ...commentsWithUsers];
+        setComments(comments);
+        setCommentRequestEnded(true);
+      });
+    });
   };
 
   useEffect(() => 
@@ -94,7 +95,10 @@ export default function Content(params: { id: string })
   {
     if (commentText === '') return;
     uploadComment(commentText, params.id);
-    getComponentComments();
+    setTimeout(() => 
+    {
+      getComponentComments();
+    }, 200);
   };
 
   const componentKeyListener = (event: any) => 
@@ -115,20 +119,34 @@ export default function Content(params: { id: string })
   return (
     <main className='flex'>
       <Video key={video.id} id={video.id} uid={video.creatorId} description={video.description} video={video.url} />
-      <div className='ml-10'>
-        <div className='h-[550px] overflow-scroll'>
-          {comments.map((comment) => (
-            <div key={comment.comment.id} className='my-5'>
-              <Link href={`/profile/@${comment.user.username}`} className='flex flex-row gap-2 items-center hover:underline'>
-                <Image alt='' className='rounded-full' height={32} width={32} src={comment.user.avatarUrl} />
-                <p>{comment.user.username}</p>
-              </Link>
-              <p>{comment.comment.text}</p>
-            </div>
-          ))}
+      {commentRequestEnded ? (
+        <div className='ml-10'>
+          <div className='h-[525px] overflow-scroll mt-4 sm:w-[300px]'>
+            {comments.map((comment) => (
+              <div key={comment.comment.id} className='my-5'>
+                <Link href={`/profile/@${comment.user.username}`} className='flex flex-row gap-2 items-center hover:underline'>
+                  <Image alt='' className='rounded-full' height={32} width={32} src={comment.user.avatarUrl} />
+                  <p>{comment.user.username}</p>
+                </Link>
+                <p className='text-sm mt-1'>{comment.comment.text}</p>
+              </div>
+            ))}
+          </div>
+          <div className='flex gap-2'>
+            <Input placeholder={i18n.t('write_comment')} onKeyDown={componentKeyListener} onChange={commentTextHandler} value={commentText} />
+            <Button
+              onClick={() => 
+              {
+                postComment();
+              }}
+            >
+              <SendHorizonal size={18} />
+            </Button>
+          </div>
         </div>
-        <Input onKeyDown={componentKeyListener} onChange={commentTextHandler} value={commentText} />
-      </div>
+      ) : (
+        <div className='sm:w-[340px]'></div>
+      )}
     </main>
   );
 }
