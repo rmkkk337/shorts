@@ -133,7 +133,7 @@ export default function Page()
           <div className='overflow-hidden rounded-full flex object-fill select-none w-[144px]'>
             <Image
               src={data.avatarUrl}
-              className='w-[144px] h-[144px]'
+              className='w-[144px] h-[144px] object-cover'
               title={i18n.t('account.change_profile_picture')}
               alt={i18n.t('account.picture', { username: data.username })}
               width={144}
