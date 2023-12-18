@@ -58,18 +58,6 @@ export const Video: React.FC<Props> = (props: Props) =>
     });
   }, [liked]);
 
-  // useEffect(() =>
-  // {
-  //   if (withComments)
-  //   {
-  //     getComments(id).then((response) =>
-  //     {
-  //       console.log(response);
-  //       setComments(response);
-  //     });
-  //   }
-  // }, [withComments, id]);
-
   if (!metadata || likes == null) return <div></div>;
 
   return (

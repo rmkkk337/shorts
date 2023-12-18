@@ -141,7 +141,6 @@ export const getComments = (id: string): Promise<Comment[]> =>
 {
   return axios.get(`${HOST_DNS}:3001/video/posts/${id}/comments`).then((response) => 
   {
-    console.log(response.data.data);
     return response.data.data;
   });
 };

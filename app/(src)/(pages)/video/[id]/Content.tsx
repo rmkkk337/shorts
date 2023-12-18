@@ -9,7 +9,7 @@ import i18n from '@/lib/i18n';
 import { Video as VideoType } from '@/types/Video';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Comments } from '@/types/Account';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
@@ -49,19 +49,14 @@ export default function Content(params: { id: string })
     }
   }, [load, router]);
 
-  if (load.firstLoad) 
-  {
-    return null;
-  }
-
   const getComponentComments = async () => 
   {
     setTimeout(() => 
     {
       getComments(params.id).then((response) => 
       {
-        let comments: Comments[] = [];
-        let getUserPromises: Comments[] = [];
+        let comments: any[] = [];
+        let getUserPromises: any[] = [];
 
         response.forEach((comment) => 
         {
@@ -89,6 +84,11 @@ export default function Content(params: { id: string })
   {
     getComponentComments();
   }, []);
+
+  if (load.firstLoad) 
+  {
+    return null;
+  }
 
   const postComment = () => 
   {

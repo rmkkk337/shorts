@@ -30,7 +30,6 @@ export default function Content(params: { id: string })
   {
     getUserPosts(params.id).then((response) => 
     {
-      console.log(response, params.id);
       setPosts(response);
     });
     const response = await getUser(params.id);
