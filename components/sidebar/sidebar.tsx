@@ -18,7 +18,7 @@ export const Sidebar = () =>
   const data = accountData.data;
 
   return (
-    <div className='w-[170px] h-screen mx-6 mt-2 fixed top-14 left-0 z-10 hidden sm:block'>
+    <div className='w-[170px] h-screen mx-6 mt-2 fixed top-14 left-0 z-10 hidden sm:block overflow-y-scroll'>
       <div className='buttons pb-3 border-b border-solid flex flex-col'>
         <SidebarLink pathname={pathname} url='/fyp' icon={<Home size={16} />}>
           {i18n.t('fyp.fyp')}

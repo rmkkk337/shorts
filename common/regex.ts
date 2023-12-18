@@ -10,12 +10,12 @@ export function isEmail(email: string): boolean
   {
     return false;
   }
-  const regex = /\S+@\S+\.\S+/;
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
 
 /**
-  @name Mention user
+  @name - Mention user
   @param {string} description - Takes description
   @returns {string} - Description with mention
 */
@@ -35,6 +35,6 @@ export function mention(description: string): string
 export function isValidString(input: string): boolean 
 {
   if (input == '') return true;
-  let pattern = /^[a-z0-9]+$/;
+  let pattern = /^[a-zA-Z0-9]+$/;
   return pattern.test(input);
 }

@@ -1,4 +1,4 @@
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { DialogHeader } from '../ui/dialog';
 import i18n from '@/lib/i18n';
 import { useEffect, useState } from 'react';
@@ -36,10 +36,10 @@ export default function Subscriptions(props: Props)
           <span className='text-zinc-800 font-semibold'>{subscribtions.length}</span>
         </p>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='pb-0'>
         <DialogHeader>
-          <DialogTitle className='mb-3 select-none'>{i18n.t('account.followers')}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className='mb-3 select-none'>{i18n.t('account.following')}</DialogTitle>
+          <div className='max-h-96 overflow-scroll'>
             {subscribersList.length != 0
               ? subscribersList.map((subscriber) => (
                 <Link href={`/profile/@${subscriber.username}`} key={subscriber.id} className='mb-3 flex gap-2 items-center hover:underline'>
@@ -50,11 +50,11 @@ export default function Subscriptions(props: Props)
                     height={48}
                     alt={i18n.t('account.picture', { username: subscriber.username })}
                   />
-                  <span className='select-none'>{subscriber.username}</span>
+                  <p className='select-none text-zinc-500'>{subscriber.username}</p>
                 </Link>
               ))
               : i18n.t('no_followers')}
-          </DialogDescription>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>

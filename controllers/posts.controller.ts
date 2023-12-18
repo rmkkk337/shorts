@@ -139,23 +139,16 @@ export const getVideos = (): Promise<Video[]> =>
 
 export const getComments = (id: string): Promise<Comment[]> => 
 {
-  return axios.get(`${HOST_DNS}:3001/video/posts/${id}/comments`).then((response) => 
+  return new Promise((resolve, reject) => 
   {
-    return response.data.data;
+    axios
+      .get(`${HOST_DNS}:3001/video/posts/${id}/comments`)
+      .then((response: AxiosResponse) => 
+      {
+        resolve(response.data.data.reverse());
+      })
+      .catch((error) => reject(error?.response?.data?.error));
   });
-};
-
-export const uploadComment = (text: string, id: string) => 
-{
-  axios.post(
-    `${HOST_DNS}:3001/video/posts/${id}/comment`,
-    {
-      text: text,
-    },
-    {
-      withCredentials: true,
-    }
-  );
 };
 
 export const getUserPosts = (id: string): Promise<Video[]> => 

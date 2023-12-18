@@ -6,39 +6,18 @@ import { useToast } from '@/components/ui/use-toast';
 import i18n from '@/lib/i18n';
 import { register } from '@/controllers/users.controller';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import { isValidString } from '@/common/regex';
 
 export default function Register() 
 {
-  const buttonRef: any = useRef(null);
   useEffect(() => 
   {
     if (document != null) 
     {
       document.title = i18n.t('register.title');
-      document.addEventListener('keydown', (event) => 
-      {
-        // When user press enter we click on login button,
-        // have side effects such as displaying modal and procceding to login
-        // but if doing click on button we don't have such behavior
-        // FIXME: fix this behavior somehow
-        if (event.key.toLowerCase() === 'enter' && buttonRef != null) 
-        {
-          buttonRef.current?.click();
-        }
-      });
     }
-
-    return () => 
-    {
-      if (document != null) 
-      {
-        document.removeEventListener('keydown', () => 
-        {});
-      }
-    };
   }, []);
 
   const toast = useToast();
@@ -70,6 +49,14 @@ export default function Register()
       break;
     }
   };
+
+  function enterKeyPress(event: any) 
+  {
+    if (event.key.toLowerCase() === 'enter') 
+    {
+      handleSubmit();
+    }
+  }
 
   const handleSubmit = () => 
   {
@@ -139,6 +126,7 @@ export default function Register()
         placeholder={i18n.t('auth.password')}
         type='password'
         maxLength={20}
+        onKeyDown={enterKeyPress}
       />
       <Input
         onChange={eventHandler}
@@ -148,9 +136,9 @@ export default function Register()
         placeholder={i18n.t('auth.confirm_password')}
         type='password'
         maxLength={20}
+        onKeyDown={enterKeyPress}
       />
       <Button
-        ref={buttonRef}
         onClick={() => 
         {
           handleSubmit();

@@ -1,7 +1,6 @@
 'use client';
 
 import { Video } from '@/components/Video';
-import { getComments, uploadComment } from '@/controllers/posts.controller';
 import { getUser } from '@/controllers/users.controller';
 import { useFirstLoad, useAccessedPage, FirstLoadStore, AccessedPageStore } from '@/hooks/account.actions';
 import { HOST_DNS } from '@/lib/conf';
@@ -19,7 +18,6 @@ import { SendHorizonal } from 'lucide-react';
 
 export default function Content(params: { id: string }) 
 {
-  const [comments, setComments] = useState<Comments[]>([]);
   const [video, setVideo] = useState<VideoType | null>(null);
   const [commentText, setCommentText] = useState<string>('');
   const [commentRequestEnded, setCommentRequestEnded] = useState<boolean>(false);
@@ -113,7 +111,7 @@ export default function Content(params: { id: string })
   {
     setCommentText(event.target.value);
   };
-
+      
   if (!video) return null;
 
   return (

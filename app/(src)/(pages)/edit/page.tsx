@@ -127,9 +127,9 @@ export default function Page()
       >
         {uploading && <p className='text-white font-semibold'>{i18n.t('profile_picture_upgrading')}</p>}
       </div>
-      <div className='z-50 mx-3 min-w-[355px]'>
+      <div className='z-50 mx-3 sm:min-w-[355px]'>
         <h1 className='text-2xl font-bold mt-2 ml-2 mb-2 select-none'>{i18n.t('edit_profile')}</h1>
-        <label htmlFor='pfpUploader' className='relative mr-4 cursor-pointer w-[144px] flex items-center justify-center'>
+        <label htmlFor='pfpUploader' className='ml-2 relative mr-4 cursor-pointer w-[144px] flex items-center justify-center'>
           <div className='overflow-hidden rounded-full flex object-fill select-none w-[144px]'>
             <Image
               src={data.avatarUrl}
@@ -144,8 +144,8 @@ export default function Page()
             <Pencil size={24} color='white' />
           </div>
         </label>
-        <p className='text-xs font-semibold text-zinc-500 select-none mt-2'>{i18n.t('account.change_profile_picture')}</p>
-        <div className='pt-2 border-t border-zinc-100 w-[450px] mt-2'>
+        <p className='ml-2 text-xs font-semibold text-zinc-500 select-none mt-2'>{i18n.t('account.change_profile_picture')}</p>
+        <div className='px-2 sm:px-0 pt-2 border-t border-zinc-100 w-screen sm:w-[350px] mt-2'>
           {usernameValue.length < 2 && (
             <p className='text-xs font-semibold text-red-500 select-none'>{i18n.t('length_must_be_not_less_than', { length: 2 })}</p>
           )}
