@@ -72,7 +72,13 @@ export default function Content(params: { id: string })
     {
       const subscribeState = followingState(data.subscribtions, data?.subscribers, accountData.data.id);
 
-      return subscribeState && <Badge>{i18n.t(subscribeState)}</Badge>;
+      return (
+        subscribeState && (
+          <Badge variant='outline' className='select-none'>
+            {i18n.t(subscribeState)}
+          </Badge>
+        )
+      );
     }
   };
 

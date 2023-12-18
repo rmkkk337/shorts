@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import i18n from '@/lib/i18n';
 import { AccountStore, useAccountData } from '@/hooks/account.actions';
 import React from 'react';
@@ -13,34 +13,13 @@ import { login } from '@/controllers/users.controller';
 
 export default function Login() 
 {
-  const buttonRef: any = useRef(null);
-  useEffect(() => 
+  function enterKeyPress(event: any) 
   {
-    if (document != null) 
+    if (event.key.toLowerCase() === 'enter') 
     {
-      document.title = i18n.t('login.title');
-      document.addEventListener('keydown', (event) => 
-      {
-        // When user press enter we click on login button,
-        // have side effects such as displaying modal and procceding to login
-        // but if doing click on button we don't have such behavior
-        // FIXME: fix this behavior somehow
-        if (event.key.toLowerCase() === 'enter' && buttonRef != null) 
-        {
-          buttonRef.current?.click();
-        }
-      });
+      handleSubmit();
     }
-
-    return () => 
-    {
-      if (document != null) 
-      {
-        document.removeEventListener('keydown', () => 
-        {});
-      }
-    };
-  }, []);
+  }
 
   const router = useRouter();
   const toast = useToast();
@@ -48,6 +27,14 @@ export default function Login()
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  useEffect(() => 
+  {
+    if (document != null) 
+    {
+      document.title = i18n.t('login.title');
+    }
+  }, []);
 
   // Handle login, password input changes
   const eventHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => 
@@ -122,7 +109,7 @@ export default function Login()
       <p className='text-xl mb-3 relative top-[-32px]'>
         {i18n.t('login.text')} <span className='font-bold'>{i18n.t('application_name')}</span>
       </p>
-      <Input onChange={eventHandler} name='email' className='w-full max-w-xs' placeholder={i18n.t('auth.email')} />
+      <Input onChange={eventHandler} onKeyDown={enterKeyPress} name='email' className='w-full max-w-xs' placeholder={i18n.t('auth.email')} />
       <Input
         onChange={eventHandler}
         value={password}
@@ -131,9 +118,9 @@ export default function Login()
         placeholder={i18n.t('auth.password')}
         type='password'
         maxLength={20}
+        onKeyDown={enterKeyPress}
       />
       <Button
-        ref={buttonRef}
         onClick={() => 
         {
           if (password.length < 4) 
