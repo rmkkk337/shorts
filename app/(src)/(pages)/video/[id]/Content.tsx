@@ -18,6 +18,7 @@ import { SendHorizonal } from 'lucide-react';
 
 export default function Content(params: { id: string }) 
 {
+  const [comments, setComments] = useState<Comments[]>([]);
   const [video, setVideo] = useState<VideoType | null>(null);
   const [commentText, setCommentText] = useState<string>('');
   const [commentRequestEnded, setCommentRequestEnded] = useState<boolean>(false);

@@ -151,6 +151,20 @@ export const getComments = (id: string): Promise<Comment[]> =>
   });
 };
 
+export const uploadComment = (text: string, id: string) => 
+{
+  axios.post(
+    `${HOST_DNS}:3001/video/posts/${id}/comment`,
+    {
+      text: text,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+
 export const getUserPosts = (id: string): Promise<Video[]> => 
 {
   return axios.get(`${HOST_DNS}:3001/user/${id}/posts`).then((response) => 
