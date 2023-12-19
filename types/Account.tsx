@@ -8,6 +8,11 @@ export interface Account {
   description: string;
 }
 
+export type Comments = {
+  comment: Comment;
+  user: Account;
+};
+
 export type Comment = {
   id: string;
   creatorId: string;

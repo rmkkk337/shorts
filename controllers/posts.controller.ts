@@ -145,7 +145,8 @@ export const getComments = (id: string): Promise<Comment[]> =>
       .get(`${HOST_DNS}:3001/video/posts/${id}/comments`)
       .then((response: AxiosResponse) => 
       {
-        resolve(response.data.data.reverse());
+        console.log(response.data.data);
+        resolve(response.data.data);
       })
       .catch((error) => reject(error?.response?.data?.error));
   });
@@ -164,11 +165,27 @@ export const uploadComment = (text: string, id: string) =>
   );
 };
 
-
 export const getUserPosts = (id: string): Promise<Video[]> => 
 {
   return axios.get(`${HOST_DNS}:3001/user/${id}/posts`).then((response) => 
   {
     return response.data.data.reverse();
   });
+};
+
+export const deleteComment = (id: string, comment_id: string) => 
+{
+  console.log(`Trying to delete comment with ${comment_id} id under ${id} post`);
+  return axios
+    .delete(`${HOST_DNS}:3001/video/posts/${id}/comment/${comment_id}`, {
+      withCredentials: true,
+    })
+    .then((response) => 
+    {
+      console.log(response.data.data);
+    })
+    .catch((error) => 
+    {
+      console.error(error);
+    });
 };

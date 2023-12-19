@@ -2,7 +2,7 @@
 
 import { Video } from '@/components/Video';
 import { getUser } from '@/controllers/users.controller';
-import { useFirstLoad, useAccessedPage, FirstLoadStore, AccessedPageStore } from '@/hooks/account.actions';
+import { useFirstLoad, useAccessedPage, FirstLoadStore, AccessedPageStore, useAccountData } from '@/hooks/account.actions';
 import { HOST_DNS } from '@/lib/conf';
 import i18n from '@/lib/i18n';
 import { Video as VideoType } from '@/types/Video';
@@ -14,7 +14,8 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { SendHorizonal } from 'lucide-react';
+import { SendHorizonal, X } from 'lucide-react';
+import { deleteComment, getComments, uploadComment } from '@/controllers/posts.controller';
 
 export default function Content(params: { id: string }) 
 {
@@ -39,6 +40,7 @@ export default function Content(params: { id: string })
     });
   }, [params.id]);
 
+  const accountData = useAccountData();
   const load: FirstLoadStore = useFirstLoad();
   const accessedPage: AccessedPageStore = useAccessedPage();
 
@@ -113,21 +115,37 @@ export default function Content(params: { id: string })
   {
     setCommentText(event.target.value);
   };
-      
+
   if (!video) return null;
 
   return (
-    <main className='flex'>
+    <main className='flex flex-col lg:flex-row'>
       <Video key={video.id} id={video.id} uid={video.creatorId} description={video.description} video={video.url} />
       {commentRequestEnded ? (
-        <div className='ml-10'>
+        <div className='lg:ml-10 flex flex-col-reverse lg:flex-col'>
           <div className='h-[525px] overflow-scroll mt-4 sm:w-[300px]'>
             {comments.map((comment) => (
-              <div key={comment.comment.id} className='my-5'>
-                <Link href={`/profile/@${comment.user.username}`} className='flex flex-row gap-2 items-center hover:underline'>
-                  <Image alt='' className='rounded-full' height={32} width={32} src={comment.user.avatarUrl} />
-                  <p>{comment.user.username}</p>
-                </Link>
+              <div key={comment.comment.id} className='py-3 border-b border-b-zinc-100/75'>
+                <div className='flex flex-row gap-2 items-center justify-between'>
+                  <Link href={`/profile/@${comment.user.username}`} className='flex flex-row gap-2 items-center hover:underline'>
+                    <Image alt='' className='rounded-full' height={32} width={32} src={comment.user.avatarUrl} />
+                    <p>{comment.user.username}</p>
+                  </Link>
+                  {comment.user.id === accountData.data?.id && (
+                    <X
+                      onClick={() => 
+                      {
+                        deleteComment(params.id, comment.comment.id);
+                        setTimeout(() => 
+                        {
+                          getComponentComments();
+                        }, 200);
+                      }}
+                      size={16}
+                      className='cursor-pointer'
+                    />
+                  )}
+                </div>
                 <p className='text-sm mt-1'>{comment.comment.text}</p>
               </div>
             ))}
