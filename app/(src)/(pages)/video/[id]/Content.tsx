@@ -96,6 +96,7 @@ export default function Content(params: { id: string })
     setTimeout(() => 
     {
       getComponentComments();
+      setCommentText('');
     }, 200);
   };
 
