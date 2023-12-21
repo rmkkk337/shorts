@@ -36,18 +36,6 @@ export const uploadVideo = (props: UploadProps): Promise<string | object> =>
   });
 };
 
-// export const getVideo = async (id: string): Promise<Video> =>
-// {
-//   return axios
-//     .get(`${HOST_DNS}:3001/video/posts/${id}/like`, {
-//       withCredentials: true,
-//     })
-//     .then((res) =>
-//     {
-//       return res.data.data;
-//     });
-// };
-
 /**
   @param {string} id Video id
   @param {string} uid User id

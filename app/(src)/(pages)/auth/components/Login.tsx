@@ -36,7 +36,6 @@ export default function Login()
     }
   }, []);
 
-  // Handle login, password input changes
   const eventHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => 
   {
     const { name, value } = event.target;
@@ -52,7 +51,6 @@ export default function Login()
     }
   };
 
-  // Handles login button click
   const handleSubmit = async () => 
   {
     if (isEmail(email) === false) 

@@ -28,7 +28,6 @@ export default function Register()
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const router = useRouter();
 
-  // Handle login, password input changes
   const eventHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => 
   {
     const { name, value } = event.target;

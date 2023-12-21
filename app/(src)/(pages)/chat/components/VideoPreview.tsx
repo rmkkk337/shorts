@@ -21,17 +21,6 @@ export default function VideoPreview(props: VideoPreviewProps)
     });
   }, [props.postId]);
 
-  // useEffect(() =>
-  // {
-  //   if (videoRef.current)
-  //   {
-  //     if (!videoRef.current.paused)
-  //     {
-  //       videoRef.current.pause();
-  //     }
-  //   }
-  // }, [videoRef]);
-
   if (!video) 
   {
     return null;

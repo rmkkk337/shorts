@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-// import { Video } from '@/components/Video';
 import { AccessedPageStore, AccountStore, FirstLoadStore, useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
 import i18n from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
@@ -76,7 +75,6 @@ export default function Page()
     }
   };
 
-  // Setting upload state to inform user that image is uploading
   const onChangeUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
   {
     setUploading(true);
@@ -93,7 +91,6 @@ export default function Page()
     updateProfile();
   };
 
-  // Send a request to change user data
   const updateUser = () => 
   {
     if (usernameValue.length >= 2 && accountData.data && isValidString(usernameValue)) 
