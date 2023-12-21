@@ -173,19 +173,18 @@ export const getUserPosts = (id: string): Promise<Video[]> =>
   });
 };
 
-export const deleteComment = (id: string, comment_id: string) => 
+export const deleteComment = async (id: string, comment_id: string) => 
 {
-  console.log(`Trying to delete comment with ${comment_id} id under ${id} post`);
-  return axios
-    .delete(`${HOST_DNS}:3001/video/posts/${id}/comment/${comment_id}`, {
+  console.log(`POST_ID: ${id}, COMMENT_ID: ${comment_id}`);
+  try 
+  {
+    const response = await axios.delete(`${HOST_DNS}:3001/video/posts/${id}/comment/${comment_id}`, {
       withCredentials: true,
-    })
-    .then((response) => 
-    {
-      console.log(response.data.data);
-    })
-    .catch((error) => 
-    {
-      console.error(error);
     });
+    console.log(response.data.data);
+  }
+  catch (error) 
+  {
+    console.error(error);
+  }
 };

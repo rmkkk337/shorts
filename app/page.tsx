@@ -5,6 +5,7 @@ import axios from 'axios';
 import { AccessedPageStore, AccountStore, FirstLoadStore, useAccessedPage, useAccountData, useFirstLoad } from '@/hooks/account.actions';
 import { useEffect } from 'react';
 import { HOST_DNS } from '@/lib/conf';
+import { socket } from '@/common/socket';
 
 export default function Home() 
 {
@@ -12,6 +13,11 @@ export default function Home()
   const accountData: AccountStore = useAccountData();
   const accessedPage: AccessedPageStore = useAccessedPage();
   const load: FirstLoadStore = useFirstLoad();
+
+  socket.on('connect', () => 
+  {
+    //
+  });
 
   useEffect(() => 
   {

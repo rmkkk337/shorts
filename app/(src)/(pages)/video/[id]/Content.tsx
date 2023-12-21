@@ -14,7 +14,7 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { SendHorizonal, X } from 'lucide-react';
+import { HeartCrack, SendHorizonal, X } from 'lucide-react';
 import { deleteComment, getComments, uploadComment } from '@/controllers/posts.controller';
 
 export default function Content(params: { id: string }) 
@@ -124,43 +124,52 @@ export default function Content(params: { id: string })
       {commentRequestEnded ? (
         <div className='lg:ml-10 flex flex-col-reverse lg:flex-col'>
           <div className='h-[525px] overflow-scroll mt-4 sm:w-[300px]'>
-            {comments.map((comment) => (
-              <div key={comment.comment.id} className='py-3 border-b border-b-zinc-100/75'>
-                <div className='flex flex-row gap-2 items-center justify-between'>
-                  <Link href={`/profile/@${comment.user.username}`} className='flex flex-row gap-2 items-center hover:underline'>
-                    <Image alt='' className='rounded-full' height={32} width={32} src={comment.user.avatarUrl} />
-                    <p>{comment.user.username}</p>
-                  </Link>
-                  {comment.user.id === accountData.data?.id && (
-                    <X
-                      onClick={() => 
-                      {
-                        deleteComment(params.id, comment.comment.id);
-                        setTimeout(() => 
+            {comments.length != 0 ? (
+              comments.map((comment) => (
+                <div key={comment.comment.id} className='py-3 border-b border-b-zinc-100/75'>
+                  <div className='flex flex-row gap-2 items-center justify-between'>
+                    <Link href={`/profile/@${comment.user.username}`} className='flex flex-row gap-2 items-center hover:underline'>
+                      <Image alt='' className='rounded-full' height={32} width={32} src={comment.user.avatarUrl} />
+                      <p>{comment.user.username}</p>
+                    </Link>
+                    {comment.user.id === accountData.data?.id && (
+                      <X
+                        onClick={() => 
                         {
-                          getComponentComments();
-                        }, 200);
-                      }}
-                      size={16}
-                      className='cursor-pointer'
-                    />
-                  )}
+                          deleteComment(params.id, comment.comment.id);
+                          setTimeout(() => 
+                          {
+                            getComponentComments();
+                          }, 200);
+                        }}
+                        size={16}
+                        className='cursor-pointer'
+                      />
+                    )}
+                  </div>
+                  <p className='text-sm mt-1'>{comment.comment.text}</p>
                 </div>
-                <p className='text-sm mt-1'>{comment.comment.text}</p>
+              ))
+            ) : (
+              <div className='flex items-center justify-center h-full flex-col'>
+                <HeartCrack size={32} color='gray' className='mb-2' />
+                No comments
               </div>
-            ))}
+            )}
           </div>
-          <div className='flex gap-2'>
-            <Input placeholder={i18n.t('write_comment')} onKeyDown={componentKeyListener} onChange={commentTextHandler} value={commentText} />
-            <Button
-              onClick={() => 
-              {
-                postComment();
-              }}
-            >
-              <SendHorizonal size={18} />
-            </Button>
-          </div>
+          {accountData.data && (
+            <div className='flex gap-2'>
+              <Input placeholder={i18n.t('write_comment')} onKeyDown={componentKeyListener} onChange={commentTextHandler} value={commentText} />
+              <Button
+                onClick={() => 
+                {
+                  postComment();
+                }}
+              >
+                <SendHorizonal size={18} />
+              </Button>
+            </div>
+          )}
         </div>
       ) : (
         <div className='sm:w-[340px]'></div>
