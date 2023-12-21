@@ -151,7 +151,7 @@ export default function Content(params: { id: string })
                 </div>
               ))
             ) : (
-              <div className='flex items-center justify-center h-full flex-col'>
+              <div className='flex items-center justify-center h-full flex-col text-zinc-400 text-sm font-medium'>
                 <HeartCrack size={32} color='gray' className='mb-2' />
                 No comments
               </div>

@@ -12,7 +12,7 @@ module.exports = {
     workerThreads: true,
     cpus: 8,
   },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.(mp4|webm|mov)$/,
       use: [

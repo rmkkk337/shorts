@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 type Props = {
   subscribtions: string[];
-  children?: any;
+  children?: string;
 };
 
 export default function Subscribers(props: Props) 

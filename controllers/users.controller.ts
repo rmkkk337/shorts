@@ -158,7 +158,7 @@ export const getUser = (id?: string): Promise<Account> =>
   return new Promise((resolve, reject) => 
   {
     axios
-      .get(`${HOST_DNS}:3001/user/${id ? id : null}`, {
+      .get(`${HOST_DNS}:3001/user/${id ? id : ''}`, {
         withCredentials: true,
       })
       .then((response) => 

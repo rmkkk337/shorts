@@ -9,7 +9,7 @@ interface AppContentProps {
 
 export default function AppContent(AppContentProps: AppContentProps) 
 {
-  const pathlist = ['/edit', /^video\/\d+$/, '/chat'];
+  const pathlist = ['/edit', /^video\/\d+$/, '/chat', '/search'];
   const path = usePathname();
   return (
     <main

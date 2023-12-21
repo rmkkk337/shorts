@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Player } from './player';
-import { MessageCircle, Share2, Heart } from 'lucide-react';
+import { MessageCircle, Heart } from 'lucide-react';
 import '@/app/globals.css';
 import { HOST_DNS } from '@/lib/conf';
 import axios from 'axios';
@@ -18,6 +18,7 @@ import { getUser } from '@/controllers/users.controller';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { usePathname } from 'next/navigation';
+import Share from './Share';
 
 type Props = {
   video?: string;
@@ -113,17 +114,9 @@ export const Video: React.FC<Props> = (props: Props) =>
             <p className='font-medium text-sm select-none mt-1'>{comments}</p>
           </div>
           <div className='my-3 flex flex-col items-center'>
-            <button className='p-2 bg-zinc-100 w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-50 duration-300 cursor-pointer'>
-              <Share2 size={20} />
-            </button>
+            <Share videoUrl={id} subscribtions={accountData.data?.subscribtions ? accountData.data.subscribtions : []} />
           </div>
         </div>
-        {/* {withComments &&
-          comments.length != 0 &&
-          comments.map((comment: Comment) => 
-          {
-            return <div key={comment.id}>{comment.text}</div>;
-          })} */}
       </div>
     </div>
   );
