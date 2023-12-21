@@ -38,3 +38,8 @@ export function isValidString(input: string): boolean
   let pattern = /^[a-zA-Z0-9]+$/;
   return pattern.test(input);
 }
+
+export function replaceUid(chat: string, uid: string): string 
+{
+  return chat.replace(uid, '').replace(':', '');
+}

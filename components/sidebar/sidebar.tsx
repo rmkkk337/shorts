@@ -23,9 +23,11 @@ export const Sidebar = () =>
         <SidebarLink pathname={pathname} url='/fyp' icon={<Home size={16} />}>
           {i18n.t('fyp.fyp')}
         </SidebarLink>
-        <SidebarLink pathname={pathname} url='/following' icon={<LayoutList size={16} />}>
-          {i18n.t('fyp.following')}
-        </SidebarLink>
+        {accountData.data && (
+          <SidebarLink pathname={pathname} url='/following' icon={<LayoutList size={16} />}>
+            {i18n.t('fyp.following')}
+          </SidebarLink>
+        )}
         {accountData.data?.username && (
           <SidebarLink icon={<User size={16} />} pathname={pathname} url={`/profile/@${accountData.data?.username}`}>
             {i18n.t('header.dropdown.profile')}

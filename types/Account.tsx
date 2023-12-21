@@ -6,6 +6,7 @@ export interface Account {
   subscribtions: string[];
   followed: boolean;
   description: string;
+  chats: string[];
 }
 
 export type Comments = {

@@ -31,6 +31,7 @@
   },
   "header": {
     "upload": "Upload",
+    "search_alt": "Search",
     "search": "Search",
     "dropdown": {
       "profile": "Profile",
@@ -76,7 +77,10 @@
   },
   "messages": {
     "title": "Messages",
-    "send_message": "Send message..."
+    "send_message": "Send message...",
+    "no_chat": "No chat selected",
+    "create_chat": "Create chat with",
+    "chat_with": "Chat with {{username}}"
   },
   "uploader": {
     "title": "Publish video | pikpok",
@@ -107,7 +111,18 @@
   "username_characters_error": "Username can't have any special characters",
   "no_followings": "This user is not following anyone yet.",
   "no_followers": "This user doesn't have any followers.",
+  "not_following": "You're not following anyone yet",
   "following_you": "Following you",
   "friends": "Friends",
-  "write_comment": "Write a comment..."
+  "write_comment": "Write a comment...",
+  "share": {
+    "title": "Share video",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "send": "Send"
+  },
+  "search_variants": {
+    "users": "Users",
+    "posts": "Video"
+  }
 }

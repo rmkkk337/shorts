@@ -1,7 +1,7 @@
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { DialogHeader } from '../ui/dialog';
 import i18n from '@/lib/i18n';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Account } from '@/types/Account';
 import { getUser } from '@/controllers/users.controller';
 import Image from 'next/image';
@@ -9,6 +9,7 @@ import Link from 'next/link';
 
 type Props = {
   subscribtions: string[];
+  children?: string;
 };
 
 export default function Subscribers(props: Props) 
@@ -30,10 +31,14 @@ export default function Subscribers(props: Props)
   return (
     <Dialog>
       <DialogTrigger className='outline-none border-none'>
-        <p className='text-zinc-600 flex gap-1 select-none text-sm sm:text-base hover:underline'>
-          {i18n.t('account.following')}
-          <span className='text-zinc-800 font-semibold'>{subscribtions.length}</span>
-        </p>
+        {props.children ? (
+          props.children
+        ) : (
+          <p className='text-zinc-600 flex gap-1 select-none text-sm sm:text-base hover:underline'>
+            {i18n.t('account.following')}
+            <span className='text-zinc-800 font-semibold'>{subscribtions.length}</span>
+          </p>
+        )}
       </DialogTrigger>
       <DialogContent className='pb-0'>
         <DialogHeader>

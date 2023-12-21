@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { HOST_DNS } from '../lib/conf';
 import { Video } from '@/types/Video';
-import { Comment } from '@/types/Account';
+import { Account, Comment } from '@/types/Account';
 
 type UploadProps = {
   video: string | Blob;
@@ -145,7 +145,6 @@ export const getComments = (id: string): Promise<Comment[]> =>
       .get(`${HOST_DNS}:3001/video/posts/${id}/comments`)
       .then((response: AxiosResponse) => 
       {
-        console.log(response.data.data);
         resolve(response.data.data);
       })
       .catch((error) => reject(error?.response?.data?.error));
@@ -173,19 +172,29 @@ export const getUserPosts = (id: string): Promise<Video[]> =>
   });
 };
 
-export const deleteComment = (id: string, comment_id: string) => 
+export const deleteComment = async (id: string, comment_id: string) => 
 {
-  console.log(`Trying to delete comment with ${comment_id} id under ${id} post`);
-  return axios
-    .delete(`${HOST_DNS}:3001/video/posts/${id}/comment/${comment_id}`, {
+  try 
+  {
+    await axios.delete(`${HOST_DNS}:3001/video/posts/${id}/comment/${comment_id}`, {
       withCredentials: true,
-    })
-    .then((response) => 
-    {
-      console.log(response.data.data);
-    })
-    .catch((error) => 
-    {
-      console.error(error);
     });
+  }
+  catch (error) 
+  {
+    console.error(error);
+  }
+};
+
+type SearchResults = {
+  users: Account[];
+  videos: Video[];
+};
+
+export const searchByText = async (q: string): Promise<SearchResults[]> => 
+{
+  return axios.get(`${HOST_DNS}:3001/search/q=${q}`).then((response) => 
+  {
+    return response.data.data;
+  });
 };

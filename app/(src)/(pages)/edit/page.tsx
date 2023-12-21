@@ -45,6 +45,10 @@ export default function Page()
       accessedPage.setLastAccessed('/edit');
       router.push('/');
     }
+    else if (!load.firstLoad && !accountData.data) 
+    {
+      router.push('/auth');
+    }
   }, [load, router]);
 
   useEffect(() => 

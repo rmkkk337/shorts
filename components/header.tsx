@@ -14,16 +14,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { AccessedPageStore, AccountStore, useAccessedPage, useAccountData } from '@/hooks/account.actions';
 import Link from 'next/link';
-// import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import Logo from '@/app/favicon.png';
-import { Download } from 'lucide-react';
+import { Download, LogOut, MessageCircle, Search, Settings, User2 } from 'lucide-react';
+import { useState } from 'react';
 
 export const Header = () => 
 {
   const router = useRouter();
   const accountData: AccountStore = useAccountData();
   const accessedPage: AccessedPageStore = useAccessedPage();
+  const [search, setSearch] = useState<string>('');
   const data = accountData.data;
 
   function handleUploadButton() 
@@ -48,15 +49,13 @@ export const Header = () =>
         <Image alt='' src={Logo} width={20} height={20} />
         pikpok
       </h2>
-      <div className='search-bar flex-inital w-40 sm:w-64'>
-        <Input placeholder={i18n.t('header.search')} className='h-8' />
+      <div className='search-bar flex-inital w-40 sm:w-64 flex items-center'>
+        <Input onChange={(event) => setSearch(event.target.value)} placeholder={i18n.t('header.search')} className='h-8' />
+        <Link href={search ? `/search?q=${search}&type=users` : ''} className='bg-black p-[7px] rounded-sm ml-2 cursor-pointer'>
+          <Search size={18} color='white' />
+        </Link>
       </div>
       <div className='action-buttons flex gap-2 items-center'>
-        {/* TODO: Bring back when will be functional */}
-        {/* <Link href='/chat'>
-          <MessageSquare />
-        </Link> */}
-        {/* In future instead of hiding dl button replace it with icon */}
         <Button
           variant='outline'
           className='h-8 text-black sm:flex gap-1 items-center'
@@ -83,18 +82,31 @@ export const Header = () =>
               <DropdownMenuLabel>{data.username}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <Link href={`/profile/@${data.username}`}>
-                <DropdownMenuItem>{i18n.t('header.dropdown.profile')}</DropdownMenuItem>
+                <DropdownMenuItem className='flex gap-1'>
+                  <User2 size={18} />
+                  {i18n.t('header.dropdown.profile')}
+                </DropdownMenuItem>
+              </Link>
+              <Link href={`/chat`}>
+                <DropdownMenuItem className='flex gap-1'>
+                  <MessageCircle size={18} />
+                  {i18n.t('messages.title')}
+                </DropdownMenuItem>
               </Link>
               <Link href={`/edit`}>
-                <DropdownMenuItem>{i18n.t('header.dropdown.settings')}</DropdownMenuItem>
+                <DropdownMenuItem className='flex gap-1'>
+                  <Settings size={18} />
+                  {i18n.t('header.dropdown.settings')}
+                </DropdownMenuItem>
               </Link>
               <DropdownMenuItem
-                className='text-red-400 focus:text-red-500'
+                className='text-red-400 focus:text-red-500 flex gap-1'
                 onClick={() => 
                 {
                   router.push('/logout');
                 }}
               >
+                <LogOut size={18} />
                 {i18n.t('header.dropdown.logout')}
               </DropdownMenuItem>
             </DropdownMenuContent>
