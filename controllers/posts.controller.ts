@@ -168,9 +168,9 @@ export const deleteComment = async (id: string, comment_id: string) =>
       withCredentials: true,
     });
   }
-  catch (error) 
+  catch 
   {
-    console.error(error);
+    // console.error(error);
   }
 };
 
@@ -184,5 +184,12 @@ export const searchByText = async (q: string): Promise<SearchResults[]> =>
   return axios.get(`${HOST_DNS}:3001/search/q=${q}`).then((response) => 
   {
     return response.data.data;
+  });
+};
+
+export const deletePost = async (post_id: string) => 
+{
+  return axios.delete(`${HOST_DNS}:3001/video/posts/${post_id}`, {
+    withCredentials: true,
   });
 };

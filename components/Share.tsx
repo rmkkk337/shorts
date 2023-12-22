@@ -36,13 +36,16 @@ export default function Share(props: Props)
 
   const selectUser = async (targetId: string | undefined) => 
   {
+    // We get current user uid and chats
     const uid = (await getUser()).id;
     const chats = (await getUser()).chats;
 
     if (!uid || chats.length == 0 || !targetId) return;
 
+    // Iterate each chat
     chats.forEach((chat) => 
     {
+      // If we found target uid we change room, send message
       if (chat.includes(targetId)) 
       {
         socket.emit('changeRoom', chat);

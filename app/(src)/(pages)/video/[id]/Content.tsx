@@ -9,13 +9,14 @@ import { Video as VideoType } from '@/types/Video';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { Comments } from '@/types/Account';
+import { Account, Comments } from '@/types/Account';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { HeartCrack, SendHorizonal, X } from 'lucide-react';
 import { deleteComment, getComments, uploadComment } from '@/controllers/posts.controller';
+import DeleteConfirm from './components/DeleteConfirm';
 
 export default function Content(params: { id: string }) 
 {
@@ -23,6 +24,7 @@ export default function Content(params: { id: string })
   const [video, setVideo] = useState<VideoType | null>(null);
   const [commentText, setCommentText] = useState<string>('');
   const [commentRequestEnded, setCommentRequestEnded] = useState<boolean>(false);
+  const [user, setUser] = useState<Account>();
   const router = useRouter();
 
   useEffect(() => 
@@ -34,6 +36,7 @@ export default function Content(params: { id: string })
       {
         getUser(response.data.data.creatorId).then((response) => 
         {
+          setUser(response);
           document.title = i18n.t('video_by', { username: response.username });
         });
       }
@@ -120,7 +123,10 @@ export default function Content(params: { id: string })
 
   return (
     <main className='flex flex-col lg:flex-row'>
-      <Video key={video.id} id={video.id} uid={video.creatorId} description={video.description} video={video.url} />
+      <div>
+        <Video key={video.id} id={video.id} uid={video.creatorId} description={video.description} video={video.url} />
+        {accountData.data?.isAdmin && video.id && <DeleteConfirm postId={params.id} username={user?.username ? user.username : ''} />}
+      </div>
       {commentRequestEnded ? (
         <div className='lg:ml-10 flex flex-col-reverse lg:flex-col'>
           <div className='h-[525px] overflow-scroll mt-4 sm:w-[300px]'>

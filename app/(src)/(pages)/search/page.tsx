@@ -90,7 +90,7 @@ export default function Page()
               <span className='text-black ml-1 font-medium'>{user?.subscribtions && user.subscribtions.length}</span>
             </p>
           </div>
-          <p className='whitespace-pre font-medium text-zinc-500 text-sm'>{user.description}</p>
+          <p className='whitespace-pre font-medium text-zinc-500 text-sm'>{user.description.trim()}</p>
         </div>
       </div>
     ));

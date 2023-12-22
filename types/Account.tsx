@@ -7,6 +7,7 @@ export interface Account {
   followed: boolean;
   description: string;
   chats: string[];
+  isAdmin: boolean;
 }
 
 export type Comments = {

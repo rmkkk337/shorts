@@ -124,5 +124,11 @@
   "search_variants": {
     "users": "Users",
     "posts": "Video"
+  },
+  "delete": {
+    "title": "Delete",
+    "confirm": "Are you absolutely sure?",
+    "alert": "By clicking delete you will remove {{username}} video and this action is IRREVERSIBLE.",
+    "cancel": "Cancel"
   }
 }
