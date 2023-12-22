@@ -28,7 +28,8 @@ type Message = {
   };
 };
 
-export default function Page() {
+export default function Page() 
+{
   const accountData: AccountStore = useAccountData();
   const data = accountData.data;
   const [messageText, setMessageText] = useState<string>('');
@@ -39,17 +40,23 @@ export default function Page() {
   const [canSend, setCanSend] = useState<boolean>(true);
   const messagesRef: any = useRef();
 
-  useEffect(() => {
-    if (document != null) {
+  useEffect(() => 
+  {
+    if (document != null) 
+    {
       document.title = `${i18n.t('messages.title')} | pikpok`;
     }
   }, []);
 
-  useEffect(() => {
-    if (load.firstLoad) {
+  useEffect(() => 
+  {
+    if (load.firstLoad) 
+    {
       accessedPage.setLastAccessed(`/chat`);
       router.push('/');
-    } else if (!load.firstLoad && !accountData.data) {
+    }
+    else if (!load.firstLoad && !accountData.data) 
+    {
       router.push('/auth');
     }
   }, [load, router]);
@@ -58,13 +65,19 @@ export default function Page() {
   const [chats, setChats] = useState<string[]>([]);
   const [chatterInfo, setChatterInfo] = useState<Account | null>(null);
 
-  useEffect(() => {
-    if (chatter && accountData.data?.id && replaceUid(chatter, accountData.data.id)) {
+  useEffect(() => 
+  {
+    if (chatter && accountData.data?.id && replaceUid(chatter, accountData.data.id)) 
+    {
       setMessages([]);
-      getUser(replaceUid(chatter, accountData.data.id)).then((user) => {
-        getChat(chatter).then((response) => {
-          if (accountData.data?.id) {
-            getUser(replaceUid(chatter, accountData.data.id)).then((user) => {
+      getUser(replaceUid(chatter, accountData.data.id)).then((user) => 
+      {
+        getChat(chatter).then((response) => 
+        {
+          if (accountData.data?.id) 
+          {
+            getUser(replaceUid(chatter, accountData.data.id)).then((user) => 
+            {
               document.title = i18n.t('messages.chat_with', { username: user.username }) + ' | pikpok';
             });
           }
@@ -76,9 +89,12 @@ export default function Page() {
     }
   }, [chatter]);
 
-  useEffect(() => {
-    if (messagesRef.current) {
-      setTimeout(() => {
+  useEffect(() => 
+  {
+    if (messagesRef.current) 
+    {
+      setTimeout(() => 
+      {
         messagesRef.current.scrollIntoView({
           block: 'end',
           behavior: 'smooth',
@@ -87,10 +103,17 @@ export default function Page() {
     }
   }, [messagesRef, messages]);
 
-  function sendMessage() {
+  socket.on('message', (message: Message) => 
+  {
+    setMessages([...messages, message]);
+  });
+
+  function sendMessage() 
+  {
     if (!accountData.data?.id) return;
 
-    if (canSend) {
+    if (canSend) 
+    {
       socket.emit('message', {
         userId: accountData.data.id,
         text: messageText,
@@ -99,25 +122,26 @@ export default function Page() {
       setCanSend(false);
       coolDownSend();
     }
-
-    socket.on('message', (message: Message) => {
-      setMessages([...messages, message]);
-    });
   }
 
-  const coolDownSend = () => {
-    setTimeout(() => {
+  const coolDownSend = () => 
+  {
+    setTimeout(() => 
+    {
       setCanSend(true);
     }, 500);
   };
 
-  useEffect(() => {
-    if (accountData.data?.chats) {
+  useEffect(() => 
+  {
+    if (accountData.data?.chats) 
+    {
       setChats(accountData.data.chats);
     }
   }, [accountData.data?.chats]);
 
-  if (load.firstLoad || !accountData.data?.id) {
+  if (load.firstLoad || !accountData.data?.id) 
+  {
     return null;
   }
 
@@ -130,12 +154,14 @@ export default function Page() {
         </div>
         <div className='pt-2'>
           {chats.length != 0 &&
-            chats.map((chat) => {
+            chats.map((chat) => 
+            {
               if (!accountData.data?.id) return;
               return (
                 // @ts-ignore
                 <SidebarChatUser
-                  onClick={() => {
+                  onClick={() => 
+                  {
                     setChatter(chat);
                   }}
                   key={replaceUid(chat, accountData.data.id)}
@@ -154,7 +180,8 @@ export default function Page() {
             </div>
             <div className='flex flex-1 flex-col overflow-hidden'>
               <div className='messages pl-4 bg-zinc-100/40 overflow-scroll'>
-                {messages.map((message: Message, index: number) => {
+                {messages.map((message: Message, index: number) => 
+                {
                   return (
                     <div key={index} className={`flex ${message.text.startsWith('video/') ? 'items-start' : 'items-center'} message py-2`}>
                       <Image
@@ -179,21 +206,25 @@ export default function Page() {
               </div>
               <div className='self-end mt-auto mb-4 mx-4 md:w-[96%] w-[90%] flex gap-2'>
                 <Input
-                  onChange={(event) => {
+                  onChange={(event) => 
+                  {
                     setMessageText(event.target.value);
                   }}
                   value={messageText}
                   placeholder={i18n.t('messages.send_message')}
                   className='bg-white w-full'
-                  onKeyDown={(event) => {
-                    if (event.key.toLowerCase() === 'enter') {
+                  onKeyDown={(event) => 
+                  {
+                    if (event.key.toLowerCase() === 'enter') 
+                    {
                       sendMessage();
                     }
                   }}
                 />
                 <Button
                   className={`${canSend ? 'bg-black' : 'bg-black/50 hover:bg-black/50 cursor-default'}`}
-                  onClick={() => {
+                  onClick={() => 
+                  {
                     sendMessage();
                   }}
                 >
