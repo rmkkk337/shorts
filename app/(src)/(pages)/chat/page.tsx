@@ -17,6 +17,8 @@ import { socket } from '@/common/socket';
 import { replaceUid } from '@/common/regex';
 import Link from 'next/link';
 import VideoPreview from './components/VideoPreview';
+import axios from 'axios';
+import { HOST_DNS } from '@/lib/conf';
 
 type Message = {
   id: string;
@@ -131,6 +133,18 @@ export default function Page()
       setCanSend(true);
     }, 500);
   };
+  useEffect(() => 
+  {
+    const interval = setInterval(async () => 
+    {
+      await axios.get(`${HOST_DNS}:3001/user`, { withCredentials: true }).then((response) => 
+      {
+        accountData.setAccountData(response.data.data);
+      });
+    }, 1500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => 
   {
